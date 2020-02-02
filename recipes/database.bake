@@ -1,0 +1,8 @@
+
+recipe :deploy do |environment|
+	puts "Deploy with #{environment}"
+end
+
+recipe :info do |**options|
+	puts "Info with #{options.inspect}"
+end
