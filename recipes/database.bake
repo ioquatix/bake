@@ -1,8 +1,15 @@
 
-recipe :deploy do |environment|
-	puts "Deploy with #{environment}"
+X = 10
+
+recipe :deploy do
+	puts "database deploy"
 end
 
-recipe :info do |**options|
-	puts "Info with #{options.inspect}"
+recipe :setup do
+	puts "Setup #{X}..."
+end
+
+recipe :info do
+	puts "Info #{X}..."
+	call :setup
 end

@@ -19,37 +19,86 @@
 # THE SOFTWARE.
 
 module Bake
-	class Context
-		def initialize(loaders)
-			@loaders = loaders.to_a
+	class Context < Book
+		def initialize(loaders, **options)
+			@loaders = loaders
+			
+			@scope = []
+			
+			super(**options)
 		end
 		
-		def lookup(name)
-			*path, name = name.split(":")
+		attr :loaders
+		
+		def call(*commands, describe: false)
+			while command = commands.shift
+				if recipes = recipes_for(command)
+					arguments, options = recipes.first.prepare(commands)
+					
+					recipes.each do |recipe|
+						if describe
+							recipe.explain(self, *arguments, **options)
+						else
+							with(recipe) do
+								recipe.call(self, *arguments, **options)
+							end
+						end
+					end
+				else
+					raise ArgumentError, "Could not find recipe for #{command}!"
+				end
+			end
+		end
+		
+		private
+		
+		def with(recipe)
+			@scope << recipe.book
+			
+			yield
+		ensure
+			@scope.pop
+		end
+		
+		def recipes_for(command)
+			if command.is_a?(Symbol)
+				recipes_for_relative_reference(command)
+			else
+				recipes_for_absolute_reference(command)
+			end
+		end
+		
+		def recipes_for_relative_reference(command)
+			if scope = @scope.last
+				if recipe = scope.lookup(command)
+					return [recipe]
+				end
+			end
+		end
+		
+		def recipes_for_absolute_reference(command)
+			*path, name = command.split(":")
 			name = name.to_sym
 			
-			recipes = @loaders.map do |loader|
-				loader.lookup(path)&.lookup(name)
-			end.compact
+			recipes = []
+			
+			# Get the root level recipes:
+			if path.empty? and recipe = self.lookup(name)
+				recipes << recipe
+			end
+			
+			@loaders.each do |loader|
+				if book = loader.lookup(path)
+					if recipe = book.lookup(name)
+						recipes << recipe
+					end
+				end
+			end
 			
 			if recipes.empty?
 				return nil
 			else
 				return recipes
-			end
-		end
-		
-		def call(arguments)
-			while argument = arguments.shift
-				if recipes = self.lookup(argument)
-					ordered, options = recipes.first.prepare(arguments)
-					
-					recipes.each do |recipe|
-						recipe.call(*ordered, **options)
-					end
-				else
-					raise ArgumentError, "Could not find recipe for #{argument}!"
-				end
 			end
 		end
 	end

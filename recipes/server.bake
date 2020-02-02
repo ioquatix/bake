@@ -1,0 +1,5 @@
+
+recipe :deploy do
+	call 'environment:set'
+	call 'database:deploy'
+end

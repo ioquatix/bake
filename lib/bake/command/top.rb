@@ -20,23 +20,54 @@
 
 require 'samovar'
 
-require_relative '../loaders'
-require_relative '../loader'
-require_relative '../context'
+require_relative 'invoke'
+require_relative 'list'
 
 module Bake
 	module Command
 		class Top < Samovar::Command
-			many :arguments
+			self.description = "Execute tasks using Ruby."
+			
+			def self.bakefile_path(current = Dir.pwd)
+				while current
+					bakefile_path = File.join(current, "Bakefile")
+					
+					if File.exist?(bakefile_path)
+						return bakefile_path
+					end
+					
+					parent = File.dirname(current)
+					
+					if current == parent
+						break
+					else
+						current = parent
+					end
+				end
+			end
+			
+			options do
+				option '-h/--help', 'Show help.'
+				option '-b/--bakefile <path>', 'Path to the bakefile to use.', default: Top.bakefile_path
+			end
+			
+			nested :command, {
+				'invoke' => Invoke,
+				'list' => List,
+			}, default: 'invoke'
+			
+			def context
+				loaders = Loaders.new
+				
+				return Context.load(@options[:bakefile], loaders)
+			end
 			
 			def call
-				loaders = Loaders.new
-				loaders.append_from_root
-				loaders.append_from_paths
-				
-				context = Context.new(loaders)
-				
-				context.call(@arguments)
+				if @options[:help]
+					self.print_usage
+				else
+					@command.call
+				end
 			end
 		end
 	end

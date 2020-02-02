@@ -18,72 +18,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'samovar'
+
+require_relative '../loaders'
+require_relative '../loader'
+require_relative '../context'
+
 module Bake
-	class Recipe
-		def initialize(book, name, &block)
-			@book = book
-			@name = name
-			@block = block
-		end
-		
-		attr :book
-		
-		def options?
-			type, name = @block.parameters.last
+	module Command
+		class Invoke < Samovar::Command
+			self.description = "Invoke one or more commands."
 			
-			return type == :keyrest
-		end
-		
-		def to_s
-			if @book.path.empty?
-				@name.to_s
-			else
-				"#{@book}:#{@name}"
+			options do
+				option "-d/--describe", "Describe what will be done, but don't do it.", default: false
 			end
-		end
-		
-		def arity
-			@block.arity
-		end
-		
-		def prepare(arguments)
-			offset = 0
-			ordered = []
-			options = {}
 			
-			while argument = arguments.first
-				name, value = argument.split('=', 2)
+			def bakefile
+				@parent.bakefile
+			end
+			
+			many :commands, "The commands & arguments to invoke."
+			
+			def call
+				context = @parent.context
 				
-				if name and value
-					# Consume it:
-					arguments.shift
-					
-					options[name.to_sym] = value
-				elsif ordered.size < self.arity
-					# Consume it:
-					ordered << arguments.shift
-				else
-					break
-				end
-			end
-			
-			return ordered, options
-		end
-		
-		def call(context, *arguments, **options)
-			if options?
-				context.instance_exec(*arguments, **options, &@block)
-			else
-				# Ignore options...
-				context.instance_exec(*arguments, &@block)
-			end
-		end
-		
-		def explain(context, *arguments, **options)
-			if options?
-				puts "#{self}(#{arguments.join(", ")}, #{options.inspect})"
-			else
-				puts "#{self}(#{arguments.join(", ")})"
+				context.call(*@commands, **@options)
 			end
 		end
 	end

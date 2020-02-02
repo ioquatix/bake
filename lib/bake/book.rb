@@ -21,9 +21,27 @@
 require_relative 'recipe'
 
 module Bake
-	class Namespace
-		def initialize
+	class Book
+		def self.load(file_path, *arguments, **options)
+			instance = self.new(*arguments, **options)
+			
+			instance.freeze
+			
+			instance.instance_eval(File.read(file_path), file_path)
+			
+			return instance
+		end
+		
+		def initialize(path = [], **options)
+			@path = path
 			@recipes = {}
+		end
+		
+		attr :path
+		attr :recipes
+		
+		def to_s
+			@path.join(':')
 		end
 		
 		def lookup(name)
@@ -31,7 +49,7 @@ module Bake
 		end
 		
 		def recipe(name, &block)
-			@recipes[name] = Recipe.new(name, &block)
+			@recipes[name] = Recipe.new(self, name, &block)
 		end
 	end
 end

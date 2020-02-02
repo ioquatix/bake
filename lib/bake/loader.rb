@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'namespace'
+require_relative 'book'
 
 module Bake
 	class Loader
@@ -27,16 +27,20 @@ module Bake
 			@cache = {}
 		end
 		
+		def all(path)
+			root = File.join(@root, directory, "#{file}.bake")
+		end
+		
 		def lookup(path)
 			*directory, file = *path
 			
-			path = File.join(@root, directory, "#{file}.bake")
+			file_path = File.join(@root, directory, "#{file}.bake")
 			
 			unless @cache.key?(path)
-				if File.exist?(path)
-					namespace = Namespace.new
-					namespace.instance_eval(File.read(path), path)
-					@cache[path] = namespace
+				if File.exist?(file_path)
+					book = Book.load(file_path, path)
+					
+					@cache[path] = book
 				else
 					@cache[path] = nil
 				end

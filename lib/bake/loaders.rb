@@ -22,6 +22,8 @@ module Bake
 	class Loaders
 		include Enumerable
 		
+		RECIPES_PATH = "recipes"
+		
 		def initialize
 			@paths = {}
 			@ordered = Array.new
@@ -33,21 +35,17 @@ module Bake
 			@ordered.each(&block)
 		end
 		
-		def append(path)
-			unless @paths.key?(path)
-				loader = Loader.new(path)
-				@paths[path] = loader
-				@ordered << loader
+		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH)
+			recipes_path = File.join(current, recipes_path)
+			
+			if File.directory?(recipes_path)
+				insert(recipes_path)
 			end
 		end
 		
-		def append_from_root(current = Dir.pwd)
+		def append_from_root(current = Dir.pwd, **options)
 			while current
-				recipes_path = File.join(current, "recipes")
-				
-				if File.directory?(recipes_path)
-					append(recipes_path)
-				end
+				append_path(current, **options)
 				
 				parent = File.dirname(current)
 				
@@ -59,14 +57,24 @@ module Bake
 			end
 		end
 		
-		def append_from_paths(paths = $LOAD_PATH)
+		def append_from_paths(paths = $LOAD_PATH, **options)
 			paths.each do |path|
-				recipes_path = File.join(path, "recipes")
-				
-				if File.directory?(recipes_path)
-					append(recipes_path)
-				end
+				append_path(path, **options)
 			end
+		end
+		
+		protected
+		
+		def insert(path)
+			unless @paths.key?(path)
+				loader = Loader.new(path)
+				@paths[path] = loader
+				@ordered << loader
+				
+				return true
+			end
+			
+			return false
 		end
 	end
 end
