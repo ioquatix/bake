@@ -22,4 +22,9 @@ Gem::Specification.new do |spec|
 	spec.require_paths = ["lib"]
 	
 	spec.add_dependency 'samovar', '~> 2.1'
+	
+	spec.add_development_dependency 'covered'
+	spec.add_development_dependency 'bundler'
+	spec.add_development_dependency 'rspec'
+	spec.add_development_dependency 'rake'
 end
