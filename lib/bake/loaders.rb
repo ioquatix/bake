@@ -49,11 +49,11 @@ module Bake
 			@ordered.each(&block)
 		end
 		
-		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH, path: nil, **options)
+		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH, **options)
 			recipes_path = File.join(current, recipes_path)
 			
 			if File.directory?(recipes_path)
-				insert(recipes_path, path, **options)
+				insert(recipes_path, **options)
 			end
 		end
 		
@@ -73,8 +73,10 @@ module Bake
 		
 		def append_from_gems
 			Gem.loaded_specs.each do |name, spec|
+				Console.logger.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
+				
 				if path = spec.full_gem_path and File.directory?(path)
-					append_path(path, path: name, name: spec.full_name)
+					append_path(path, name: spec.full_name)
 				end
 			end
 		end
@@ -87,7 +89,7 @@ module Bake
 		
 		protected
 		
-		def insert(directory, path, **options)
+		def insert(directory, **options)
 			unless @roots.key?(directory)
 				Console.logger.debug(self) do
 					if path
@@ -97,7 +99,7 @@ module Bake
 					end
 				end
 				
-				loader = Loader.new(directory, path, **options)
+				loader = Loader.new(directory, **options)
 				@roots[directory] = loader
 				@ordered << loader
 				

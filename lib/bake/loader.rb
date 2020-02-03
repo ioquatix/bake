@@ -22,9 +22,8 @@ require_relative 'book'
 
 module Bake
 	class Loader
-		def initialize(root, path = nil, name: nil)
+		def initialize(root, name: nil)
 			@root = root
-			@path = path
 			@name = name
 			@cache = {}
 		end
@@ -39,13 +38,7 @@ module Bake
 			return to_enum unless block_given?
 			
 			Dir.glob("**/*.rb", base: @root) do |file_path|
-				path = file_path.sub(/\.rb$/, '').split(File::SEPARATOR)
-				
-				if @path
-					yield(@path + path)
-				else
-					yield(path)
-				end
+				yield file_path.sub(/\.rb$/, '').split(File::SEPARATOR)
 			end
 		end
 		
@@ -64,7 +57,7 @@ module Bake
 		def lookup(path)
 			*directory, file = *path
 			
-			file_path = File.join(@root, @path || [], directory, "#{file}.rb")
+			file_path = File.join(@root, directory, "#{file}.rb")
 			
 			unless @cache.key?(path)
 				if File.exist?(file_path)
