@@ -1,4 +1,4 @@
-# Bake
+# Bake ![Development](https://github.com/ioquatix/bake/workflows/Development/badge.svg)
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.
 
