@@ -2,6 +2,8 @@
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the typical use cases which are typically implemented in an ad-hoc manner.
 
+![Example](example.png)
+
 ## Motivation
 
 Rake is an awesome tool and loved by the community. So, why reinvent it? Bake provides the following features that Rake does not:
