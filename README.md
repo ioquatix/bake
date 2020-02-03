@@ -30,9 +30,9 @@ Bake follows similar patterns to Rake.
 There is a root level `bake.rb` which contains project-specific configuration and recipes, e.g.:
 
 ```ruby
-recipe :deploy do
-	call 'activerecord:migrations:deploy'
-	call 'falcon:server:restart'
+recipe :cake do
+	call 'supermarket:shop', 'flour,sugar,cocoa'
+	call 'mixer:add', 'everything'
 end
 ```
 
@@ -40,17 +40,18 @@ This file is project specific and is the only file which can expose top level ta
 
 ## Recipes
 
-Alongside the `bake.rb`, there is a `recipes/` directory which contains files like `icons.rb`. These files contain recipes, e.g.:
+Alongside the `bake.rb`, there is a `recipes/` directory which contains files like `supermarket.rb`. These files contain recipes, e.g.:
 
 ```ruby
-recipe :generate do |name|
-	MyProject::Icons::Generate.call(name)
+recipe :shop do |ingredients|
+	supermarket = Supermarket.best
+	supermarket.shop(ingredients.split(","))
 end
 ```
 
 ## Gems
 
-Adding a `recipes/` directory to your gem, will expose those tasks to any project that depends on your gem. In order to prevent collisions, imported commands are prefixed with the name of the gem. If you want to provide top level commands, you may do so by naming a recipe the same as the namespace which encloses it, e.g. in `mygem/recipes/setup.rb`:
+Adding a `recipes/` directory to your gem will allow other gems and projects to consume those recipes. In order to prevent collisions, you *should* prefix your commands with the name of the gem, e.g. in `mygem/recipes/mygem.rb`:
 
 ```ruby
 recipe :setup do
