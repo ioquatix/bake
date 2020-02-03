@@ -69,11 +69,5 @@ module Bake
 			
 			@recipes[name] = Recipe.new(self, name, **options, &block)
 		end
-		
-		def attach(name, callable, **options)
-			@recipes[name] = Recipe.new(self, name, **options) do |*arguments, **options|
-				callable.call(*arguments, **options)
-			end
-		end
 	end
 end
