@@ -76,13 +76,21 @@ module Bake
 			end
 			
 			def working_directory
-				File.dirname(self.bakefile)
+				if bakefile = self.bakefile
+					File.dirname(self.bakefile)
+				else
+					Dir.pwd
+				end
 			end
 			
 			def context
 				loaders = Loaders.new
 				
-				context = Context.load(@options[:bakefile], loaders)
+				if bakefile = self.bakefile
+					context = Context.load(self.bakefile, loaders)
+				else
+					context = Context.new(loaders)
+				end
 				
 				if loaders.empty?
 					loaders.append_defaults(working_directory)
