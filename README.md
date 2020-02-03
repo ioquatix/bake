@@ -31,8 +31,8 @@ There is a root level `bake.rb` which contains project-specific configuration an
 
 ```ruby
 recipe :cake do
-	call 'supermarket:shop', 'flour,sugar,cocoa'
-	call 'mixer:add', 'everything'
+  call 'supermarket:shop', 'flour,sugar,cocoa'
+  call 'mixer:add', 'everything'
 end
 ```
 
@@ -44,8 +44,8 @@ Alongside the `bake.rb`, there is a `recipes/` directory which contains files li
 
 ```ruby
 recipe :shop do |ingredients|
-	supermarket = Supermarket.best
-	supermarket.shop(ingredients.split(","))
+  supermarket = Supermarket.best
+  supermarket.shop(ingredients.split(","))
 end
 ```
 
@@ -55,7 +55,7 @@ Adding a `recipes/` directory to your gem will allow other gems and projects to 
 
 ```ruby
 recipe :setup do
-	# ...
+  # ...
 end
 ```
 
