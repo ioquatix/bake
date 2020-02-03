@@ -34,18 +34,15 @@ module Bake
 		
 		attr :loaders
 		
-		def call(*commands, describe: false)
+		def call(*commands)
 			while command = commands.shift
 				if recipes = recipes_for(command)
 					arguments, options = recipes.first.prepare(commands)
 					
 					recipes.each do |recipe|
-						if describe
-							recipe.explain(self, *arguments, **options)
-						else
-							with(recipe) do
-								recipe.call(self, *arguments, **options)
-							end
+						with(recipe) do
+							yield recipe, arguments, options if block_given?
+							recipe.call(self, *arguments, **options)
 						end
 					end
 				else
