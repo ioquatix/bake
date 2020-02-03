@@ -28,11 +28,12 @@ module Bake
 		end
 		
 		attr :book
+		attr :description
 		
 		def options?
 			type, name = @block.parameters.last
 			
-			return type == :keyrest
+			return type == :keyrest || type == :keyreq || type == :key
 		end
 		
 		def command

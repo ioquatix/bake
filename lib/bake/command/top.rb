@@ -61,9 +61,10 @@ module Bake
 				terminal = Console::Terminal.for(out)
 				
 				terminal[:loader] = terminal.style(nil, nil, :bold)
-				terminal[:command] = terminal.style(:blue)
+				terminal[:command] = terminal.style(nil, nil, :bold)
+				terminal[:description] = terminal.style(:blue)
 				
-				terminal[:opt] = terminal.style(:green)
+				terminal[:key] = terminal[:opt] = terminal.style(:green)
 				terminal[:req] = terminal.style(:red)
 				terminal[:keyreq] = terminal.style(:red, nil, :bold)
 				terminal[:keyrest] = terminal.style(:green)

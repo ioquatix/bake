@@ -26,6 +26,8 @@ module Bake
 			def format_parameters(parameters, terminal)
 				parameters.each do |type, name|
 					case type
+					when :key
+						name = "#{name}="
 					when :keyreq
 						name = "#{name}="
 					when :keyrest
@@ -42,12 +44,13 @@ module Bake
 				terminal.print(:command, recipe.command)
 				
 				if parameters = recipe.parameters
-					terminal.write(" ")
+					terminal.print(:reset, " ")
 					format_parameters(parameters, terminal)
 				end
 			end
 			
 			def call
+				first = true
 				terminal = @parent.terminal
 				context = @parent.context
 				format_recipe = self.method(:format_recipe).curry
@@ -56,19 +59,35 @@ module Bake
 					terminal.print_line(:loader, context)
 					
 					context.each do |recipe|
+						terminal.print_line
 						terminal.print_line("\t", format_recipe[recipe])
+						if description = recipe.description
+							terminal.print_line("\t\t", :description, description)
+						end
 					end
+					
+					terminal.print_line
 				end
 				
 				context.loaders.each do |loader|
+					terminal.print_line unless first
+					first = false
+					
 					terminal.print_line(:loader, loader)
 					loader.each do |path|
 						if book = loader.lookup(path)
+							# terminal.print_line("\t", book)
 							book.each do |recipe|
+								terminal.print_line
 								terminal.print_line("\t", format_recipe[recipe])
+								if description = recipe.description
+									terminal.print_line("\t\t", :description, description)
+								end
 							end
 						end
 					end
+					
+					terminal.print_line
 				end
 			end
 		end
