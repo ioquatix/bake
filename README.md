@@ -36,7 +36,7 @@ recipe :cake do
 end
 ```
 
-This file is project specific and is the only file which can expose top level tasks (i.e. without a defined namespace).
+This file is project specific and is the only file which can expose top level tasks (i.e. without a defined namespace). When used in a gem, these tasks are not exposed to other gems/projects.
 
 ## Recipes
 
@@ -48,6 +48,8 @@ recipe :shop do |ingredients|
 	supermarket.shop(ingredients.split(","))
 end
 ```
+
+These recipes are automatically scoped according to the file name, e.g. `recipes/supermarket.rb` with `recipe :shop` will define `supermarket:shop`.
 
 ## Gems
 
@@ -64,6 +66,30 @@ Then, in your project `myproject` which depends on `mygem`:
 ```
 bake mygem:setup
 ```
+
+## Arguments
+
+Both positional and optional parameters are supported, e.g.:
+
+### Positional Parameters
+
+```ruby
+recipe :add do |x, y|
+	puts Integer(x) + Integer(y)
+end
+```
+
+Which is invoked by `bake add 1 2`.
+
+### Optional Parameters
+
+```ruby
+recipe :add do |x:, y:|
+	puts Integer(x) + Integer(y)
+end
+```
+
+Which is invoked by `bake add x=1 y=2`.
 
 ## Contributing
 
