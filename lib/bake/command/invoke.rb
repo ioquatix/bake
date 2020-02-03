@@ -53,7 +53,7 @@ module Bake
 				return nil
 			end
 			
-			many :commands, "The commands & arguments to invoke."
+			many :commands, "The commands & arguments to invoke.", default: ["default"]
 			
 			def call
 				context = @parent.context

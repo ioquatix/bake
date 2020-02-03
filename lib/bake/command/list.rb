@@ -36,7 +36,8 @@ module Bake
 						name = name.to_s
 					end
 					
-					terminal.print(type, name, " ")
+					terminal.print(:reset, " ")
+					terminal.print(type, name)
 				end
 			end
 			
@@ -44,7 +45,6 @@ module Bake
 				terminal.print(:command, recipe.command)
 				
 				if parameters = recipe.parameters
-					terminal.print(:reset, " ")
 					format_parameters(parameters, terminal)
 				end
 			end
