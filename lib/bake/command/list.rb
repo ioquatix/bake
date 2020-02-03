@@ -23,15 +23,50 @@ require 'samovar'
 module Bake
 	module Command
 		class List < Samovar::Command
+			def format_parameters(parameters, terminal)
+				parameters.each do |type, name|
+					case type
+					when :keyreq
+						name = "#{name}="
+					when :keyrest
+						name = "**options"
+					else
+						name = name.to_s
+					end
+					
+					terminal.print(type, name, " ")
+				end
+			end
+			
+			def format_recipe(recipe, terminal)
+				terminal.print(:command, recipe.command)
+				
+				if parameters = recipe.parameters
+					terminal.write(" ")
+					format_parameters(parameters, terminal)
+				end
+			end
+			
 			def call
+				terminal = @parent.terminal
 				context = @parent.context
+				format_recipe = self.method(:format_recipe).curry
+				
+				unless context.empty?
+					terminal.print_line(:loader, context)
+					
+					context.each do |recipe|
+						terminal.print_line("\t", format_recipe[recipe])
+					end
+				end
 				
 				context.loaders.each do |loader|
-					puts loader
+					terminal.print_line(:loader, loader)
 					loader.each do |path|
-						book = loader.lookup(path)
-						book.each do |recipe|
-							puts "\t#{recipe}"
+						if book = loader.lookup(path)
+							book.each do |recipe|
+								terminal.print_line("\t", format_recipe[recipe])
+							end
 						end
 					end
 				end

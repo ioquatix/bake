@@ -31,7 +31,7 @@ module Bake
 			
 			def self.bakefile_path(current = Dir.pwd)
 				while current
-					bakefile_path = File.join(current, "Bakefile")
+					bakefile_path = File.join(current, "bake.rb")
 					
 					if File.exist?(bakefile_path)
 						return bakefile_path
@@ -57,8 +57,18 @@ module Bake
 				'list' => List,
 			}, default: 'invoke'
 			
-			def terminal
-				Console::Terminal
+			def terminal(out = $stdout)
+				terminal = Console::Terminal.for(out)
+				
+				terminal[:loader] = terminal.style(nil, nil, :bold)
+				terminal[:command] = terminal.style(:blue)
+				
+				terminal[:opt] = terminal.style(:green)
+				terminal[:req] = terminal.style(:red)
+				terminal[:keyreq] = terminal.style(:red, nil, :bold)
+				terminal[:keyrest] = terminal.style(:green)
+				
+				return terminal
 			end
 			
 			def bakefile

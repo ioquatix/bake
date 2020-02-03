@@ -28,6 +28,10 @@ module Bake
 			super(**options)
 		end
 		
+		def to_s
+			self.class.name
+		end
+		
 		attr :loaders
 		
 		def call(*commands, describe: false)

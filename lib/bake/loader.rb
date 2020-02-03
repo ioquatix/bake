@@ -38,8 +38,8 @@ module Bake
 		def each
 			return to_enum unless block_given?
 			
-			Dir.glob("**/*.bake", base: @root) do |file_path|
-				path = file_path.sub(/\.bake$/, '').split(File::SEPARATOR)
+			Dir.glob("**/*.rb", base: @root) do |file_path|
+				path = file_path.sub(/\.rb$/, '').split(File::SEPARATOR)
 				
 				if @path
 					yield(@path + path)
@@ -64,7 +64,7 @@ module Bake
 		def lookup(path)
 			*directory, file = *path
 			
-			file_path = File.join(@root, @path || [], directory, "#{file}.bake")
+			file_path = File.join(@root, @path || [], directory, "#{file}.rb")
 			
 			unless @cache.key?(path)
 				if File.exist?(file_path)

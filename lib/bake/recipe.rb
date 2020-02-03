@@ -45,6 +45,14 @@ module Bake
 			end
 		end
 		
+		def parameters
+			parameters = @block.parameters
+			
+			unless parameters.empty?
+				return parameters
+			end
+		end
+		
 		def to_s
 			if @description
 				"#{self.command} #{@description}"

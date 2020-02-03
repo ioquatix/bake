@@ -1,40 +1,99 @@
 # Bake
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bake`. To experiment with that code, run `bin/console` for an interactive prompt.
+Bake is a task execution tool, inspired by Rake, but codifying many of the typical use cases which are typically implemented in an ad-hoc manner.
 
-TODO: Delete this and the text above, and describe your gem
+## Motivation
+
+Rake is an awesome tool and loved by the community. So, why reinvent it? Bake provides the following features that Rake does not:
+
+- On demand loading of files following a standard convention. This avoid loading all your rake tasks just to execute a single command.
+- Better argument handling including support for positional and optional arguments.
+- Focused on task execution not dependency resolution. Implementation is simpler and a bit more predictable.
+- Canonical structure for integration with gems.
+
+That being said, Rake and Bake can exist side by side in the same project.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Execute the following in your project:
 
-```ruby
-gem 'bake'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install bake
+	bundle add bake
 
 ## Usage
 
-TODO: Write usage instructions here
+Bake follows similar patterns to Rake.
 
-## Development
+## Bakefile
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+There is a root level `bake.rb` which contains project-specific configuration and recipes, e.g.:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+recipe :deploy do
+	call 'activerecord:migrations:deploy'
+	call 'falcon:server:restart'
+end
+```
+
+This file is project specific and is the only file which can expose top level tasks (i.e. without a defined namespace).
+
+## Recipes
+
+Alongside the `bake.rb`, there is a `recipes/` directory which contains files like `icons.rb`. These files contain recipes, e.g.:
+
+```ruby
+recipe :generate do |name|
+	MyProject::Icons::Generate.call(name)
+end
+```
+
+## Gems
+
+Adding a `recipes/` directory to your gem, will expose those tasks to any project that depends on your gem. In order to prevent collisions, imported commands are prefixed with the name of the gem. If you want to provide top level commands, you may do so by naming a recipe the same as the namespace which encloses it, e.g. in `mygem/recipes/setup.rb`:
+
+```ruby
+recipe :setup do
+	# ...
+end
+```
+
+Then, in your project `myproject` which depends on `mygem`:
+
+```
+bake mygem:setup
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bake.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
+## See Also
+
+- [Utopia](https://github.com/socketry/utopia) — A website framework which uses bake for maintenance tasks.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Released under the MIT license.
+
+Copyright, 2020, by [Samuel G. D. Williams](http://www.codeotaku.com).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

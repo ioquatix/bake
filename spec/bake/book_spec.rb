@@ -18,62 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'recipe'
+require 'bake/book'
 
-module Bake
-	class Book
-		def self.load(file_path, *arguments, **options)
-			instance = self.new(*arguments, **options)
-			
-			instance.freeze
-			
-			instance.instance_eval(File.read(file_path), file_path)
-			
-			return instance
+RSpec.describe Bake::Book do
+	describe '#empty' do
+		it {is_expected.to be_empty}
+	end
+	
+	it "can define recipe" do
+		subject.recipe :test do
 		end
 		
-		def initialize(path = [], **options)
-			@path = path
-			@recipes = {}
-		end
-		
-		def empty?
-			@recipes.empty?
-		end
-		
-		def each(&block)
-			@recipes.each_value(&block)
-		end
-		
-		attr :path
-		attr :recipes
-		
-		def to_s
-			@path.join(':')
-		end
-		
-		def lookup(name)
-			@recipes[name.to_sym]
-		end
-		
-		def recipe_for(path)
-			if path.size == 1
-				lookup(path.first)
-			end
-		end
-		
-		def recipe(name, **options, &block)
-			unless block_given?
-				block = self.method(name)
-			end
-			
-			@recipes[name] = Recipe.new(self, name, **options, &block)
-		end
-		
-		def attach(name, callable, **options)
-			@recipes[name] = Recipe.new(self, name, **options) do |*arguments, **options|
-				callable.call(*arguments, **options)
-			end
-		end
+		expect(subject.recipes).to include(:test)
 	end
 end
