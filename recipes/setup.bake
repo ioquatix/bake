@@ -1,0 +1,4 @@
+
+recipe :setup do
+	puts "Setup"
+end

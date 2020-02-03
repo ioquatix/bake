@@ -1,8 +1,0 @@
-
-recipe :set do |environment|
-	unless defined?(ENVIRONMENT)
-		ENVIRONMENT = environment
-	else
-		warn "Environment already set to #{ENVIRONMENT}..."
-	end
-end

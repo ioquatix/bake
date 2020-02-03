@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
 	spec.summary = "A replacement for rake with a simpler syntax."
 	spec.homepage = "https://github.com/ioquatix/bake"
 	spec.license = "MIT"
-	spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+	spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 	
 	spec.metadata["donation_uri"] = "https://github.com/sponsors/ioquatix"
 	

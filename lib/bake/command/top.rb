@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require 'samovar'
+require 'console/terminal'
 
 require_relative 'invoke'
 require_relative 'list'
@@ -56,10 +57,28 @@ module Bake
 				'list' => List,
 			}, default: 'invoke'
 			
+			def terminal
+				Console::Terminal
+			end
+			
+			def bakefile
+				@options[:bakefile]
+			end
+			
+			def working_directory
+				File.dirname(self.bakefile)
+			end
+			
 			def context
 				loaders = Loaders.new
 				
-				return Context.load(@options[:bakefile], loaders)
+				context = Context.load(@options[:bakefile], loaders)
+				
+				if loaders.empty?
+					loaders.append_defaults(working_directory)
+				end
+				
+				return context
 			end
 			
 			def call

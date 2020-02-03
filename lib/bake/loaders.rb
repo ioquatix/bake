@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'console'
+
 module Bake
 	class Loaders
 		include Enumerable
@@ -25,8 +27,20 @@ module Bake
 		RECIPES_PATH = "recipes"
 		
 		def initialize
-			@paths = {}
+			@roots = {}
 			@ordered = Array.new
+		end
+		
+		def empty?
+			@ordered.empty?
+		end
+		
+		def append_defaults(working_directory)
+			# Load recipes from working directory:
+			self.append_path(working_directory)
+			
+			# Load recipes from loaded gems:
+			self.append_from_gems
 		end
 		
 		def each(&block)
@@ -35,11 +49,11 @@ module Bake
 			@ordered.each(&block)
 		end
 		
-		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH)
+		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH, path: nil, **options)
 			recipes_path = File.join(current, recipes_path)
 			
 			if File.directory?(recipes_path)
-				insert(recipes_path)
+				insert(recipes_path, path, **options)
 			end
 		end
 		
@@ -57,7 +71,15 @@ module Bake
 			end
 		end
 		
-		def append_from_paths(paths = $LOAD_PATH, **options)
+		def append_from_gems
+			Gem.loaded_specs.each do |name, spec|
+				if path = spec.full_gem_path and File.directory?(path)
+					append_path(path, path: name, name: spec.full_name)
+				end
+			end
+		end
+		
+		def append_from_paths(paths, **options)
 			paths.each do |path|
 				append_path(path, **options)
 			end
@@ -65,10 +87,18 @@ module Bake
 		
 		protected
 		
-		def insert(path)
-			unless @paths.key?(path)
-				loader = Loader.new(path)
-				@paths[path] = loader
+		def insert(directory, path, **options)
+			unless @roots.key?(directory)
+				Console.logger.debug(self) do
+					if path
+						"Adding #{directory.inspect} for #{path.inspect}."
+					else
+						"Adding #{directory.inspect}"
+					end
+				end
+				
+				loader = Loader.new(directory, path, **options)
+				@roots[directory] = loader
 				@ordered << loader
 				
 				return true

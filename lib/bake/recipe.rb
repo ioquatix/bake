@@ -20,9 +20,10 @@
 
 module Bake
 	class Recipe
-		def initialize(book, name, &block)
+		def initialize(book, name, description: nil, &block)
 			@book = book
 			@name = name
+			@description = description
 			@block = block
 		end
 		
@@ -34,11 +35,21 @@ module Bake
 			return type == :keyrest
 		end
 		
-		def to_s
+		def command
 			if @book.path.empty?
 				@name.to_s
+			elsif @book.path.last.to_sym == @name
+				@book.to_s
 			else
 				"#{@book}:#{@name}"
+			end
+		end
+		
+		def to_s
+			if @description
+				"#{self.command} #{@description}"
+			else
+				self.command
 			end
 		end
 		

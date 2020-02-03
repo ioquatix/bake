@@ -22,19 +22,49 @@ require_relative 'book'
 
 module Bake
 	class Loader
-		def initialize(root)
+		def initialize(root, path = nil, name: nil)
 			@root = root
+			@path = path
+			@name = name
 			@cache = {}
 		end
 		
-		def all(path)
-			root = File.join(@root, directory, "#{file}.bake")
+		def to_s
+			"#{self.class} #{@name || @root}"
+		end
+		
+		attr :root
+		
+		def each
+			return to_enum unless block_given?
+			
+			Dir.glob("**/*.bake", base: @root) do |file_path|
+				path = file_path.sub(/\.bake$/, '').split(File::SEPARATOR)
+				
+				if @path
+					yield(@path + path)
+				else
+					yield(path)
+				end
+			end
+		end
+		
+		def recipe_for(path)
+			if book = lookup(path)
+				return book.lookup(path.last)
+			else
+				*path, name = *path
+				
+				if book = lookup(path)
+					return book.lookup(name)
+				end
+			end
 		end
 		
 		def lookup(path)
 			*directory, file = *path
 			
-			file_path = File.join(@root, directory, "#{file}.bake")
+			file_path = File.join(@root, @path || [], directory, "#{file}.bake")
 			
 			unless @cache.key?(path)
 				if File.exist?(file_path)

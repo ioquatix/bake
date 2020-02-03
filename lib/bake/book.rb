@@ -37,6 +37,10 @@ module Bake
 			@recipes = {}
 		end
 		
+		def each(&block)
+			@recipes.each_value(&block)
+		end
+		
 		attr :path
 		attr :recipes
 		
@@ -45,11 +49,17 @@ module Bake
 		end
 		
 		def lookup(name)
-			@recipes[name]
+			@recipes[name.to_sym]
 		end
 		
-		def recipe(name, &block)
-			@recipes[name] = Recipe.new(self, name, &block)
+		def recipe_for(path)
+			if path.size == 1
+				lookup(path.first)
+			end
+		end
+		
+		def recipe(name, **options, &block)
+			@recipes[name] = Recipe.new(self, name, **options, &block)
 		end
 	end
 end

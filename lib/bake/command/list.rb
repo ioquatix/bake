@@ -24,6 +24,17 @@ module Bake
 	module Command
 		class List < Samovar::Command
 			def call
+				context = @parent.context
+				
+				context.loaders.each do |loader|
+					puts loader
+					loader.each do |path|
+						book = loader.lookup(path)
+						book.each do |recipe|
+							puts "\t#{recipe}"
+						end
+					end
+				end
 			end
 		end
 	end

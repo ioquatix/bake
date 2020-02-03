@@ -77,21 +77,18 @@ module Bake
 		end
 		
 		def recipes_for_absolute_reference(command)
-			*path, name = command.split(":")
-			name = name.to_sym
+			path = command.split(":")
 			
 			recipes = []
 			
 			# Get the root level recipes:
-			if path.empty? and recipe = self.lookup(name)
+			if recipe = self.recipe_for(path)
 				recipes << recipe
 			end
 			
 			@loaders.each do |loader|
-				if book = loader.lookup(path)
-					if recipe = book.lookup(name)
-						recipes << recipe
-					end
+				if recipe = loader.recipe_for(path)
+					recipes << recipe
 				end
 			end
 			
