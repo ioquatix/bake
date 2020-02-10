@@ -24,8 +24,6 @@ module Bake
 	class Loaders
 		include Enumerable
 		
-		RECIPES_PATH = "recipes"
-		
 		def initialize
 			@roots = {}
 			@ordered = Array.new
@@ -49,12 +47,24 @@ module Bake
 			@ordered.each(&block)
 		end
 		
-		def append_path(current = Dir.pwd, recipes_path: RECIPES_PATH, **options)
-			recipes_path = File.join(current, recipes_path)
+		def append_path(current = Dir.pwd, **options)
+			recipes_path = File.join(current, "recipes")
+			bake_path = File.join(current, "bake")
+			
+			if File.directory?(bake_path)
+				return insert(bake_path, **options)
+			end
 			
 			if File.directory?(recipes_path)
-				insert(recipes_path, **options)
+				Console.logger.warn(self) do |buffer|
+					buffer.puts "Recipes path: #{recipes_path.inspect} is deprecated."
+					buffer.puts "Please use #{bake_path.inspect} instead."
+				end
+				
+				return insert(recipes_path, **options)
 			end
+			
+			return false
 		end
 		
 		def append_from_root(current = Dir.pwd, **options)
@@ -91,13 +101,7 @@ module Bake
 		
 		def insert(directory, **options)
 			unless @roots.key?(directory)
-				Console.logger.debug(self) do
-					if path
-						"Adding #{directory.inspect} for #{path.inspect}."
-					else
-						"Adding #{directory.inspect}"
-					end
-				end
+				Console.logger.debug(self) {"Adding #{directory.inspect}"}
 				
 				loader = Loader.new(directory, **options)
 				@roots[directory] = loader
