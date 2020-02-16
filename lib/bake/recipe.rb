@@ -20,12 +20,12 @@
 
 module Bake
 	class Recipe
-		def initialize(scope, name, &block)
+		def initialize(scope, name, method = nil)
 			@scope = scope
 			@name = name
 			@description = nil
 			
-			@method = block
+			@method = method
 		end
 		
 		attr :scope
@@ -119,13 +119,20 @@ module Bake
 		private
 		
 		def read_description
-			description = []
-			
 			file, line_number = self.method.source_location
 			
 			lines = File.readlines(file)
-			line_index = line_number - 1 - 1
+			line_index = line_number - 1
 			
+			# Legacy "recipe" syntax:
+			if match = lines[line_index].match(/description: "(.*?)"/)
+				return [match[1]]
+			end
+			
+			description = []
+			line_index -= 1
+			
+			# Extract comment preceeding method:
 			while line = lines[line_index]
 				if match = line.match(/^\s*\#\s?(.*?)$/)
 					description.unshift(match[1])

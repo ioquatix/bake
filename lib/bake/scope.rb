@@ -22,11 +22,12 @@ require_relative 'recipe'
 
 module Bake
 	module Scope
-		def self.load(file_path)
+		def self.load(file_path, path = [])
 			scope = Module.new
 			scope.extend(self)
 			
 			scope.const_set(:FILE_PATH, file_path)
+			scope.const_set(:PATH, path)
 			
 			scope.module_eval(File.read(file_path), file_path)
 			
@@ -39,6 +40,22 @@ module Bake
 		
 		def recipe(name, **options, &block)
 			define_method(name, &block)
+		end
+		
+		def recipes
+			names = self.instance_methods
+			
+			names.each do |name|
+				yield recipe_for(name)
+			end
+		end
+		
+		def path
+			self.const_get(:PATH)
+		end
+		
+		def recipe_for(name)
+			Recipe.new(self, name, self.instance_method(name))
 		end
 	end
 end

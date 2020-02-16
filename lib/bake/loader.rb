@@ -59,7 +59,7 @@ module Bake
 			file_path = File.join(@root, directory, "#{file}.rb")
 			
 			if File.exist?(file_path)
-				return Scope.load(file_path)
+				return Scope.load(file_path, path)
 			end
 		end
 	end

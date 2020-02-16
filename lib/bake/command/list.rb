@@ -77,10 +77,7 @@ module Bake
 					
 					loader.each do |path|
 						if scope = loader.scope_for(path)
-							base = Base.derive(path)
-							base.prepend(scope)
-							
-							print_scope(terminal, base.new(context))
+							print_scope(terminal, scope)
 						end
 					end
 					
