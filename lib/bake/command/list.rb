@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require 'samovar'
+require 'set'
 
 module Bake
 	module Command
@@ -49,41 +50,37 @@ module Bake
 				end
 			end
 			
+			def print_scope(terminal, scope)
+				format_recipe = self.method(:format_recipe).curry
+				
+				scope.recipes do |recipe|
+					terminal.print_line
+					terminal.print_line("\t", format_recipe[recipe])
+					
+					recipe.description.each do |line|
+						terminal.print_line("\t\t", :description, line)
+					end
+				end
+				
+				terminal.print_line
+			end
+			
 			def call
 				first = true
 				terminal = @parent.terminal
 				context = @parent.context
-				format_recipe = self.method(:format_recipe).curry
 				
-				unless context.empty?
-					terminal.print_line(:loader, context)
-					
-					context.each do |recipe|
-						terminal.print_line
-						terminal.print_line("\t", format_recipe[recipe])
-						if description = recipe.description
-							terminal.print_line("\t\t", :description, description)
-						end
-					end
-					
-					terminal.print_line
-				end
+				print_scope(terminal, context.scope)
 				
 				context.loaders.each do |loader|
-					terminal.print_line unless first
-					first = false
-					
 					terminal.print_line(:loader, loader)
+					
 					loader.each do |path|
-						if book = loader.lookup(path)
-							# terminal.print_line("\t", book)
-							book.each do |recipe|
-								terminal.print_line
-								terminal.print_line("\t", format_recipe[recipe])
-								if description = recipe.description
-									terminal.print_line("\t\t", :description, description)
-								end
-							end
+						if scope = loader.scope_for(path)
+							base = Base.derive(path)
+							base.prepend(scope)
+							
+							print_scope(terminal, base.new(context))
 						end
 					end
 					

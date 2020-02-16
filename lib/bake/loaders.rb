@@ -20,9 +20,19 @@
 
 require 'console'
 
+require_relative 'loader'
+
 module Bake
 	class Loaders
 		include Enumerable
+		
+		def self.default(working_directory)
+			loaders = self.new
+			
+			loaders.append_defaults(working_directory)
+			
+			return loaders
+		end
 		
 		def initialize
 			@roots = {}

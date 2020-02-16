@@ -18,56 +18,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'recipe'
+require 'samovar'
+
+require_relative '../loaders'
+require_relative '../loader'
+require_relative '../context'
 
 module Bake
-	class Book
-		def self.load(file_path, *arguments, **options)
-			instance = self.new(*arguments, **options)
+	module Command
+		class Call < Samovar::Command
+			self.description = "Execute one or more commands."
 			
-			instance.freeze
-			
-			instance.instance_eval(File.read(file_path), file_path)
-			
-			return instance
-		end
-		
-		def initialize(path = [], **options)
-			@path = path
-			@recipes = {}
-		end
-		
-		def empty?
-			@recipes.empty?
-		end
-		
-		def each(&block)
-			@recipes.each_value(&block)
-		end
-		
-		attr :path
-		attr :recipes
-		
-		def to_s
-			@path.join(':')
-		end
-		
-		def lookup(name)
-			@recipes[name.to_sym]
-		end
-		
-		def recipe_for(path)
-			if path.size == 1
-				lookup(path.first)
-			end
-		end
-		
-		def recipe(name, **options, &block)
-			unless block_given?
-				block = self.method(name)
+			def bakefile
+				@parent.bakefile
 			end
 			
-			@recipes[name] = Recipe.new(self, name, **options, &block)
+			def update_working_directory
+				if bakefile = self.bakefile
+					current_directory = Dir.pwd
+					working_directory = File.dirname(bakefile)
+					
+					if working_directory != current_directory
+						Console.logger.debug(self) {"Changing working directory to #{working_directory.inspect}."}
+						Dir.chdir(working_directory)
+						
+						return current_directory
+					end
+				end
+				
+				return nil
+			end
+			
+			many :commands, "The commands & arguments to invoke.", default: ["default"]
+			
+			def call
+				context = @parent.context
+				
+				self.update_working_directory
+				
+				context.call(*@commands)
+			end
 		end
 	end
 end

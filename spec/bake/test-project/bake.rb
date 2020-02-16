@@ -1,3 +1,3 @@
 
-recipe :doot do
+def doot
 end

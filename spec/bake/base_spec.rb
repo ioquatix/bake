@@ -18,17 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'bake/book'
+require 'bake/base'
 
-RSpec.describe Bake::Book do
-	describe '#empty' do
-		it {is_expected.to be_empty}
+RSpec.describe Bake::Base do
+	let(:path) {["foo", "bar"]}
+	subject {described_class.derive(path)}
+	
+	it "has a path" do
+		expect(subject::PATH).to be == path
 	end
 	
-	it "can define recipe" do
-		subject.recipe :test do
-		end
-		
-		expect(subject.recipes).to include(:test)
+	it "formats nicely" do
+		expect(subject.inspect).to be == "Bake::Base<foo:bar>"
 	end
 end

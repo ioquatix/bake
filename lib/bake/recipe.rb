@@ -20,50 +20,55 @@
 
 module Bake
 	class Recipe
-		def initialize(book, name, description: nil, &block)
-			@book = book
+		def initialize(scope, name, &block)
+			@scope = scope
 			@name = name
-			@description = description
-			@block = block
-		end
-		
-		attr :book
-		attr :description
-		
-		def options?
-			type, name = @block.parameters.last
+			@description = nil
 			
-			return type == :keyrest || type == :keyreq || type == :key
+			@method = block
 		end
 		
-		def command
-			if @book.path.empty?
-				@name.to_s
-			elsif @book.path.last.to_sym == @name
-				@book.to_s
-			else
-				"#{@book}:#{@name}"
-			end
+		attr :scope
+		attr :name
+		
+		def method
+			@method ||= @scope.method(@name)
 		end
 		
 		def parameters
-			parameters = @block.parameters
+			parameters = method.parameters
 			
 			unless parameters.empty?
 				return parameters
 			end
 		end
 		
-		def to_s
-			if @description
-				"#{self.command} #{@description}"
-			else
-				self.command
+		def options?
+			if parameters = self.parameters
+				type, name = self.parameters.last
+				
+				return type == :keyrest || type == :keyreq || type == :key
 			end
 		end
 		
+		def command
+			path = @scope.path
+			
+			if path.empty?
+				@name.to_s
+			elsif path.last.to_sym == @name
+				path.join(':')
+			else
+				(path + [@name]).join(':')
+			end
+		end
+		
+		def to_s
+			self.command
+		end
+		
 		def arity
-			@block.arity
+			method.arity
 		end
 		
 		def prepare(arguments)
@@ -90,12 +95,12 @@ module Bake
 			return ordered, options
 		end
 		
-		def call(context, *arguments, **options)
+		def call(*arguments, **options)
 			if options?
-				context.instance_exec(*arguments, **options, &@block)
+				@scope.send(@name, *arguments, **options)
 			else
 				# Ignore options...
-				context.instance_exec(*arguments, &@block)
+				@scope.send(@name, *arguments)
 			end
 		end
 		
@@ -105,6 +110,33 @@ module Bake
 			else
 				puts "#{self}(#{arguments.join(", ")})"
 			end
+		end
+		
+		def description
+			@description ||= read_description
+		end
+		
+		private
+		
+		def read_description
+			description = []
+			
+			file, line_number = self.method.source_location
+			
+			lines = File.readlines(file)
+			line_index = line_number - 1 - 1
+			
+			while line = lines[line_index]
+				if match = line.match(/^\s*\#\s?(.*?)$/)
+					description.unshift(match[1])
+				else
+					break
+				end
+				
+				line_index -= 1
+			end
+			
+			return description
 		end
 	end
 end

@@ -18,6 +18,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'recipe'
+
 module Bake
-	VERSION = "0.3.0"
+	module Scope
+		def self.load(file_path)
+			scope = Module.new
+			scope.extend(self)
+			
+			scope.const_set(:FILE_PATH, file_path)
+			
+			scope.module_eval(File.read(file_path), file_path)
+			
+			return scope
+		end
+		
+		def self.inspect
+			"Bake::Scope<#{self.const_get(:FILE_PATH)}>"
+		end
+		
+		def recipe(name, **options, &block)
+			define_method(name, &block)
+		end
+	end
 end

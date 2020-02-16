@@ -21,7 +21,7 @@
 require 'samovar'
 require 'console/terminal'
 
-require_relative 'invoke'
+require_relative 'call'
 require_relative 'list'
 
 module Bake
@@ -53,9 +53,9 @@ module Bake
 			end
 			
 			nested :command, {
-				'invoke' => Invoke,
+				'call' => Call,
 				'list' => List,
-			}, default: 'invoke'
+			}, default: 'call'
 			
 			def terminal(out = $stdout)
 				terminal = Console::Terminal.for(out)
@@ -85,16 +85,10 @@ module Bake
 			end
 			
 			def context
-				loaders = Loaders.new
-				
 				if bakefile = self.bakefile
-					context = Context.load(self.bakefile, loaders)
+					return Context.load(self.bakefile)
 				else
-					context = Context.new(loaders)
-				end
-				
-				if loaders.empty?
-					loaders.append_defaults(working_directory)
+					raise "Cannot find `bake.rb` file."
 				end
 				
 				return context

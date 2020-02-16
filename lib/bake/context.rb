@@ -18,86 +18,108 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'base'
+
 module Bake
-	class Context < Book
-		def initialize(loaders, **options)
+	class Context
+		def self.load(file_path, loaders = nil)
+			scope = Scope.load(file_path)
+			
+			unless loaders
+				if scope.respond_to?(:loaders)
+					loaders = scope.loaders
+				else
+					working_directory = File.dirname(file_path)
+					loaders = Loaders.default(working_directory)
+				end
+			end
+			
+			self.new(scope, loaders)
+		end
+		
+		def initialize(scope, loaders, **options)
+			base = Base.derive
+			base.prepend(scope)
+			
 			@loaders = loaders
 			
-			@scope = []
+			@stack = []
 			
-			super(**options)
+			@scopes = Hash.new do |hash, key|
+				hash[key] = scope_for(key)
+			end
+			
+			@scope = base.new(self)
+			@scopes[[]] = @scope
+			
+			@recipes = Hash.new do |hash, key|
+				hash[key] = recipe_for(key)
+			end
 		end
 		
-		def to_s
-			self.class.name
-		end
-		
+		attr :scope
 		attr :loaders
 		
 		def call(*commands)
 			while command = commands.shift
-				if recipes = recipes_for(command)
-					arguments, options = recipes.first.prepare(commands)
-					
-					recipes.each do |recipe|
-						with(recipe) do
-							yield recipe, arguments, options if block_given?
-							recipe.call(self, *arguments, **options)
-						end
-					end
+				if recipe = @recipes[command]
+					arguments, options = recipe.prepare(commands)
+					recipe.call(*arguments, **options)
 				else
 					raise ArgumentError, "Could not find recipe for #{command}!"
 				end
 			end
 		end
 		
+		def lookup(command)
+			@recipes[command]
+		end
+		
 		private
 		
-		def with(recipe)
-			@scope << recipe.book
+		def recipe_for(command)
+			path = command.split(":")
+			
+			if scope = @scopes[path]
+				return scope.recipe_for(path.last)
+			else
+				*path, name = *path
+				
+				if scope = @scopes[path]
+					return scope.recipe_for(name)
+				end
+			end
+			
+			return nil
+		end
+		
+		def scope_for(path)
+			if base = base_for(path)
+				return base.new(self)
+			end
+		end
+		
+		# @param scope [Array<String>] the path for the scope.
+		def base_for(path)
+			base = nil
+			
+			@loaders.each do |loader|
+				if scope = loader.scope_for(path)
+					base ||= Base.derive(path)
+					
+					base.prepend(scope)
+				end
+			end
+			
+			return base
+		end
+		
+		def with!(scope)
+			@stack << scope
 			
 			yield
 		ensure
 			@scope.pop
-		end
-		
-		def recipes_for(command)
-			if command.is_a?(Symbol)
-				recipes_for_relative_reference(command)
-			else
-				recipes_for_absolute_reference(command)
-			end
-		end
-		
-		def recipes_for_relative_reference(command)
-			if scope = @scope.last
-				if recipe = scope.lookup(command)
-					return [recipe]
-				end
-			end
-		end
-		
-		def recipes_for_absolute_reference(command)
-			path = command.split(":")
-			
-			recipes = []
-			
-			# Get the root level recipes:
-			if recipe = self.recipe_for(path)
-				recipes << recipe
-			end
-			
-			@loaders.each do |loader|
-				if recipe = loader.recipe_for(path)
-					recipes << recipe
-				end
-			end
-			
-			if recipes.empty?
-				return nil
-			else
-				return recipes
-			end
 		end
 	end
 end

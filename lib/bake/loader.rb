@@ -18,14 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'book'
+require_relative 'scope'
 
 module Bake
 	class Loader
 		def initialize(root, name: nil)
 			@root = root
 			@name = name
-			@cache = {}
 		end
 		
 		def to_s
@@ -54,22 +53,14 @@ module Bake
 			end
 		end
 		
-		def lookup(path)
+		def scope_for(path)
 			*directory, file = *path
 			
 			file_path = File.join(@root, directory, "#{file}.rb")
 			
-			unless @cache.key?(path)
-				if File.exist?(file_path)
-					book = Book.load(file_path, path)
-					
-					@cache[path] = book
-				else
-					@cache[path] = nil
-				end
+			if File.exist?(file_path)
+				return Scope.load(file_path)
 			end
-			
-			return @cache[path]
 		end
 	end
 end

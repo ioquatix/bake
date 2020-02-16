@@ -23,13 +23,22 @@ require 'bake/loaders'
 
 RSpec.describe Bake::Context do
 	let(:bakefile) {File.expand_path("test-project/bake.rb", __dir__)}
-	let(:loaders) {Bake::Loaders.new}
-	
-	subject{described_class.load(bakefile, loaders)}
+	subject {described_class.load(bakefile)}
 	
 	it 'can invoke root task' do
-		expect do |block|
-			subject.call('doot', &block)
-		end.to yield_with_args(subject.lookup(:doot), [], {})
+		expect(subject.lookup('doot')).to receive(:call).with({})
+		
+		subject.call('doot')
+	end
+	
+	describe '#invoke' do
+		let(:invoke) {subject.lookup('invoke:task1').scope}
+		
+		it "can invoke another task" do
+			expect(invoke).to receive(:task1).with("argument", option: "option").and_call_original
+			expect(invoke).to receive(:task2).and_call_original
+			
+			subject.call('invoke:task2')
+		end
 	end
 end

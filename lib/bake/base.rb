@@ -18,50 +18,59 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'samovar'
-
-require_relative '../loaders'
-require_relative '../loader'
-require_relative '../context'
+require_relative 'recipe'
+require_relative 'scope'
 
 module Bake
-	module Command
-		class Invoke < Samovar::Command
-			self.description = "Invoke one or more commands."
+	class Base < Struct.new(:context)
+		def self.derive(path = [])
+			klass = Class.new(self)
 			
-			options do
-				option "-d/--describe", "Describe what will be done, but don't do it.", default: false
+			klass.const_set(:PATH, path)
+			
+			return klass
+		end
+		
+		def self.to_s
+			if path = self.path
+				path.join(':')
+			else
+				super
 			end
-			
-			def bakefile
-				@parent.bakefile
+		end
+		
+		def self.inspect
+			if path = self.path
+				"Bake::Base<#{path.join(':')}>"
+			else
+				super
 			end
+		end
+		
+		def self.path
+			self.const_get(:PATH)
+		rescue
+			nil
+		end
+		
+		def path
+			self.class.path
+		end
+		
+		def call(*arguments)
+			self.context.call(*arguments)
+		end
+		
+		def recipes
+			names = self.public_methods - Base.public_instance_methods
 			
-			def update_working_directory
-				if bakefile = self.bakefile
-					current_directory = Dir.pwd
-					working_directory = File.dirname(bakefile)
-					
-					if working_directory != current_directory
-						Console.logger.debug(self) {"Changing working directory to #{working_directory.inspect}."}
-						Dir.chdir(working_directory)
-						
-						return current_directory
-					end
-				end
-				
-				return nil
+			names.each do |name|
+				yield recipe_for(name)
 			end
-			
-			many :commands, "The commands & arguments to invoke.", default: ["default"]
-			
-			def call
-				context = @parent.context
-				
-				self.update_working_directory
-				
-				context.call(*@commands, **@options)
-			end
+		end
+		
+		def recipe_for(name)
+			Recipe.new(self, name)
 		end
 	end
 end
