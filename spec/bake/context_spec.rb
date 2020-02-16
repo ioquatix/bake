@@ -26,7 +26,7 @@ RSpec.describe Bake::Context do
 	subject {described_class.load(bakefile)}
 	
 	it 'can invoke root task' do
-		expect(subject.lookup('doot')).to receive(:call).with({})
+		expect(subject.lookup('doot')).to receive(:call).and_call_original
 		
 		subject.call('doot')
 	end
