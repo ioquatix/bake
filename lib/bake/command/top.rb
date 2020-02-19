@@ -29,24 +29,6 @@ module Bake
 		class Top < Samovar::Command
 			self.description = "Execute tasks using Ruby."
 			
-			def self.bakefile_path(current = Dir.pwd)
-				while current
-					bakefile_path = File.join(current, "bake.rb")
-					
-					if File.exist?(bakefile_path)
-						return bakefile_path
-					end
-					
-					parent = File.dirname(current)
-					
-					if current == parent
-						break
-					else
-						current = parent
-					end
-				end
-			end
-			
 			options do
 				option '-h/--help', 'Show help.'
 				option '-b/--bakefile <path>', 'Path to the bakefile to use.', default: Top.bakefile_path
@@ -88,7 +70,7 @@ module Bake
 				if bakefile = self.bakefile
 					return Context.load(self.bakefile)
 				else
-					raise "Cannot find `bake.rb` file."
+					return Context.new
 				end
 				
 				return context

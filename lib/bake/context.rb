@@ -21,8 +21,28 @@
 require_relative 'base'
 
 module Bake
+	BAKEFILE = "bake.rb"
+	
 	class Context
-		def self.load(file_path, loaders = nil)
+		def self.bakefile_path(current = Dir.pwd)
+			while current
+				bakefile_path = File.join(current, BAKEFILE)
+				
+				if File.exist?(bakefile_path)
+					return bakefile_path
+				end
+				
+				parent = File.dirname(current)
+				
+				if current == parent
+					break
+				else
+					current = parent
+				end
+			end
+		end
+		
+		def self.load(file_path = self.bakefile_path, loaders = nil)
 			scope = Scope.load(file_path)
 			
 			unless loaders
