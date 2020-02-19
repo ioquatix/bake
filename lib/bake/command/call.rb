@@ -33,28 +33,10 @@ module Bake
 				@parent.bakefile
 			end
 			
-			def update_working_directory
-				if bakefile = self.bakefile
-					current_directory = Dir.pwd
-					working_directory = File.dirname(bakefile)
-					
-					if working_directory != current_directory
-						Console.logger.debug(self) {"Changing working directory to #{working_directory.inspect}."}
-						Dir.chdir(working_directory)
-						
-						return current_directory
-					end
-				end
-				
-				return nil
-			end
-			
 			many :commands, "The commands & arguments to invoke.", default: ["default"]
 			
 			def call
 				context = @parent.context
-				
-				self.update_working_directory
 				
 				context.call(*@commands)
 			end

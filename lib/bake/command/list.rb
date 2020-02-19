@@ -70,7 +70,9 @@ module Bake
 				terminal = @parent.terminal
 				context = @parent.context
 				
-				print_scope(terminal, context.scope)
+				if scope = context.scope
+					print_scope(terminal, context.scope)
+				end
 				
 				context.loaders.each do |loader|
 					terminal.print_line(:loader, loader)

@@ -21,36 +21,71 @@
 require_relative 'base'
 
 module Bake
+	BAKEFILE = "bake.rb"
+	
 	class Context
-		def self.load(file_path, loaders = nil)
-			scope = Scope.load(file_path)
+		# If path points to a file, assume it's a `bake.rb` file. Otherwise, recursively search up the directory tree starting from `path` to find the specified bakefile.
+		# @return [String, nil] the path to the bakefile if it could be found.
+		def self.bakefile_path(path, bakefile: BAKEFILE)
+			if File.file?(path)
+				return path
+			end
 			
-			unless loaders
-				if scope.respond_to?(:loaders)
-					loaders = scope.loaders
+			current = path
+			
+			while current
+				bakefile_path = File.join(current, BAKEFILE)
+				
+				if File.exist?(bakefile_path)
+					return bakefile_path
+				end
+				
+				parent = File.dirname(current)
+				
+				if current == parent
+					break
 				else
-					working_directory = File.dirname(file_path)
-					loaders = Loaders.default(working_directory)
+					current = parent
 				end
 			end
 			
-			self.new(scope, loaders)
+			return nil
 		end
 		
-		def initialize(scope, loaders, **options)
-			base = Base.derive
-			base.prepend(scope)
+		def self.load(path)
+			if bakefile_path = self.bakefile_path(path)
+				scope = Scope.load(bakefile_path)
+				
+				working_directory = File.dirname(bakefile_path)
+				loaders = Loaders.default(working_directory)
+			else
+				scope = nil
+				
+				working_directory = path
+				loaders = Loaders.default(working_directory)
+			end
 			
+			return self.new(loaders, scope, working_directory)
+		end
+		
+		def initialize(loaders, scope = nil, root = nil)
 			@loaders = loaders
 			
 			@stack = []
 			
-			@scopes = Hash.new do |hash, key|
-				hash[key] = scope_for(key)
+			@instances = Hash.new do |hash, key|
+				hash[key] = instance_for(key)
 			end
 			
-			@scope = base.new(self)
-			@scopes[[]] = @scope
+			@scope = scope
+			@root = root
+			
+			if @scope
+				base = Base.derive
+				base.prepend(@scope)
+				
+				@instances[[]] = base.new(self)
+			end
 			
 			@recipes = Hash.new do |hash, key|
 				hash[key] = recipe_for(key)
@@ -58,6 +93,7 @@ module Bake
 		end
 		
 		attr :scope
+		attr :root
 		attr :loaders
 		
 		def call(*commands)
@@ -80,20 +116,20 @@ module Bake
 		def recipe_for(command)
 			path = command.split(":")
 			
-			if scope = @scopes[path]
-				return scope.recipe_for(path.last)
+			if instance = @instances[path]
+				return instance.recipe_for(path.last)
 			else
 				*path, name = *path
 				
-				if scope = @scopes[path]
-					return scope.recipe_for(name)
+				if instance = @instances[path]
+					return instance.recipe_for(name)
 				end
 			end
 			
 			return nil
 		end
 		
-		def scope_for(path)
+		def instance_for(path)
 			if base = base_for(path)
 				return base.new(self)
 			end
@@ -112,14 +148,6 @@ module Bake
 			end
 			
 			return base
-		end
-		
-		def with!(scope)
-			@stack << scope
-			
-			yield
-		ensure
-			@scope.pop
 		end
 	end
 end
