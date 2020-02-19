@@ -43,6 +43,8 @@ module Bake
 		end
 		
 		def recipes
+			return to_enum(:recipes) unless block_given?
+			
 			names = self.instance_methods
 			
 			names.each do |name|

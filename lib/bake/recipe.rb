@@ -23,6 +23,7 @@ module Bake
 		def initialize(scope, name, method = nil)
 			@scope = scope
 			@name = name
+			@command = nil
 			@description = nil
 			
 			@method = method
@@ -52,15 +53,7 @@ module Bake
 		end
 		
 		def command
-			path = @scope.path
-			
-			if path.empty?
-				@name.to_s
-			elsif path.last.to_sym == @name
-				path.join(':')
-			else
-				(path + [@name]).join(':')
-			end
+			@command ||= compute_command
 		end
 		
 		def to_s
@@ -117,6 +110,18 @@ module Bake
 		end
 		
 		private
+		
+		def compute_command
+			path = @scope.path
+			
+			if path.empty?
+				@name.to_s
+			elsif path.last.to_sym == @name
+				path.join(':')
+			else
+				(path + [@name]).join(':')
+			end
+		end
 		
 		def read_description
 			file, line_number = self.method.source_location

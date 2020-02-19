@@ -53,7 +53,7 @@ module Bake
 			def print_scope(terminal, scope)
 				format_recipe = self.method(:format_recipe).curry
 				
-				scope.recipes do |recipe|
+				scope.recipes.sort_by(&:command).each do |recipe|
 					terminal.print_line
 					terminal.print_line("\t", format_recipe[recipe])
 					
