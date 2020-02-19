@@ -51,6 +51,8 @@ module Bake
 				terminal[:keyreq] = terminal.style(:red, nil, :bold)
 				terminal[:keyrest] = terminal.style(:green)
 				
+				terminal[:parameter] = terminal[:opt]
+				
 				return terminal
 			end
 			

@@ -24,6 +24,8 @@ require 'set'
 module Bake
 	module Command
 		class List < Samovar::Command
+			PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
+			
 			def format_parameters(parameters, terminal)
 				parameters.each do |type, name|
 					case type
@@ -58,11 +60,17 @@ module Bake
 					terminal.print_line("\t", format_recipe[recipe])
 					
 					recipe.description.each do |line|
-						terminal.print_line("\t\t", :description, line)
+						if match = line.match(PARAMETER)
+							terminal.print_line("\t\t",
+								:parameter, match[:name], :reset, " [",
+								:type, match[:type], :reset, "] ",
+								:description, match[:details]
+							)
+						else
+							terminal.print_line("\t\t", :description, line)
+						end
 					end
 				end
-				
-				terminal.print_line
 			end
 			
 			def call
