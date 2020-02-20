@@ -111,6 +111,14 @@ module Bake
 			@recipes[command]
 		end
 		
+		def to_s
+			if @root
+				"#{self.class} #{File.basename(@root)}"
+			else
+				self.class.name
+			end
+		end
+		
 		private
 		
 		def recipe_for(command)

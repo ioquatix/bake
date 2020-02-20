@@ -79,7 +79,11 @@ module Bake
 				context = @parent.context
 				
 				if scope = context.scope
+					terminal.print_line(:context, context)
+					
 					print_scope(terminal, context.scope)
+					
+					terminal.print_line
 				end
 				
 				context.loaders.each do |loader|

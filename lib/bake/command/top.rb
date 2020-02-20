@@ -42,7 +42,7 @@ module Bake
 			def terminal(out = $stdout)
 				terminal = Console::Terminal.for(out)
 				
-				terminal[:loader] = terminal.style(nil, nil, :bold)
+				terminal[:context] = terminal[:loader] = terminal.style(nil, nil, :bold)
 				terminal[:command] = terminal.style(nil, nil, :bold)
 				terminal[:description] = terminal.style(:blue)
 				
