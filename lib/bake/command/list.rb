@@ -34,7 +34,7 @@ module Bake
 					when :keyreq
 						name = "#{name}="
 					when :keyrest
-						name = "**options"
+						name = "**#{name}"
 					else
 						name = name.to_s
 					end
