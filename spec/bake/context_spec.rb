@@ -40,5 +40,9 @@ RSpec.describe Bake::Context do
 			
 			subject.call('invoke:task2')
 		end
+		
+		it "can invoke task with required argument" do
+			subject.call('invoke:task3', 'argument')
+		end
 	end
 end

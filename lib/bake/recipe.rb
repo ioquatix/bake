@@ -27,6 +27,7 @@ module Bake
 			@description = nil
 			
 			@method = method
+			@arity = nil
 		end
 		
 		attr :scope
@@ -61,7 +62,11 @@ module Bake
 		end
 		
 		def arity
-			method.arity
+			if @arity.nil?
+				@arity = method.parameters.count{|type, name| type == :req}
+			end
+			
+			return @arity
 		end
 		
 		def prepare(arguments)
