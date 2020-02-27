@@ -33,8 +33,16 @@ module Bake
 		attr :scope
 		attr :name
 		
+		def <=> other
+			self.source_location <=> other.source_location
+		end
+		
 		def method
 			@method ||= @scope.method(@name)
+		end
+		
+		def source_location
+			self.method.source_location
 		end
 		
 		def parameters
