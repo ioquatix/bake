@@ -20,7 +20,7 @@
 
 module Bake
 	module Types
-		module Integer
+		module Float
 			def self.composite?
 				false
 			end
