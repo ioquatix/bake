@@ -107,6 +107,8 @@ Which is invoked by `bake add x=1 y=2`.
 
 ## See Also
 
+- [Console](https://github.com/socketry/console) — A logging framework which integrates with bake.
+- [Variant](https://github.com/socketry/variant) — A framework for selecting different environments, including bake tasks.
 - [Utopia](https://github.com/socketry/utopia) — A website framework which uses bake for maintenance tasks.
 
 ## License
