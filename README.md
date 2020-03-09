@@ -27,12 +27,12 @@ Bake follows similar patterns to Rake.
 
 ## Bakefile
 
-There is a root level `bake.rb` which contains project-specific configuration and recipes, e.g.:
+There is a root level `bake.rb` e.g.:
 
 ```ruby
-recipe :cake do
-	call 'supermarket:shop', 'flour,sugar,cocoa'
-	call 'mixer:add', 'everything'
+def cake
+	ingredients = call 'supermarket:shop', 'flour,sugar,cocoa'
+	lookup('mixer:add').call(ingredients)
 end
 ```
 
@@ -40,23 +40,25 @@ This file is project specific and is the only file which can expose top level ta
 
 ## Recipes
 
-Alongside the `bake.rb`, there is a `recipes/` directory which contains files like `supermarket.rb`. These files contain recipes, e.g.:
+Alongside the `bake.rb`, there is a `bake/` directory which contains files like `supermarket.rb`. These files contain recipes, e.g.:
 
 ```ruby
-recipe :shop do |ingredients|
+# @param ingredients [Array(Any)] the ingredients to purchase.
+def shop(ingredients)
 	supermarket = Supermarket.best
-	supermarket.shop(ingredients.split(","))
+	
+	return supermarket.purchase(ingredients)
 end
 ```
 
-These recipes are automatically scoped according to the file name, e.g. `recipes/supermarket.rb` with `recipe :shop` will define `supermarket:shop`.
+These methods are automatically scoped according to the file name, e.g. `bake/supermarket.rb` will define `supermarket:shop`.
 
 ## Gems
 
-Adding a `recipes/` directory to your gem will allow other gems and projects to consume those recipes. In order to prevent collisions, you *should* prefix your commands with the name of the gem, e.g. in `mygem/recipes/mygem.rb`:
+Adding a `bake/` directory to your gem will allow other gems and projects to consume those recipes. In order to prevent collisions, you *should* prefix your commands with the name of the gem, e.g. in `mygem/bake/mygem.rb`:
 
 ```ruby
-recipe :setup do
+def setup
 	# ...
 end
 ```
@@ -69,13 +71,15 @@ bake mygem:setup
 
 ## Arguments
 
-Both positional and optional parameters are supported, e.g.:
+Arguments work as normal. Documented types are used to parse strings from the command line. Both positional and optional parameters are supported.
 
 ### Positional Parameters
 
 ```ruby
-recipe :add do |x, y|
-	puts Integer(x) + Integer(y)
+# @param x [Integer]
+# @param y [Integer]
+def add(x, y)
+	puts x + y
 end
 ```
 
@@ -84,8 +88,10 @@ Which is invoked by `bake add 1 2`.
 ### Optional Parameters
 
 ```ruby
-recipe :add do |x:, y:|
-	puts Integer(x) + Integer(y)
+# @param x [Integer]
+# @param y [Integer]
+def add(x:, y:)
+	puts x + y
 end
 ```
 
