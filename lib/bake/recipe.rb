@@ -18,13 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'types'
+
 module Bake
+	PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
+	
 	class Recipe
 		def initialize(scope, name, method = nil)
 			@scope = scope
 			@name = name
 			@command = nil
 			@description = nil
+			@types = nil
 			
 			@method = method
 			@arity = nil
@@ -55,7 +60,7 @@ module Bake
 		
 		def options?
 			if parameters = self.parameters
-				type, name = self.parameters.last
+				type, name = parameters.last
 				
 				return type == :keyrest || type == :keyreq || type == :key
 			end
@@ -81,6 +86,8 @@ module Bake
 			offset = 0
 			ordered = []
 			options = {}
+			parameters = method.parameters.dup
+			types = self.types
 			
 			while argument = arguments.first
 				name, value = argument.split('=', 2)
@@ -89,10 +96,21 @@ module Bake
 					# Consume it:
 					arguments.shift
 					
+					if type = types[name]
+						value = types.parse(value)
+					end
+					
 					options[name.to_sym] = value
 				elsif ordered.size < self.arity
+					_, name = parameters.shift
+					value = arguments.shift
+					
+					if type = types[name]
+						value = types.parse(value)
+					end
+					
 					# Consume it:
-					ordered << arguments.shift
+					ordered << value
 				else
 					break
 				end
@@ -120,6 +138,10 @@ module Bake
 		
 		def description
 			@description ||= read_description
+		end
+		
+		def types
+			@types ||= read_types
 		end
 		
 		private
@@ -162,6 +184,18 @@ module Bake
 			end
 			
 			return description
+		end
+		
+		def read_types
+			types = {}
+			
+			description.each do |description|
+				if fields = PARAMETER.match(description)
+					types[fields[:name]] = Types.parse(fields[:type])
+				end
+			end
+			
+			return types
 		end
 	end
 end
