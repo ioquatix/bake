@@ -20,13 +20,13 @@
 
 module Bake
 	module Types
-		module Integer
+		module Symbol
 			def self.composite?
 				false
 			end
 			
-			def self.parse(value)
-				value.to_f
+			def self.parse(input)
+				input.to_sym
 			end
 		end
 	end

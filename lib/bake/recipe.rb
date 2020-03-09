@@ -106,7 +106,7 @@ module Bake
 					value = arguments.shift
 					
 					if type = types[name]
-						value = types.parse(value)
+						value = type.parse(value)
 					end
 					
 					# Consume it:
@@ -191,7 +191,7 @@ module Bake
 			
 			description.each do |description|
 				if fields = PARAMETER.match(description)
-					types[fields[:name]] = Types.parse(fields[:type])
+					types[fields[:name].to_sym] = Types.parse(fields[:type])
 				end
 			end
 			

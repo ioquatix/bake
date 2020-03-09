@@ -97,14 +97,18 @@ module Bake
 		attr :loaders
 		
 		def call(*commands)
+			last_result = nil
+			
 			while command = commands.shift
 				if recipe = @recipes[command]
 					arguments, options = recipe.prepare(commands)
-					recipe.call(*arguments, **options)
+					last_result = recipe.call(*arguments, **options)
 				else
 					raise ArgumentError, "Could not find recipe for #{command}!"
 				end
 			end
+			
+			return last_result
 		end
 		
 		def lookup(command)

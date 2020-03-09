@@ -18,10 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'types/any'
 require_relative 'types/array'
+require_relative 'types/decimal'
+require_relative 'types/float'
+require_relative 'types/hash'
 require_relative 'types/integer'
 require_relative 'types/string'
-require_relative 'types/float'
+require_relative 'types/symbol'
+require_relative 'types/tuple'
 
 module Bake
 	module Types

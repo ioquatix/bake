@@ -23,6 +23,10 @@ require 'bigdecimal'
 module Bake
 	module Types
 		module Decimal
+			def self.composite?
+				false
+			end
+			
 			def self.parse(value)
 				value.to_d
 			end

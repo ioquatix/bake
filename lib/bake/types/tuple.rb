@@ -25,6 +25,10 @@ module Bake
 				@item_types = item_types
 			end
 			
+			def composite?
+				true
+			end
+			
 			def parse(input)
 				input.split(',').map{|value| @item_type.parse(value)}
 			end

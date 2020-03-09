@@ -20,14 +20,34 @@
 
 module Bake
 	module Types
-		module Integer
-			def self.composite?
-				false
+		class Hash
+			def initialize(key_type, value_type)
+				@key_type = key_type
+				@value_type = value_type
 			end
 			
-			def self.parse(value)
-				value.to_f
+			def composite?
+				true
 			end
+			
+			def parse(input)
+				hash = {}
+				
+				input.split(',').each do |pair|
+					key, value = pair.split(':', 2)
+					
+					key = @key_type.parse(key)
+					value = @value_type.parse(value)
+						
+					hash[key] = value
+				end
+				
+				return hash
+			end
+		end
+		
+		def self.Hash(key_type, value_type)
+			Hash.new(key_type, value_type)
 		end
 	end
 end

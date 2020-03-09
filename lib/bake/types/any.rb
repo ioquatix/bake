@@ -20,14 +20,34 @@
 
 module Bake
 	module Types
-		module Any
+		class Any
+			def initialize(types)
+				@types = types
+			end
+			
+			def composite?
+				@types.any?{|type| type.composite?}
+			end
+			
+			def parse(input)
+				@types.each do |type|
+					return type.parse(input)
+				rescue
+					# Ignore
+				end
+			end
+			
 			def self.parse(value)
 				value
 			end
 			
 			def to_s
-				"Any"
+				"any of #{@types.join(', ')}"
 			end
+		end
+		
+		def self.Any(types)
+			Any.new(types)
 		end
 	end
 end

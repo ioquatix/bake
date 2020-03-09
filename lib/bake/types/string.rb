@@ -21,6 +21,10 @@
 module Bake
 	module Types
 		module String
+			def self.composite?
+				false
+			end
+			
 			def self.parse(value)
 				value.to_s
 			end
