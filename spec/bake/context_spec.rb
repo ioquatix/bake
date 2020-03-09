@@ -32,11 +32,11 @@ RSpec.describe Bake::Context do
 	end
 	
 	describe '#invoke' do
-		let(:invoke) {subject.lookup('invoke:task1').scope}
+		let(:instance) {subject.lookup('invoke:task1').instance}
 		
 		it "can invoke another task" do
-			expect(invoke).to receive(:task1).with("argument", option: "option").and_call_original
-			expect(invoke).to receive(:task2).and_call_original
+			expect(instance).to receive(:task1).with("argument", option: "option").and_call_original
+			expect(instance).to receive(:task2).and_call_original
 			
 			subject.call('invoke:task2')
 		end

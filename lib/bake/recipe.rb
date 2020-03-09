@@ -24,8 +24,8 @@ module Bake
 	PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
 	
 	class Recipe
-		def initialize(scope, name, method = nil)
-			@scope = scope
+		def initialize(instance, name, method = nil)
+			@instance = instance
 			@name = name
 			@command = nil
 			@description = nil
@@ -35,7 +35,7 @@ module Bake
 			@arity = nil
 		end
 		
-		attr :scope
+		attr :instance
 		attr :name
 		
 		def <=> other
@@ -43,7 +43,7 @@ module Bake
 		end
 		
 		def method
-			@method ||= @scope.method(@name)
+			@method ||= @instance.method(@name)
 		end
 		
 		def source_location
@@ -121,10 +121,10 @@ module Bake
 		
 		def call(*arguments, **options)
 			if options?
-				@scope.send(@name, *arguments, **options)
+				@instance.send(@name, *arguments, **options)
 			else
 				# Ignore options...
-				@scope.send(@name, *arguments)
+				@instance.send(@name, *arguments)
 			end
 		end
 		
@@ -147,7 +147,7 @@ module Bake
 		private
 		
 		def compute_command
-			path = @scope.path
+			path = @instance.path
 			
 			if path.empty?
 				@name.to_s
