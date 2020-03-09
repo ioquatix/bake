@@ -96,8 +96,8 @@ module Bake
 					# Consume it:
 					arguments.shift
 					
-					if type = types[name]
-						value = types.parse(value)
+					if type = types[name.to_sym]
+						value = type.parse(value)
 					end
 					
 					options[name.to_sym] = value
