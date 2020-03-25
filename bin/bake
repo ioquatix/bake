@@ -22,4 +22,9 @@
 
 require_relative '../lib/bake/command'
 
-Bake::Command.call
+begin
+	Bake::Command.call
+rescue => error
+	Console.logger.error(Bake::Command) {error}
+	exit 1
+end
