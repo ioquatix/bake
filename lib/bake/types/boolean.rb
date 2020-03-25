@@ -18,21 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'types/any'
-require_relative 'types/array'
-require_relative 'types/boolean'
-require_relative 'types/decimal'
-require_relative 'types/float'
-require_relative 'types/hash'
-require_relative 'types/integer'
-require_relative 'types/string'
-require_relative 'types/symbol'
-require_relative 'types/tuple'
-
 module Bake
 	module Types
-		def self.parse(signature)
-			eval(signature, binding)
+		module Boolean
+			def self.composite?
+				false
+			end
+			
+			def self.parse(input)
+				if input =~ /t(rue)?|y(es)?/i
+					return true
+				end
+			end
 		end
 	end
 end
