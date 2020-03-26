@@ -147,7 +147,7 @@ module Bake
 			end
 		end
 		
-		# @param scope [Array<String>] the path for the scope.
+		# @param path [Array<String>] the path for the scope.
 		def base_for(path)
 			base = nil
 			
