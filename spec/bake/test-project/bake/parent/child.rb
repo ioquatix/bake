@@ -1,0 +1,3 @@
+
+def child
+end

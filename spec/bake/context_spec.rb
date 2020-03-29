@@ -45,4 +45,27 @@ RSpec.describe Bake::Context do
 			subject.call('invoke:task3', 'argument')
 		end
 	end
+	
+	describe '#lookup' do
+		it "can lookup method on parent instance" do
+			parent = subject.lookup('parent')
+			
+			expect(parent).to_not be_nil
+			expect(parent.instance).to be_respond_to(:parent)
+		end
+		
+		it "can lookup method on child instance" do
+			child = subject.lookup('parent:child')
+			
+			expect(child).to_not be_nil
+			expect(child.instance).to be_respond_to(:child)
+		end
+		
+		it "can lookup method on sibling instance" do
+			parent = subject.lookup('parent:sibling')
+			
+			expect(parent).to_not be_nil
+			expect(parent.instance).to be_respond_to(:parent)
+		end
+	end
 end
