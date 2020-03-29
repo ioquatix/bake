@@ -20,9 +20,19 @@
 
 module Bake
 	module Types
+		module Type
+			def | other
+				Any.new([self, other])
+			end
+		end
+		
 		class Any
 			def initialize(types)
 				@types = types
+			end
+			
+			def | other
+				self.class.new([*@types, other])
 			end
 			
 			def composite?

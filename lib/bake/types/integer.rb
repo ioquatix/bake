@@ -18,15 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'any'
+
 module Bake
 	module Types
 		module Integer
+			extend Type
+			
 			def self.composite?
 				false
 			end
 			
 			def self.parse(value)
-				value.to_i
+				Integer(value)
 			end
 		end
 	end

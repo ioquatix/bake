@@ -18,9 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'any'
+
 module Bake
 	module Types
 		class Hash
+			extend Type
+			
 			def initialize(key_type, value_type)
 				@key_type = key_type
 				@value_type = value_type

@@ -22,15 +22,19 @@ require_relative 'any'
 
 module Bake
 	module Types
-		module String
+		module Nil
 			extend Type
 			
 			def self.composite?
 				false
 			end
 			
-			def self.parse(value)
-				value.to_s
+			def self.parse(input)
+				if input =~ /nil|null/i
+					return nil
+				else
+					raise ArgumentError, "Cannot coerce #{input} into nil!"
+				end
 			end
 		end
 	end

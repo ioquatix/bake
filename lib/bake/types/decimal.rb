@@ -18,17 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'any'
+
 require 'bigdecimal'
 
 module Bake
 	module Types
 		module Decimal
+			extend Type
+			
 			def self.composite?
 				false
 			end
 			
 			def self.parse(value)
-				value.to_d
+				BigDecimal(value)
 			end
 		end
 	end
