@@ -128,12 +128,12 @@ module Bake
 		def recipe_for(command)
 			path = command.split(":")
 			
-			if instance = @instances[path]
+			if instance = @instances[path] and instance.respond_to?(path.last)
 				return instance.recipe_for(path.last)
 			else
 				*path, name = *path
 				
-				if instance = @instances[path]
+				if instance = @instances[path] and instance.respond_to?(name)
 					return instance.recipe_for(name)
 				end
 			end
