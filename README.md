@@ -1,8 +1,8 @@
-# Bake ![Development](https://github.com/ioquatix/bake/workflows/Development/badge.svg)
+# Bake
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.
 
-![Example](example.png)
+[![Actions Status](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
 
 ## Motivation
 
@@ -24,6 +24,8 @@ Execute the following in your project:
 ## Usage
 
 Bake follows similar patterns to Rake.
+
+![Example](example.png)
 
 ## Bakefile
 
