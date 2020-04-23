@@ -20,6 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# This avoids the need to use `bundle exec bake`:
+require 'bundler/setup'
+
 require_relative '../lib/bake/command'
 
 begin
