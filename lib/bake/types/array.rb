@@ -23,7 +23,7 @@ require_relative 'any'
 module Bake
 	module Types
 		class Array
-			extend Type
+			include Type
 			
 			def initialize(item_type)
 				@item_type = item_type

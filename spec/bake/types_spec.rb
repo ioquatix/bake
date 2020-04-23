@@ -26,6 +26,10 @@ RSpec.describe Bake::Types do
 	context "Array(Any)" do
 		it {is_expected.to be_kind_of(Bake::Types::Array)}
 	end
+	
+	it "can use | operator" do
+		type = Bake::Types::Array(Bake::Types::Integer) | Bake::Types::String
+	end
 end
 
 require 'bake/context'

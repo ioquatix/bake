@@ -23,7 +23,7 @@ require_relative 'any'
 module Bake
 	module Types
 		class Tuple
-			extend Type
+			include Type
 			
 			def initialize(item_types)
 				@item_types = item_types

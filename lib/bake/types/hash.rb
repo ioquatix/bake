@@ -23,7 +23,7 @@ require_relative 'any'
 module Bake
 	module Types
 		class Hash
-			extend Type
+			include Type
 			
 			def initialize(key_type, value_type)
 				@key_type = key_type
