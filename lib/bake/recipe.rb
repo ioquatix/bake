@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'types'
+require_relative 'documentation'
 
 module Bake
 	PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
@@ -28,8 +29,9 @@ module Bake
 			@instance = instance
 			@name = name
 			@command = nil
-			@description = nil
+			@comments = nil
 			@types = nil
+			@documentation = nil
 			
 			@method = method
 			@arity = nil
@@ -136,8 +138,12 @@ module Bake
 			end
 		end
 		
-		def description
-			@description ||= read_description
+		def comments
+			@comments ||= read_comments
+		end
+		
+		def documentation
+			@documentation ||= Documentation.new(self.comments)
 		end
 		
 		def types
@@ -158,23 +164,19 @@ module Bake
 			end
 		end
 		
-		def read_description
+		def read_comments
 			file, line_number = self.method.source_location
 			
 			lines = File.readlines(file)
 			line_index = line_number - 1
-			
-			# Legacy "recipe" syntax:
-			if match = lines[line_index].match(/description: "(.*?)"/)
-				return [match[1]]
-			end
 			
 			description = []
 			line_index -= 1
 			
 			# Extract comment preceeding method:
 			while line = lines[line_index]
-				if match = line.match(/^\s*\#\s?(.*?)$/)
+				# \Z matches a trailing newline:
+				if match = line.match(/\A\s*\#\s?(.*?)\Z/)
 					description.unshift(match[1])
 				else
 					break
@@ -189,10 +191,8 @@ module Bake
 		def read_types
 			types = {}
 			
-			description.each do |description|
-				if fields = PARAMETER.match(description)
-					types[fields[:name].to_sym] = Types.parse(fields[:type])
-				end
+			self.documentation.parameters do |parameter|
+				types[parameter[:name].to_sym] = Types.parse(parameter[:type])
 			end
 			
 			return types

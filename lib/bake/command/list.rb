@@ -24,7 +24,7 @@ require 'set'
 module Bake
 	module Command
 		class List < Samovar::Command
-			PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
+			one :pattern, "The pattern to filter tasks by."
 			
 			def format_parameters(parameters, terminal)
 				parameters.each do |type, name|
@@ -52,25 +52,39 @@ module Bake
 				end
 			end
 			
-			def print_scope(terminal, scope)
+			def print_scope(terminal, scope, printed: false)
 				format_recipe = self.method(:format_recipe).curry
 				
 				scope.recipes.sort.each do |recipe|
+					if @pattern and !recipe.command.include?(pattern)
+						next
+					end
+					
+					unless printed
+						yield
+						
+						printed = true
+					end
+					
 					terminal.print_line
 					terminal.print_line("\t", format_recipe[recipe])
 					
-					recipe.description.each do |line|
-						if match = line.match(PARAMETER)
-							terminal.print_line("\t\t",
-								:parameter, match[:name], :reset, " [",
-								:type, match[:type], :reset, "] ",
-								:description, match[:details]
-							)
-						else
-							terminal.print_line("\t\t", :description, line)
-						end
+					documentation = recipe.documentation
+					
+					documentation.description do |line|
+						terminal.print_line("\t\t", :description, line)
+					end
+					
+					documentation.parameters do |parameter|
+						terminal.print_line("\t\t",
+							:parameter, parameter[:name], :reset, " [",
+							:type, parameter[:type], :reset, "] ",
+							:description, parameter[:details]
+						)
 					end
 				end
+				
+				return printed
 			end
 			
 			def call
@@ -79,23 +93,30 @@ module Bake
 				context = @parent.context
 				
 				if scope = context.scope
-					terminal.print_line(:context, context)
+					printed = print_scope(terminal, context.scope) do
+						terminal.print_line(:context, context)
+					end
 					
-					print_scope(terminal, context.scope)
-					
-					terminal.print_line
+					if printed
+						terminal.print_line
+					end
 				end
 				
 				context.loaders.each do |loader|
-					terminal.print_line(:loader, loader)
+					printed = false
 					
 					loader.each do |path|
 						if scope = loader.scope_for(path)
-							print_scope(terminal, scope)
+							print_scope(terminal, scope, printed: printed) do
+								terminal.print_line(:loader, loader)
+								printed = true
+							end
 						end
 					end
 					
-					terminal.print_line
+					if printed
+						terminal.print_line
+					end
 				end
 			end
 		end
