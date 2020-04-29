@@ -52,7 +52,7 @@ module Bake
 			return nil
 		end
 		
-		def self.load(path)
+		def self.load(path = Dir.pwd)
 			if bakefile_path = self.bakefile_path(path)
 				scope = Scope.load(bakefile_path)
 				
