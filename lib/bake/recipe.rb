@@ -22,8 +22,6 @@ require_relative 'types'
 require_relative 'documentation'
 
 module Bake
-	PARAMETER = /@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\Z/
-	
 	class Recipe
 		def initialize(instance, name, method = nil)
 			@instance = instance
@@ -164,6 +162,8 @@ module Bake
 			end
 		end
 		
+		COMMENT = /\A\s*\#\s?(.*?)\Z/
+		
 		def read_comments
 			file, line_number = self.method.source_location
 			
@@ -176,7 +176,7 @@ module Bake
 			# Extract comment preceeding method:
 			while line = lines[line_index]
 				# \Z matches a trailing newline:
-				if match = line.match(/\A\s*\#\s?(.*?)\Z/)
+				if match = line.match(COMMENT)
 					description.unshift(match[1])
 				else
 					break
