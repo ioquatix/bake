@@ -1,5 +1,5 @@
 
-recipe :task1 do |argument, option:|
+def task1(argument, option:)
 end
 
 def task2
