@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Source</title>
+		
+		<meta charset="UTF-8"/>
+		
+		<link rel="icon" type="image/png" href="../_static/icon.png"/>
+		<link rel="stylesheet" href="../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../_components/jquery/jquery.min.js"></script>
+		<script src="../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body class="">
+		
+	<nav> › <a class="link" href="../index.html">Project</a> › <a class="link" href="index.html">Source</a></nav>
+
+<h1>Source</h1>
+	
+	<main>
+		<ul class="index"><ul class="index"><li>
+						<a href="Bake/index.html"><code class="language-ruby">module Bake</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Types/index.html"><code class="language-ruby">module Types</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Types/Hash/index.html"><code class="language-ruby">class Hash</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Float/index.html"><code class="language-ruby">module Float</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Boolean/index.html"><code class="language-ruby">module Boolean</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/String/index.html"><code class="language-ruby">module String</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Symbol/index.html"><code class="language-ruby">module Symbol</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Integer/index.html"><code class="language-ruby">module Integer</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Array/index.html"><code class="language-ruby">class Array</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Input/index.html"><code class="language-ruby">module Input</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Nil/index.html"><code class="language-ruby">module Nil</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Output/index.html"><code class="language-ruby">module Output</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Tuple/index.html"><code class="language-ruby">class Tuple</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Decimal/index.html"><code class="language-ruby">module Decimal</code></a>
+						
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Any/index.html"><code class="language-ruby">class Any</code></a>
+						
+							<p>An ordered list of types. The first type to match the input is used.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Types/Any/index.html#%3A%3ABake%3A%3ATypes%3A%3AAny%3Ainitialize"><code class="language-ruby">def initialize(types)</code></a>
+						
+							<p>Initialize the instance with an array of types.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Any/index.html#%3A%3ABake%3A%3ATypes%3A%3AAny%3A%7C"><code class="language-ruby">def | other</code></a>
+						
+							<p>Create a copy of the current instance with the other type appended.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Any/index.html#%3A%3ABake%3A%3ATypes%3A%3AAny%3Acomposite%3F"><code class="language-ruby">def composite?</code></a>
+						
+							<p>Whether any of the listed types is a composite type.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Any/index.html#%3A%3ABake%3A%3ATypes%3A%3AAny%3Aparse"><code class="language-ruby">def parse(input)</code></a>
+						
+							<p>Parse an input string, trying the listed types in order, returning the first one which doesn’t raise an exception.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Any/index.html#%3A%3ABake%3A%3ATypes%3A%3AAny%3Ato_s"><code class="language-ruby">def to_s</code></a>
+						
+							<p>Generate a readable string representation of the listed types.</p>
+
+						
+					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Types/Type/index.html"><code class="language-ruby">module Type</code></a>
+						
+							<p>An extension module which allows constructing <code>Any</code> types using the <code>|</code> operator.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Types/Type/index.html#%3A%3ABake%3A%3ATypes%3A%3AType%3A%7C"><code class="language-ruby">def | other</code></a>
+						
+							<p>Create an instance of <code>Any</code> with the arguments as types.</p>
+
+						
+					</li></ul>					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Documentation/index.html"><code class="language-ruby">class Documentation</code></a>
+						
+							<p>Structured access to a set of comment lines.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Documentation/index.html#%3A%3ABake%3A%3ADocumentation%3Ainitialize"><code class="language-ruby">def initialize(comments)</code></a>
+						
+							<p>Initialize the documentation with an array of comments.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Documentation/index.html#%3A%3ABake%3A%3ADocumentation%3Adescription"><code class="language-ruby">def description</code></a>
+						
+							<p>The text-only lines of the comment block.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Documentation/index.html#%3A%3ABake%3A%3ADocumentation%3Aattributes"><code class="language-ruby">def attributes</code></a>
+						
+							<p>The attribute lines of the comment block.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Documentation/index.html#%3A%3ABake%3A%3ADocumentation%3Aparameters"><code class="language-ruby">def parameters</code></a>
+						
+							<p>The parameter lines of the comment block.</p>
+
+						
+					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html"><code class="language-ruby">class Recipe</code></a>
+						
+							<p>Structured access to an instance method in a bakefile.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Ainitialize"><code class="language-ruby">def initialize(instance, name, method = nil)</code></a>
+						
+							<p>Initialize the recipe.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Ainstance"><code class="language-ruby">attr :instance</code></a>
+						
+							<p>The <a href="Bake/Base/index.html"><code class="language-ruby">class Base</code></a> instance that this recipe is attached to.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Aname"><code class="language-ruby">attr :name</code></a>
+						
+							<p>The name of this recipe.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3A%3C%3D%3E"><code class="language-ruby">def &lt;=&gt; other</code></a>
+						
+							<p>Sort by location in source file.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Amethod"><code class="language-ruby">def method</code></a>
+						
+							<p>The method implementation.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Asource_location"><code class="language-ruby">def source_location</code></a>
+						
+							<p>The source location of this recipe.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Aparameters"><code class="language-ruby">def parameters</code></a>
+						
+							<p>The recipe’s formal parameters, if any.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Aoptions%3F"><code class="language-ruby">def options?</code></a>
+						
+							<p>Whether this recipe has optional arguments.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Acommand"><code class="language-ruby">def command</code></a>
+						
+							<p>The command name for this recipe.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Aarity"><code class="language-ruby">def arity</code></a>
+						
+							<p>The method’s arity, the required number of positional arguments.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Aprepare"><code class="language-ruby">def prepare(arguments)</code></a>
+						
+							<p>Process command line arguments into the ordered and optional arguments.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Acall"><code class="language-ruby">def call(*arguments, **options)</code></a>
+						
+							<p>Call the recipe with the specified arguments and options.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Acomments"><code class="language-ruby">def comments</code></a>
+						
+							<p>Any comments associated with the source code which defined the method.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Adocumentation"><code class="language-ruby">def documentation</code></a>
+						
+							<p>The documentation object which provides structured access to the <a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Acomments"><code class="language-ruby">def comments</code></a>.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Recipe/index.html#%3A%3ABake%3A%3ARecipe%3Atypes"><code class="language-ruby">def types</code></a>
+						
+							<p>The documented type signature of the recipe.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html"><code class="language-ruby">class Base &lt; Struct.new(:context)</code></a>
+						
+							<p>The base class for including <a href="Bake/Scope/index.html"><code class="language-ruby">module Scope</code></a> instances which define <a href="Bake/Recipe/index.html"><code class="language-ruby">class Recipe</code></a> instances.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase.derive"><code class="language-ruby">def self.derive(path = [])</code></a>
+						
+							<p>Generate a base class for the specified path.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase.to_s"><code class="language-ruby">def self.to_s</code></a>
+						
+							<p>Format the class as a command.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase.path"><code class="language-ruby">def self.path</code></a>
+						
+							<p>The path of this derived base class.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase%3Acall"><code class="language-ruby">def call(*arguments)</code></a>
+						
+							<p>Proxy a method call using command line arguments through to the <a href="Bake/Context/index.html"><code class="language-ruby">class Context</code></a> instance.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase%3Arecipes"><code class="language-ruby">def recipes</code></a>
+						
+							<p>Recipes defined in this scope.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Base/index.html#%3A%3ABake%3A%3ABase%3Arecipe_for"><code class="language-ruby">def recipe_for(name)</code></a>
+						
+							<p>Look up a recipe with a specific name.</p>
+
+						
+					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Loader/index.html"><code class="language-ruby">class Loader</code></a>
+						
+							<p>Represents a directory which contains bakefiles.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Loader/index.html#%3A%3ABake%3A%3ALoader%3Ainitialize"><code class="language-ruby">def initialize(root, name: nil)</code></a>
+						
+							<p>Initialize the loader with the specified root path.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Loader/index.html#%3A%3ABake%3A%3ALoader%3Aroot"><code class="language-ruby">attr :root</code></a>
+						
+							<p>The root path for this loader.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loader/index.html#%3A%3ABake%3A%3ALoader%3Aeach"><code class="language-ruby">def each</code></a>
+						
+							<p>Enumerate all bakefiles within the loaders root directory.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loader/index.html#%3A%3ABake%3A%3ALoader%3Ascope_for"><code class="language-ruby">def scope_for(path)</code></a>
+						
+							<p>Load the <a href="Bake/Scope/index.html"><code class="language-ruby">module Scope</code></a> for the specified relative path within this loader, if it exists.</p>
+
+						
+					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html"><code class="language-ruby">class Loaders</code></a>
+						
+							<p>Structured access to the working directory and loaded gems for loading bakefiles.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders.default"><code class="language-ruby">def self.default(working_directory)</code></a>
+						
+							<p>Create a loader using the specified working directory.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Ainitialize"><code class="language-ruby">def initialize</code></a>
+						
+							<p>Initialize an empty array of loaders.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aempty%3F"><code class="language-ruby">def empty?</code></a>
+						
+							<p>Whether any loaders are defined.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aappend_defaults"><code class="language-ruby">def append_defaults(working_directory)</code></a>
+						
+							<p>Add loaders according to the current working directory and loaded gems.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aeach"><code class="language-ruby">def each(&amp;block)</code></a>
+						
+							<p>Enumerate the loaders in order.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aappend_path"><code class="language-ruby">def append_path(current = Dir.pwd, **options)</code></a>
+						
+							<p>Append a specific project path to the search path for recipes.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aappend_from_root"><code class="language-ruby">def append_from_root(current = Dir.pwd, **options)</code></a>
+						
+							<p>Search from the current working directory until a suitable bakefile is found and add it.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Loaders/index.html#%3A%3ABake%3A%3ALoaders%3Aappend_from_gems"><code class="language-ruby">def append_from_gems</code></a>
+						
+							<p>Enumerate all loaded gems and add them.</p>
+
+						
+					</li></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Command/index.html"><code class="language-ruby">module Command</code></a>
+						
+							<p>The command line interface.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Command/List/index.html"><code class="language-ruby">class List &lt; Samovar::Command</code></a>
+						
+							<p>List all available commands.</p>
+
+						
+<ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Command/Call/index.html"><code class="language-ruby">class Call &lt; Samovar::Command</code></a>
+						
+							<p>Execute one or more commands.</p>
+
+						
+<ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Command/Top/index.html"><code class="language-ruby">class Top &lt; Samovar::Command</code></a>
+						
+							<p>The top level command line application.</p>
+
+						
+<ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul>					</li></ul><ul class="index"></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/index.html#%3A%3ABake%3A%3ABAKEFILE"><code class="language-ruby">BAKEFILE = &quot;bake.rb&quot;</code></a>
+						
+							<p>The default file name for the top level bakefile.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html"><code class="language-ruby">class Context</code></a>
+						
+							<p>Represents a context of task execution, containing all relevant state.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext.bakefile_path"><code class="language-ruby">def self.bakefile_path(path, bakefile: BAKEFILE)</code></a>
+						
+							<p>Search upwards from the specified path for a <a href="Bake/index.html#%3A%3ABake%3A%3ABAKEFILE"><code class="language-ruby">BAKEFILE</code></a>.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext.load"><code class="language-ruby">def self.load(path = Dir.pwd)</code></a>
+						
+							<p>Load a context from the specified path.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Ainitialize"><code class="language-ruby">def initialize(loaders, scope = nil, root = nil)</code></a>
+						
+							<p>Initialize the context with the specified loaders.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Aloaders"><code class="language-ruby">attr :loaders</code></a>
+						
+							<p>The loaders which will be used to resolve recipes in this context.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Ascope"><code class="language-ruby">attr :scope</code></a>
+						
+							<p>The scope for the root <a href="Bake/index.html#%3A%3ABake%3A%3ABAKEFILE"><code class="language-ruby">BAKEFILE</code></a>.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Aroot"><code class="language-ruby">attr :root</code></a>
+						
+							<p>The root path of this context.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Acall"><code class="language-ruby">def call(*commands)</code></a>
+						
+							<p>Invoke recipes on the context using command line arguments.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Alookup"><code class="language-ruby">def lookup(command)</code></a>
+						
+							<p>Lookup a recipe for the given command name.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Context/index.html#%3A%3ABake%3A%3AContext%3Abase_for"><code class="language-ruby">def base_for(path)</code></a>
+						
+							
+						
+					</li></ul>					</li></ul><ul class="index"><li>
+						<a href="Bake/Scope/index.html"><code class="language-ruby">module Scope</code></a>
+						
+							<p>Used for containing all methods defined in a bakefile.</p>
+
+						
+<ul class="index"><li>
+						<a href="Bake/Scope/index.html#%3A%3ABake%3A%3AScope.load"><code class="language-ruby">def self.load(file_path, path = [])</code></a>
+						
+							<p>Load the specified file into a unique scope module, which can then be included into a <a href="Bake/Base/index.html"><code class="language-ruby">class Base</code></a> instance.</p>
+
+						
+					</li></ul><ul class="index"></ul><ul class="index"><li>
+						<a href="Bake/Scope/index.html#%3A%3ABake%3A%3AScope%3Arecipes"><code class="language-ruby">def recipes</code></a>
+						
+							<p>Recipes defined in this scope.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Scope/index.html#%3A%3ABake%3A%3AScope%3Apath"><code class="language-ruby">def path</code></a>
+						
+							<p>The path of the file that was used to <a href="Bake/Scope/index.html#%3A%3ABake%3A%3AScope.load"><code class="language-ruby">def self.load</code></a> this scope.</p>
+
+						
+					</li></ul><ul class="index"><li>
+						<a href="Bake/Scope/index.html#%3A%3ABake%3A%3AScope%3Arecipe_for"><code class="language-ruby">def recipe_for(name)</code></a>
+						
+							<p>Look up a recipe with a specific name.</p>
+
+						
+					</li></ul>					</li></ul>					</li></ul></ul>	</main>
+
+		
+		<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+	</body>
+</html>
