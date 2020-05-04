@@ -21,11 +21,14 @@
 require_relative 'base'
 
 module Bake
+	# The default file name for the top level bakefile.
 	BAKEFILE = "bake.rb"
 	
+	# Represents a context of task execution, containing all relevant state.
 	class Context
+		# Search upwards from the specified path for a {BAKEFILE}.
 		# If path points to a file, assume it's a `bake.rb` file. Otherwise, recursively search up the directory tree starting from `path` to find the specified bakefile.
-		# @return [String, nil] the path to the bakefile if it could be found.
+		# @return [String | Nil] The path to the bakefile if it could be found.
 		def self.bakefile_path(path, bakefile: BAKEFILE)
 			if File.file?(path)
 				return path
@@ -52,6 +55,8 @@ module Bake
 			return nil
 		end
 		
+		# Load a context from the specified path.
+		# @path [String] A file-system path.
 		def self.load(path = Dir.pwd)
 			if bakefile_path = self.bakefile_path(path)
 				scope = Scope.load(bakefile_path)
@@ -68,6 +73,8 @@ module Bake
 			return self.new(loaders, scope, working_directory)
 		end
 		
+		# Initialize the context with the specified loaders.
+		# @param loaders [Loaders]
 		def initialize(loaders, scope = nil, root = nil)
 			@loaders = loaders
 			
@@ -92,10 +99,18 @@ module Bake
 			end
 		end
 		
-		attr :scope
-		attr :root
+		# The loaders which will be used to resolve recipes in this context.
 		attr :loaders
 		
+		# The scope for the root {BAKEFILE}.
+		attr :scope
+		
+		# The root path of this context.
+		# @return [String | Nil]
+		attr :root
+		
+		# Invoke recipes on the context using command line arguments.
+		# @param commands [Array(String)]
 		def call(*commands)
 			last_result = nil
 			
@@ -111,6 +126,8 @@ module Bake
 			return last_result
 		end
 		
+		# Lookup a recipe for the given command name.
+		# @param command [String] The command name, e.g. `bundler:release`.
 		def lookup(command)
 			@recipes[command]
 		end

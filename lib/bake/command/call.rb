@@ -26,6 +26,7 @@ require_relative '../context'
 
 module Bake
 	module Command
+		# Execute one or more commands.
 		class Call < Samovar::Command
 			self.description = "Execute one or more commands."
 			

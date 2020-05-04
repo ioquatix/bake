@@ -23,7 +23,10 @@ require 'set'
 
 module Bake
 	module Command
+		# List all available commands.
 		class List < Samovar::Command
+			self.description = "List all available commands."
+			
 			one :pattern, "The pattern to filter tasks by."
 			
 			def format_parameters(parameters, terminal)

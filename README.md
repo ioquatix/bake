@@ -2,7 +2,7 @@
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.
 
-[![Actions Status](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
+[![Development](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
 
 ## Motivation
 
@@ -23,81 +23,7 @@ Execute the following in your project:
 
 ## Usage
 
-Bake follows similar patterns to Rake.
-
-![Example](example.png)
-
-## Bakefile
-
-There is a root level `bake.rb` e.g.:
-
-```ruby
-def cake
-	ingredients = call 'supermarket:shop', 'flour,sugar,cocoa'
-	lookup('mixer:add').call(ingredients)
-end
-```
-
-This file is project specific and is the only file which can expose top level tasks (i.e. without a defined namespace). When used in a gem, these tasks are not exposed to other gems/projects.
-
-## Recipes
-
-Alongside the `bake.rb`, there is a `bake/` directory which contains files like `supermarket.rb`. These files contain recipes, e.g.:
-
-```ruby
-# @param ingredients [Array(Any)] the ingredients to purchase.
-def shop(ingredients)
-	supermarket = Supermarket.best
-	
-	return supermarket.purchase(ingredients)
-end
-```
-
-These methods are automatically scoped according to the file name, e.g. `bake/supermarket.rb` will define `supermarket:shop`.
-
-## Gems
-
-Adding a `bake/` directory to your gem will allow other gems and projects to consume those recipes. In order to prevent collisions, you *should* prefix your commands with the name of the gem, e.g. in `mygem/bake/mygem.rb`:
-
-```ruby
-def setup
-	# ...
-end
-```
-
-Then, in your project `myproject` which depends on `mygem`:
-
-```
-bake mygem:setup
-```
-
-## Arguments
-
-Arguments work as normal. Documented types are used to parse strings from the command line. Both positional and optional parameters are supported.
-
-### Positional Parameters
-
-```ruby
-# @param x [Integer]
-# @param y [Integer]
-def add(x, y)
-	puts x + y
-end
-```
-
-Which is invoked by `bake add 1 2`.
-
-### Optional Parameters
-
-```ruby
-# @param x [Integer]
-# @param y [Integer]
-def add(x:, y:)
-	puts x + y
-end
-```
-
-Which is invoked by `bake add x=1 y=2`.
+Please see the <a href="https://ioquatix.github.io/bake/">project documentation</a> or run it locally using `bake utopia:project:serve`.
 
 ## Contributing
 

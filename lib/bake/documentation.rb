@@ -21,14 +21,21 @@
 require_relative 'scope'
 
 module Bake
+	# Structured access to a set of comment lines.
 	class Documentation
-		
+		# Initialize the documentation with an array of comments.
+		#
+		# @param comments [Array(String)] An array of comment lines.
 		def initialize(comments)
 			@comments = comments
 		end
 		
 		DESCRIPTION = /\A\s*([^@\s].*)?\z/
 		
+		# The text-only lines of the comment block.
+		#
+		# @yield [String]
+		# @return [Enumerable]
 		def description
 			return to_enum(:description) unless block_given?
 			
@@ -55,6 +62,11 @@ module Bake
 		
 		ATTRIBUTE = /\A\s*@(?<name>.*?)\s+(?<value>.*?)\z/
 		
+		# The attribute lines of the comment block.
+		# e.g. `@return [String]`.
+		#
+		# @yield [String]
+		# @return [Enumerable]
 		def attributes
 			return to_enum(:attributes) unless block_given?
 			
@@ -67,6 +79,11 @@ module Bake
 		
 		PARAMETER = /\A\s*@param\s+(?<name>.*?)\s+\[(?<type>.*?)\]\s+(?<details>.*?)\z/
 		
+		# The parameter lines of the comment block.
+		# e.g. `@param value [String] The value.`
+		#
+		# @yield [String]
+		# @return [Enumerable]
 		def parameters
 			return to_enum(:parameters) unless block_given?
 			

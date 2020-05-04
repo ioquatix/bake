@@ -22,7 +22,13 @@ require_relative 'types'
 require_relative 'documentation'
 
 module Bake
+	# Structured access to an instance method in a bakefile.
 	class Recipe
+		# Initialize the recipe.
+		#
+		# @param instance [Base] The instance this recipe is attached to.
+		# @param name [String] The method name.
+		# @param method [Method | Nil] The method if already known.
 		def initialize(instance, name, method = nil)
 			@instance = instance
 			@name = name
@@ -35,21 +41,29 @@ module Bake
 			@arity = nil
 		end
 		
+		# The {Base} instance that this recipe is attached to.
 		attr :instance
+		
+		# The name of this recipe.
 		attr :name
 		
+		# Sort by location in source file.
 		def <=> other
 			self.source_location <=> other.source_location
 		end
 		
+		# The method implementation.
 		def method
 			@method ||= @instance.method(@name)
 		end
 		
+		# The source location of this recipe.
 		def source_location
 			self.method.source_location
 		end
 		
+		# The recipe's formal parameters, if any.
+		# @return [Array | Nil]
 		def parameters
 			parameters = method.parameters
 			
@@ -58,6 +72,8 @@ module Bake
 			end
 		end
 		
+		# Whether this recipe has optional arguments.
+		# @return [Boolean]
 		def options?
 			if parameters = self.parameters
 				type, name = parameters.last
@@ -66,6 +82,7 @@ module Bake
 			end
 		end
 		
+		# The command name for this recipe.
 		def command
 			@command ||= compute_command
 		end
@@ -74,6 +91,7 @@ module Bake
 			self.command
 		end
 		
+		# The method's arity, the required number of positional arguments.
 		def arity
 			if @arity.nil?
 				@arity = method.parameters.count{|type, name| type == :req}
@@ -82,6 +100,10 @@ module Bake
 			return @arity
 		end
 		
+		# Process command line arguments into the ordered and optional arguments.
+		# @param arguments [Array(String)] The command line arguments
+		# @return ordered [Array]
+		# @return options [Hash]
 		def prepare(arguments)
 			offset = 0
 			ordered = []
@@ -119,6 +141,7 @@ module Bake
 			return ordered, options
 		end
 		
+		# Call the recipe with the specified arguments and options.
 		def call(*arguments, **options)
 			if options?
 				@instance.send(@name, *arguments, **options)
@@ -128,22 +151,20 @@ module Bake
 			end
 		end
 		
-		def explain(context, *arguments, **options)
-			if options?
-				puts "#{self}(#{arguments.join(", ")}, #{options.inspect})"
-			else
-				puts "#{self}(#{arguments.join(", ")})"
-			end
-		end
-		
+		# Any comments associated with the source code which defined the method.
+		# @return [Array(String)] The comment lines.
 		def comments
 			@comments ||= read_comments
 		end
 		
+		# The documentation object which provides structured access to the {comments}.
+		# @return [Documentation]
 		def documentation
 			@documentation ||= Documentation.new(self.comments)
 		end
 		
+		# The documented type signature of the recipe.
+		# @return [Array] An array of {Types} instances.
 		def types
 			@types ||= read_types
 		end

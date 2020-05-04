@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 	spec.metadata["donation_uri"] = "https://github.com/sponsors/ioquatix"
 	
 	spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-		`git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+		`git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(docs|test|spec|features)/}) }
 	end
 	
 	spec.bindir = "bin"
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 	
 	spec.add_development_dependency 'bake-bundler'
 	
-	spec.add_development_dependency 'utopia-wiki'
+	spec.add_development_dependency 'utopia-project'
 	spec.add_development_dependency 'covered'
 	spec.add_development_dependency 'bundler'
 	spec.add_development_dependency 'rspec'

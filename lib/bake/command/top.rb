@@ -26,6 +26,7 @@ require_relative 'list'
 
 module Bake
 	module Command
+		# The top level command line application.
 		class Top < Samovar::Command
 			self.description = "Execute tasks using Ruby."
 			
@@ -56,12 +57,12 @@ module Bake
 				return terminal
 			end
 			
-			def bakefile
+			def bakefile_path
 				@options[:bakefile] || Dir.pwd
 			end
 			
 			def context
-				Context.load(self.bakefile)
+				Context.load(self.bakefile_path)
 			end
 			
 			def call

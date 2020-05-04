@@ -21,7 +21,9 @@
 require_relative 'recipe'
 
 module Bake
+	# Used for containing all methods defined in a bakefile.
 	module Scope
+		# Load the specified file into a unique scope module, which can then be included into a {Base} instance.
 		def self.load(file_path, path = [])
 			scope = Module.new
 			scope.extend(self)
@@ -38,10 +40,11 @@ module Bake
 			"Bake::Scope<#{self.const_get(:FILE_PATH)}>"
 		end
 		
-		def recipe(name, **options, &block)
-			define_method(name, &block)
-		end
-		
+		# Recipes defined in this scope.
+		#
+		# @block `{|recipe| ...}`
+		# @yield recipe [Recipe]
+		# @return [Enumerable]
 		def recipes
 			return to_enum(:recipes) unless block_given?
 			
@@ -52,10 +55,14 @@ module Bake
 			end
 		end
 		
+		# The path of the file that was used to {load} this scope.
 		def path
 			self.const_get(:PATH)
 		end
 		
+		# Look up a recipe with a specific name.
+		#
+		# @param name [String] The instance method to look up.
 		def recipe_for(name)
 			Recipe.new(self, name, self.instance_method(name))
 		end
