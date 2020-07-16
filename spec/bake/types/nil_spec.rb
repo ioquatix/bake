@@ -18,24 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'any'
+require 'bake/types/boolean'
 
-module Bake
-	module Types
-		module Nil
-			extend Type
-			
-			def self.composite?
-				false
-			end
-			
-			def self.parse(input)
-				if input =~ /nil|null/i
-					return nil
-				else
-					raise ArgumentError, "Cannot coerce #{input.inspect} into nil!"
-				end
-			end
-		end
+RSpec.describe Bake::Types::Nil do
+	subject {described_class.parse(description)}
+	
+	context "nil" do
+		it {is_expected.to be_kind_of(NilClass)}
+		it {is_expected.to be == nil}
+	end
+	
+	context "null" do
+		it {is_expected.to be_kind_of(NilClass)}
+		it {is_expected.to be == nil}
 	end
 end

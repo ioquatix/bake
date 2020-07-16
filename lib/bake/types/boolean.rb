@@ -32,6 +32,10 @@ module Bake
 			def self.parse(input)
 				if input =~ /t(rue)?|y(es)?/i
 					return true
+				elsif input =~ /f(alse)?|n(o)?/i
+					return false
+				else
+					raise ArgumentError, "Cannot coerce #{input.inspect} into boolean!"
 				end
 			end
 		end
