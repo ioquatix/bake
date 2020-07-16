@@ -28,25 +28,25 @@ module Bake
 		#
 		class Any
 			# Initialize the instance with an array of types.
-			# @param types [Array] the array of types.
+			# @parameter types [Array] the array of types.
 			def initialize(types)
 				@types = types
 			end
 			
 			# Create a copy of the current instance with the other type appended.
-			# @param other [Type] the type instance to append.
+			# @parameter other [Type] the type instance to append.
 			def | other
 				self.class.new([*@types, other])
 			end
 			
 			# Whether any of the listed types is a composite type.
-			# @return [Boolean] true if any of the listed types is `composite?`.
+			# @returns [Boolean] true if any of the listed types is `composite?`.
 			def composite?
 				@types.any?{|type| type.composite?}
 			end
 			
 			# Parse an input string, trying the listed types in order, returning the first one which doesn't raise an exception.
-			# @param input [String] the input to parse, e.g. `"5"`.
+			# @parameter input [String] the input to parse, e.g. `"5"`.
 			def parse(input)
 				@types.each do |type|
 					return type.parse(input)
@@ -69,7 +69,7 @@ module Bake
 		# An extension module which allows constructing `Any` types using the `|` operator.
 		module Type
 			# Create an instance of `Any` with the arguments as types.
-			# @param other [Type] the alternative type to match.
+			# @parameter other [Type] the alternative type to match.
 			def | other
 				Any.new([self, other])
 			end

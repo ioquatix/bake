@@ -25,7 +25,7 @@ module Bake
 	class Documentation
 		# Initialize the documentation with an array of comments.
 		#
-		# @param comments [Array(String)] An array of comment lines.
+		# @parameter comments [Array(String)] An array of comment lines.
 		def initialize(comments)
 			@comments = comments
 		end
@@ -34,8 +34,9 @@ module Bake
 		
 		# The text-only lines of the comment block.
 		#
-		# @yield [String]
-		# @return [Enumerable]
+		# @yields {|match| ...}
+		# 	@parameter match [MatchData] The regular expression match for each line of documentation.
+		# @returns [Enumerable] If no block given.
 		def description
 			return to_enum(:description) unless block_given?
 			
@@ -63,10 +64,11 @@ module Bake
 		ATTRIBUTE = /\A\s*@(?<name>.*?)\s+(?<value>.*?)\z/
 		
 		# The attribute lines of the comment block.
-		# e.g. `@return [String]`.
+		# e.g. `@returns [String]`.
 		#
-		# @yield [String]
-		# @return [Enumerable]
+		# @yields {|match| ...}
+		# 	@parameter match [MatchData] The regular expression match with `name` and `value` keys.
+		# @returns [Enumerable] If no block given.
 		def attributes
 			return to_enum(:attributes) unless block_given?
 			
@@ -80,10 +82,11 @@ module Bake
 		PARAMETER = /\A\s*@param(eter)?\s+(?<name>.*?)\s+\[(?<type>.*?)\](\s+(?<details>.*?))?\z/
 		
 		# The parameter lines of the comment block.
-		# e.g. `@param value [String] The value.`
+		# e.g. `@parameter value [String] The value.`
 		#
-		# @yield [String]
-		# @return [Enumerable]
+		# @yields {|match| ...}
+		# 	@parameter match [MatchData] The regular expression match with `name`, `type` and `details` keys.
+		# @returns [Enumerable] If no block given.
 		def parameters
 			return to_enum(:parameters) unless block_given?
 			

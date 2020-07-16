@@ -26,9 +26,9 @@ module Bake
 	class Recipe
 		# Initialize the recipe.
 		#
-		# @param instance [Base] The instance this recipe is attached to.
-		# @param name [String] The method name.
-		# @param method [Method | Nil] The method if already known.
+		# @parameter instance [Base] The instance this recipe is attached to.
+		# @parameter name [String] The method name.
+		# @parameter method [Method | Nil] The method if already known.
 		def initialize(instance, name, method = nil)
 			@instance = instance
 			@name = name
@@ -63,7 +63,7 @@ module Bake
 		end
 		
 		# The recipe's formal parameters, if any.
-		# @return [Array | Nil]
+		# @returns [Array | Nil]
 		def parameters
 			parameters = method.parameters
 			
@@ -73,7 +73,7 @@ module Bake
 		end
 		
 		# Whether this recipe has optional arguments.
-		# @return [Boolean]
+		# @returns [Boolean]
 		def options?
 			if parameters = self.parameters
 				type, name = parameters.last
@@ -101,9 +101,9 @@ module Bake
 		end
 		
 		# Process command line arguments into the ordered and optional arguments.
-		# @param arguments [Array(String)] The command line arguments
-		# @return ordered [Array]
-		# @return options [Hash]
+		# @parameter arguments [Array(String)] The command line arguments
+		# @returns ordered [Array]
+		# @returns options [Hash]
 		def prepare(arguments)
 			offset = 0
 			ordered = []
@@ -152,19 +152,19 @@ module Bake
 		end
 		
 		# Any comments associated with the source code which defined the method.
-		# @return [Array(String)] The comment lines.
+		# @returns [Array(String)] The comment lines.
 		def comments
 			@comments ||= read_comments
 		end
 		
 		# The documentation object which provides structured access to the {comments}.
-		# @return [Documentation]
+		# @returns [Documentation]
 		def documentation
 			@documentation ||= Documentation.new(self.comments)
 		end
 		
 		# The documented type signature of the recipe.
-		# @return [Array] An array of {Types} instances.
+		# @returns [Array] An array of {Types} instances.
 		def types
 			@types ||= read_types
 		end

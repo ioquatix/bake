@@ -28,7 +28,7 @@ module Bake
 	class Context
 		# Search upwards from the specified path for a {BAKEFILE}.
 		# If path points to a file, assume it's a `bake.rb` file. Otherwise, recursively search up the directory tree starting from `path` to find the specified bakefile.
-		# @return [String | Nil] The path to the bakefile if it could be found.
+		# @returns [String | Nil] The path to the bakefile if it could be found.
 		def self.bakefile_path(path, bakefile: BAKEFILE)
 			if File.file?(path)
 				return path
@@ -74,7 +74,7 @@ module Bake
 		end
 		
 		# Initialize the context with the specified loaders.
-		# @param loaders [Loaders]
+		# @parameter loaders [Loaders]
 		def initialize(loaders, scope = nil, root = nil)
 			@loaders = loaders
 			
@@ -106,11 +106,11 @@ module Bake
 		attr :scope
 		
 		# The root path of this context.
-		# @return [String | Nil]
+		# @returns [String | Nil]
 		attr :root
 		
 		# Invoke recipes on the context using command line arguments.
-		# @param commands [Array(String)]
+		# @parameter commands [Array(String)]
 		def call(*commands)
 			last_result = nil
 			
@@ -127,7 +127,7 @@ module Bake
 		end
 		
 		# Lookup a recipe for the given command name.
-		# @param command [String] The command name, e.g. `bundler:release`.
+		# @parameter command [String] The command name, e.g. `bundler:release`.
 		def lookup(command)
 			@recipes[command]
 		end
@@ -164,7 +164,7 @@ module Bake
 			end
 		end
 		
-		# @param path [Array<String>] the path for the scope.
+		# @parameter path [Array<String>] the path for the scope.
 		def base_for(path)
 			base = nil
 			

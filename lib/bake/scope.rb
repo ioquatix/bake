@@ -42,9 +42,9 @@ module Bake
 		
 		# Recipes defined in this scope.
 		#
-		# @block `{|recipe| ...}`
-		# @yield recipe [Recipe]
-		# @return [Enumerable]
+		# @yields {|recipe| ...}
+		# 	@parameter recipe [Recipe]
+		# @returns [Enumerable]
 		def recipes
 			return to_enum(:recipes) unless block_given?
 			
@@ -62,7 +62,7 @@ module Bake
 		
 		# Look up a recipe with a specific name.
 		#
-		# @param name [String] The instance method to look up.
+		# @parameter name [String] The instance method to look up.
 		def recipe_for(name)
 			Recipe.new(self, name, self.instance_method(name))
 		end

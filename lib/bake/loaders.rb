@@ -28,7 +28,7 @@ module Bake
 		include Enumerable
 		
 		# Create a loader using the specified working directory.
-		# @param working_directory [String]
+		# @parameter working_directory [String]
 		def self.default(working_directory)
 			loaders = self.new
 			
@@ -44,13 +44,13 @@ module Bake
 		end
 		
 		# Whether any loaders are defined.
-		# @return [Boolean]
+		# @returns [Boolean]
 		def empty?
 			@ordered.empty?
 		end
 		
 		# Add loaders according to the current working directory and loaded gems.
-		# @param working_directory [String]
+		# @parameter working_directory [String]
 		def append_defaults(working_directory)
 			# Load recipes from working directory:
 			self.append_path(working_directory)
@@ -66,7 +66,7 @@ module Bake
 		
 		# Append a specific project path to the search path for recipes.
 		# The computed path will have `bake` appended to it.
-		# @param current [String] The path to add.
+		# @parameter current [String] The path to add.
 		def append_path(current = Dir.pwd, **options)
 			bake_path = File.join(current, "bake")
 			
@@ -78,7 +78,7 @@ module Bake
 		end
 		
 		# Search from the current working directory until a suitable bakefile is found and add it.
-		# @param current [String] The path to start searching from.
+		# @parameter current [String] The path to start searching from.
 		def append_from_root(current = Dir.pwd, **options)
 			while current
 				append_path(current, **options)

@@ -24,7 +24,7 @@ module Bake
 	# Represents a directory which contains bakefiles.
 	class Loader
 		# Initialize the loader with the specified root path.
-		# @param root [String] A file-system path.
+		# @parameter root [String] A file-system path.
 		def initialize(root, name: nil)
 			@root = root
 			@name = name
@@ -38,8 +38,8 @@ module Bake
 		attr :root
 		
 		# Enumerate all bakefiles within the loaders root directory.
-		# @block `{|path| ...}`
-		# @yield path [String] The Ruby source file path.
+		# @yields {|path| ...}
+		# 	@parameter path [String] The Ruby source file path.
 		def each
 			return to_enum unless block_given?
 			
@@ -49,7 +49,7 @@ module Bake
 		end
 		
 		# Load the {Scope} for the specified relative path within this loader, if it exists.
-		# @param path [Array(String)] A relative path.
+		# @parameter path [Array(String)] A relative path.
 		def scope_for(path)
 			*directory, file = *path
 			
