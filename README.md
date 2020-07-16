@@ -4,7 +4,7 @@ Bake is a task execution tool, inspired by Rake, but codifying many of the use c
 
 [![Development](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
 
-## Motivation
+## Features
 
 Rake is an awesome tool and loved by the community. So, why reinvent it? Bake provides the following features that Rake does not:
 
@@ -15,23 +15,20 @@ Rake is an awesome tool and loved by the community. So, why reinvent it? Bake pr
 
 That being said, Rake and Bake can exist side by side in the same project.
 
-## Installation
-
-Execute the following in your project:
-
-	bundle add bake
-
 ## Usage
 
-Please see the <a href="https://ioquatix.github.io/bake/">project documentation</a> or run it locally using `bake utopia:project:serve`.
+Please see the [project documentation](https://ioquatix.github.io/bake/).
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+We welcome contributions to this project.
+
+1.  Fork it.
+2.  Create your feature branch (`git checkout -b my-new-feature`).
+3.  Commit your changes (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin my-new-feature`).
+5.  Create new Pull Request.
+
 
 ## See Also
 
