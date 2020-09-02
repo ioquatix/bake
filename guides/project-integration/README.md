@@ -20,7 +20,7 @@ This file is project specific and is the only file which can expose top level ta
 Alongside the `bake.rb`, there is a `bake/` directory which contains files like `supermarket.rb`. These files contain recipes, e.g.:
 
 ~~~ ruby
-# @param ingredients [Array(Any)] the ingredients to purchase.
+# @parameter ingredients [Array(Any)] the ingredients to purchase.
 def shop(ingredients)
 	supermarket = Supermarket.best
 	
@@ -40,8 +40,8 @@ Arguments work as normal. Documented types are used to parse strings from the co
 Positional parameters are non-keyword parameters which may have a default value. However, because of the limits of the command line, all positional arguments must be specified.
 
 ~~~ ruby
-# @param x [Integer]
-# @param y [Integer]
+# @parameter x [Integer]
+# @parameter y [Integer]
 def add(x, y)
 	puts x + y
 end
@@ -54,8 +54,8 @@ Which is invoked by `bake add 1 2`.
 Optional parameters are keyword parameters which may have a default value. The parameter is set on the command line using the name of the parameter followed by an equals sign, followed by the value.
 
 ~~~ ruby
-# @param x [Integer]
-# @param y [Integer]
+# @parameter x [Integer]
+# @parameter y [Integer]
 def add(x:, y: 2)
 	puts x + y
 end
