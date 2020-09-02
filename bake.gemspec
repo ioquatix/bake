@@ -1,29 +1,29 @@
-require_relative 'lib/bake/version'
+
+require_relative "lib/bake/version"
 
 Gem::Specification.new do |spec|
 	spec.name = "bake"
 	spec.version = Bake::VERSION
-	spec.authors = ["Samuel Williams"]
-	spec.email = ["samuel.williams@oriontransfer.co.nz"]
 	
 	spec.summary = "A replacement for rake with a simpler syntax."
-	spec.homepage = "https://github.com/ioquatix/bake"
+	spec.authors = ["Samuel Williams"]
 	spec.license = "MIT"
-	spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 	
-	spec.metadata["donation_uri"] = "https://github.com/sponsors/ioquatix"
+	spec.homepage = "https://github.com/ioquatix/bake"
 	
-	spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-		`git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(docs|test|spec|features)/}) }
-	end
+	spec.metadata = {
+		"funding_uri" => "https://github.com/sponsors/ioquatix/",
+	}
 	
-	spec.bindir = "bin"
-	spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-	spec.require_paths = ["lib"]
+	spec.files = Dir.glob('{bin,lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
 	
-	spec.add_dependency 'samovar', '~> 2.1'
+	spec.executables = ["bake"]
 	
-	spec.add_development_dependency 'covered'
-	spec.add_development_dependency 'bundler'
-	spec.add_development_dependency 'rspec'
+	spec.required_ruby_version = ">= 2.5.0"
+	
+	spec.add_dependency "samovar", "~> 2.1"
+	
+	spec.add_development_dependency "bundler"
+	spec.add_development_dependency "covered"
+	spec.add_development_dependency "rspec"
 end

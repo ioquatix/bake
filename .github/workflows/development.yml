@@ -1,9 +1,12 @@
 name: Development
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
+    runs-on: ${{matrix.os}}-latest
+    continue-on-error: ${{matrix.experimental}}
+    
     strategy:
       matrix:
         os:
@@ -15,21 +18,27 @@ jobs:
           - 2.6
           - 2.7
         
+        experimental: [false]
+        env: [""]
+        
         include:
-          - os: 'ubuntu'
-            ruby: '2.6'
-            env: COVERAGE=PartialSummary,Coveralls
-    
-    runs-on: ${{matrix.os}}-latest
+          - os: ubuntu
+            ruby: truffleruby
+            experimental: true
+          - os: ubuntu
+            ruby: jruby
+            experimental: true
+          - os: ubuntu
+            ruby: head
+            experimental: true
     
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{matrix.ruby}}
-    - name: Install dependencies
-      run: |
-        command -v bundler || gem install bundler
-        bundle install
+        bundler-cache: true
+    
     - name: Run tests
+      timeout-minutes: 5
       run: ${{matrix.env}} bundle exec rspec

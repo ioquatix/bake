@@ -2,16 +2,16 @@
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.
 
-[![Development](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
+[![Development Status](https://github.com/ioquatix/bake/workflows/Development/badge.svg)](https://github.com/ioquatix/bake/actions?workflow=Development)
 
 ## Features
 
 Rake is an awesome tool and loved by the community. So, why reinvent it? Bake provides the following features that Rake does not:
 
-- On demand loading of files following a standard convention. This avoid loading all your rake tasks just to execute a single command.
-- Better argument handling including support for positional and optional arguments.
-- Focused on task execution not dependency resolution. Implementation is simpler and a bit more predictable.
-- Canonical structure for integration with gems.
+  - On demand loading of files following a standard convention. This avoid loading all your rake tasks just to execute a single command.
+  - Better argument handling including support for positional and optional arguments.
+  - Focused on task execution not dependency resolution. Implementation is simpler and a bit more predictable.
+  - Canonical structure for integration with gems.
 
 That being said, Rake and Bake can exist side by side in the same project.
 
@@ -29,12 +29,13 @@ We welcome contributions to this project.
 4.  Push to the branch (`git push origin my-new-feature`).
 5.  Create new Pull Request.
 
-
 ## See Also
 
-- [Console](https://github.com/socketry/console) — A logging framework which integrates with bake.
-- [Variant](https://github.com/socketry/variant) — A framework for selecting different environments, including bake tasks.
-- [Utopia](https://github.com/socketry/utopia) — A website framework which uses bake for maintenance tasks.
+  - [Bake::Bundler](https://github.com/ioquatix/bake-bundler) — Release and install gems using `bake`.
+  - [Bake::Modernize](https://github.com/ioquatix/bake-modernize) — Modernize gems consistently using `bake`.
+  - [Console](https://github.com/socketry/console) — A logging framework which integrates with `bake`.
+  - [Variant](https://github.com/socketry/variant) — A framework for selecting different environments, including `bake` tasks.
+  - [Utopia](https://github.com/socketry/utopia) — A website framework which uses `bake` for maintenance tasks.
 
 ## License
 
