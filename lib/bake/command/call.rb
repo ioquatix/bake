@@ -34,7 +34,7 @@ module Bake
 				@parent.bakefile
 			end
 			
-			many :commands, "The commands & arguments to invoke.", default: ["default"]
+			many :commands, "The commands & arguments to invoke.", default: ["default"], stop: false
 			
 			def call
 				context = @parent.context

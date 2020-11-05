@@ -37,6 +37,32 @@ You can execute this task from the command line:
 30
 ```
 
+## Optional Arguments
+
+You can provide optional arguments:
+
+``` ruby
+# bake.rb
+
+def add(x: 10, y: 20)
+	puts Integer(x) + Integer(y)
+end
+```
+
+You can execute this task from the command line:
+
+``` shell
+% bake add --x 10 --y 20
+30
+```
+
+Or alternatively:
+
+``` shell
+% bake add x=10 y=20
+30
+```
+
 ### Using Types
 
 You can annotate your task with a type signature and `bake` will coerce your arguments to these types:

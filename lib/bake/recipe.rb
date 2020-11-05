@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'types'
+require_relative 'arguments'
 require_relative 'documentation'
 
 module Bake
@@ -105,40 +106,7 @@ module Bake
 		# @returns ordered [Array]
 		# @returns options [Hash]
 		def prepare(arguments)
-			offset = 0
-			ordered = []
-			options = {}
-			parameters = method.parameters.dup
-			types = self.types
-			
-			while argument = arguments.first
-				name, value = argument.split('=', 2)
-				
-				if name and value
-					# Consume it:
-					arguments.shift
-					
-					if type = types[name.to_sym]
-						value = type.parse(value)
-					end
-					
-					options[name.to_sym] = value
-				elsif ordered.size < self.arity
-					_, name = parameters.shift
-					value = arguments.shift
-					
-					if type = types[name]
-						value = type.parse(value)
-					end
-					
-					# Consume it:
-					ordered << value
-				else
-					break
-				end
-			end
-			
-			return ordered, options
+			Arguments.extract(self, arguments)
 		end
 		
 		# Call the recipe with the specified arguments and options.
@@ -170,6 +138,19 @@ module Bake
 		end
 		
 		private
+		
+		def parse(name, value, arguments, types)
+			if count = arguments.index(';')
+				value = arguments.shift(count)
+				arguments.shift
+			end
+			
+			if type = types[name]
+				value = type.parse(value)
+			end
+			
+			return value
+		end
 		
 		def compute_command
 			path = @instance.path

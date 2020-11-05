@@ -28,4 +28,28 @@ RSpec.describe Bake::Command::Call do
 	it "can invoke task" do
 		expect{subject.call}.to output(/test method called/).to_stdout
 	end
+	
+	context 'with arguments' do
+		subject {described_class["test_arguments", "A", "B", parent: parent]}
+		
+		it "can invoke task" do
+			expect{subject.call}.to output(/AB/).to_stdout
+		end
+	end
+	
+	context 'with = options' do
+		subject {described_class["test_options", "x=A", "y=B", parent: parent]}
+		
+		it "can invoke task" do
+			expect{subject.call}.to output(/AB/).to_stdout
+		end
+	end
+	
+	context 'with -- options' do
+		subject {described_class["test_options", "--x", "A", "--y", "B", parent: parent]}
+		
+		it "can invoke task" do
+			expect{subject.call}.to output(/AB/).to_stdout
+		end
+	end
 end

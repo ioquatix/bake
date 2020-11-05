@@ -34,7 +34,14 @@ module Bake
 			end
 			
 			def parse(input)
-				input.split(',').map{|value| @item_type.parse(value)}
+				case input
+				when ::String
+					return input.split(',').map{|value| @item_type.parse(value)}
+				when ::Array
+					return input.map{|value| @item_type.parse(value)}
+				else
+					raise ArgumentError, "Cannot coerce #{input.inspect} into tuple!"
+				end
 			end
 			
 			def to_s
