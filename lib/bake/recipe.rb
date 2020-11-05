@@ -118,21 +118,13 @@ module Bake
 					# Consume it:
 					arguments.shift
 					
-					if type = types[name.to_sym]
-						value = type.parse(value)
-					end
-					
-					options[name.to_sym] = value
+					options[name.to_sym] = self.parse(name, value, arguments, types)
 				elsif ordered.size < self.arity
 					_, name = parameters.shift
 					value = arguments.shift
 					
-					if type = types[name]
-						value = type.parse(value)
-					end
-					
 					# Consume it:
-					ordered << value
+					ordered << self.parse(name, value, arguments, types)
 				else
 					break
 				end
@@ -170,6 +162,20 @@ module Bake
 		end
 		
 		private
+		
+		def parse(name, value, arguments, types)
+			if value == '['
+				count = arguments.index(']')
+				value = arguments.shift(count)
+				arguments.shift
+			end
+			
+			if type = types[name]
+				value = type.parse(value)
+			end
+			
+			return value
+		end
 		
 		def compute_command
 			path = @instance.path
