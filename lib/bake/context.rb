@@ -140,6 +140,10 @@ module Bake
 			end
 		end
 		
+		def inspect
+			"\#<#{self.class} #{@root}>"
+		end
+		
 		private
 		
 		def recipe_for(command)
