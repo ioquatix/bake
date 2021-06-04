@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # @parameter x [Integer] the number to square.
 def square(x)

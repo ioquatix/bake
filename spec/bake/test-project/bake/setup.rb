@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 recipe :setup do |x, y|
 end
