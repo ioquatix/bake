@@ -20,4 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require "bake/version"
+require_relative 'bake/version'
+require_relative 'bake/loaders'
+require_relative 'bake/loader'
+require_relative 'bake/context'
