@@ -35,6 +35,10 @@ module Bake
 			options do
 				option '-h/--help', 'Show help.'
 				option '-b/--bakefile <path>', 'Override the path to the bakefile to use.'
+				
+				option '-g/--gem <name>', 'Load the specified gem, e.g. "bake ~> 1.0".' do |value|
+					gem(*value.split(/\s+/))
+				end
 			end
 			
 			nested :command, {
