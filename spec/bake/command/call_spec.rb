@@ -54,4 +54,16 @@ RSpec.describe Bake::Command::Call do
 			expect{subject.call}.to output(/AB/).to_stdout
 		end
 	end
+	
+	context 'with test_argument_normalized' do
+		subject {described_class[parent: parent]}
+		
+		it "can accept --foo_bar" do
+			expect{subject["test_argument_normalized", "--foo_bar", "A"].call}.to output(/A/).to_stdout
+		end
+		
+		it "can accept --foo-bar" do
+			expect{subject["test_argument_normalized", "--foo-bar", "A"].call}.to output(/A/).to_stdout
+		end
+	end
 end

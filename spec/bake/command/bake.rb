@@ -27,3 +27,7 @@ end
 def test_options(x:, y:)
 	puts x+y
 end
+
+def test_argument_normalized(foo_bar:)
+	puts foo_bar
+end

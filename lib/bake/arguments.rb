@@ -54,7 +54,7 @@ module Bake
 						break
 					end
 					
-					name = name.to_sym
+					name = normalize(name)
 					
 					# Extract the trailing arguments:
 					@options[name] = extract_arguments(name, arguments)
@@ -81,6 +81,10 @@ module Bake
 		end
 		
 		private
+		
+		def normalize(name)
+			name.tr('-', '_').to_sym
+		end
 		
 		def delimiter_index(arguments)
 			arguments.index{|argument| argument =~ /\A(--|;\z)/}
