@@ -95,5 +95,9 @@ module Bake
 		def recipe_for(name)
 			Recipe.new(self, name)
 		end
+		
+		def to_s
+			"\#<#{self.class}>"
+		end
 	end
 end
