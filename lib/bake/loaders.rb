@@ -97,7 +97,7 @@ module Bake
 		
 		# Enumerate all loaded gems and add them.
 		def append_from_gems
-			Gem.loaded_specs.each do |name, spec|
+			::Gem.loaded_specs.each do |name, spec|
 				Console.logger.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
 				
 				if path = spec.full_gem_path and File.directory?(path)
