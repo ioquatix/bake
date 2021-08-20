@@ -1,4 +1,4 @@
-# Bake
+# ![Bake](logo.svg)
 
 Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.
 
