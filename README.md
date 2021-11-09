@@ -31,7 +31,7 @@ We welcome contributions to this project.
 
 ## See Also
 
-  - [Bake::Bundler](https://github.com/ioquatix/bake-bundler) — Release and install gems using `bake`.
+  - [Bake::Gem](https://github.com/ioquatix/bake-gem) — Release and install gems using `bake`.
   - [Bake::Modernize](https://github.com/ioquatix/bake-modernize) — Modernize gems consistently using `bake`.
   - [Console](https://github.com/socketry/console) — A logging framework which integrates with `bake`.
   - [Variant](https://github.com/socketry/variant) — A framework for selecting different environments, including `bake` tasks.
