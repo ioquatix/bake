@@ -7,8 +7,11 @@ Gem::Specification.new do |spec|
 	spec.version = Bake::VERSION
 	
 	spec.summary = "A replacement for rake with a simpler syntax."
-	spec.authors = ["Samuel Williams"]
+	spec.authors = ["Samuel Williams", "Olle Jonsson"]
 	spec.license = "MIT"
+	
+	spec.cert_chain  = ['release.cert']
+	spec.signing_key = File.expand_path('~/.gem/release.pem')
 	
 	spec.homepage = "https://github.com/ioquatix/bake"
 	
