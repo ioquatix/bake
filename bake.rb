@@ -15,3 +15,5 @@ end
 def multiple(tags: [], name:)
 	pp [name, tags]
 end
+
+attr_accessor :value

@@ -66,4 +66,47 @@ RSpec.describe Bake::Command::Call do
 			expect{subject["test_argument_normalized", "--foo-bar", "A"].call}.to output(/A/).to_stdout
 		end
 	end
+	
+	context 'with json output format' do
+		subject {described_class['--output', 'json', parent: parent]}
+		
+		it "can print the value" do
+			expect{subject["value"].call}.to output(<<~JSON).to_stdout
+			[
+			  1,
+			  2,
+			  3
+			]
+			JSON
+		end
+	end
+	
+	context 'with raw output format' do
+		subject {described_class['--output', 'raw', parent: parent]}
+		
+		it "can print the value" do
+			expect{subject["value"].call}.to output("1\n2\n3\n").to_stdout
+		end
+	end
+	
+	context 'with pp output format' do
+		subject {described_class['--output', 'pp', parent: parent]}
+		
+		it "can print the value" do
+			expect{subject["value"].call}.to output("[1, 2, 3]\n").to_stdout
+		end
+	end
+	
+	context 'with yaml output format' do
+		subject {described_class['--output', 'yaml', parent: parent]}
+		
+		it "can print the value" do
+			expect{subject["value"].call}.to output(<<~YAML).to_stdout
+			---
+			- 1
+			- 2
+			- 3
+			YAML
+		end
+	end
 end

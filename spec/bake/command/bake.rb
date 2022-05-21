@@ -31,3 +31,7 @@ end
 def test_argument_normalized(foo_bar:)
 	puts foo_bar
 end
+
+def value
+	[1, 2, 3]
+end
