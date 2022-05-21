@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Bake::Context</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="../../../_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="../../../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></header>
+		
+		<main>
+			
+	<h1>Bake::Context</h1>
+	
+	<p>
+		<code class="language-ruby">class Bake::Context</code>
+	</p>
+	
+	<p>Represents a context of task execution, containing all relevant state.</p>
+	
+	
+	
+	
+	<section>
+	<h2>Definitions</h2>
+	
+	<section id="Bake::Context.bakefile_path"><h3><code class="language-ruby">def self.bakefile_path(path, bakefile: BAKEFILE)</code></h3><p>Search upwards from the specified path for a <a href="../index.html#Bake%3A%3ABAKEFILE" title="BAKEFILE"><code class="language-ruby">BAKEFILE = &quot;bake.rb&quot;</code></a>.
+If path points to a file, assume it's a <code>bake.rb</code> file. Otherwise, recursively search up the directory tree starting from <code>path</code> to find the specified bakefile.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">String | Nil</code></dt><dd><p>The path to the bakefile if it could be found.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def self.bakefile_path(path, bakefile: BAKEFILE)
+	if File.file?(path)
+		return path
+	end
+	
+	current = path
+	
+	while current
+		bakefile_path = File.join(current, BAKEFILE)
+		
+		if File.exist?(bakefile_path)
+			return bakefile_path
+		end
+		
+		parent = File.dirname(current)
+		
+		if current == parent
+			break
+		else
+			current = parent
+		end
+	end
+	
+	return nil
+end</code></pre>
+					</details></section><section id="Bake::Context.load"><h3><code class="language-ruby">def self.load(path = Dir.pwd)</code></h3><p>Load a context from the specified path.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def self.load(path = Dir.pwd)
+	if bakefile_path = self.bakefile_path(path)
+		scope = Scope.load(bakefile_path)
+		
+		working_directory = File.dirname(bakefile_path)
+		loaders = Loaders.default(working_directory)
+	else
+		scope = nil
+		
+		working_directory = path
+		loaders = Loaders.default(working_directory)
+	end
+	
+	return self.new(loaders, scope, working_directory)
+end</code></pre>
+					</details></section><section id="Bake::Context#initialize"><h3><code class="language-ruby">def initialize(loaders, scope = nil, root = nil)</code></h3><p>Initialize the context with the specified loaders.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">loaders</code>　<code class="language-ruby"><a href="../Loaders/index.html" title="Bake::Loaders">Loaders</a></code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def initialize(loaders, scope = nil, root = nil)
+	@loaders = loaders
+	
+	@stack = []
+	
+	@instances = Hash.new do |hash, key|
+		hash[key] = instance_for(key)
+	end
+	
+	@scope = scope
+	@root = root
+	
+	if @scope
+		base = Base.derive
+		base.prepend(@scope)
+		
+		@instances[[]] = base.new(self)
+	end
+	
+	@recipes = Hash.new do |hash, key|
+		hash[key] = recipe_for(key)
+	end
+end</code></pre>
+					</details></section><section id="Bake::Context#loaders"><h3><code class="language-ruby">attr :loaders</code></h3><p>The loaders which will be used to resolve recipes in this context.</p>
+</section><section id="Bake::Context#scope"><h3><code class="language-ruby">attr :scope</code></h3><p>The scope for the root <a href="../index.html#Bake%3A%3ABAKEFILE" title="BAKEFILE"><code class="language-ruby">BAKEFILE = &quot;bake.rb&quot;</code></a>.</p>
+</section><section id="Bake::Context#root"><h3><code class="language-ruby">attr :root</code></h3><p>The root path of this context.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">String | Nil</code></dt></dl>
+</details>
+</section><section id="Bake::Context#call"><h3><code class="language-ruby">def call(*commands)</code></h3><p>Invoke recipes on the context using command line arguments.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">commands</code>　<code class="language-ruby">Array(String)</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def call(*commands)
+	last_result = nil
+	
+	while command = commands.shift
+		if recipe = @recipes[command]
+			arguments, options = recipe.prepare(commands)
+			last_result = recipe.call(*arguments, **options)
+		else
+			raise ArgumentError, &quot;Could not find recipe for #{command}!&quot;
+		end
+	end
+	
+	return last_result
+end</code></pre>
+					</details></section><section id="Bake::Context#lookup"><h3><code class="language-ruby">def lookup(command)</code></h3><p>Lookup a recipe for the given command name.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">command</code>　<code class="language-ruby">String</code></dt><dd><p>The command name, e.g. <code>bundler:release</code>.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def lookup(command)
+	@recipes[command]
+end</code></pre>
+					</details></section><section id="Bake::Context#base_for"><h3><code class="language-ruby">def base_for(path)</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">path</code>　<code class="language-ruby">Array(String)</code></dt><dd><p>the path for the scope.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def base_for(path)
+	base = nil
+	
+	@loaders.each do |loader|
+		if scope = loader.scope_for(path)
+			base ||= Base.derive(path)
+			
+			base.prepend(scope)
+		end
+	end
+	
+	return base
+end</code></pre>
+					</details></section>	</section>
+	
+	
+
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
+

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Overview</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../_static/icon.png"/>
+		<link rel="stylesheet" href="../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../_components/jquery/jquery.min.js"></script>
+		<script src="../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="../_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../index.html">Project</a> › <a class="link" href="index.html">Source</a></header>
+		
+		<main>
+			
+	<h1>Overview</h1>
+	
+	<ul class="index"><li>
+						<a href="Bake/index.html"><code class="language-ruby">module Bake</code></a>
+						
+						
+						
+					
+					<ul class="index"><li>
+						<a href="Bake/Arguments/index.html"><code class="language-ruby">class Arguments</code></a>
+						
+						
+						
+							<p>Structured access to arguments.</p>
+
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Base/index.html"><code class="language-ruby">class Base</code></a>
+						
+						
+						
+							<p>The base class for including <a href="Bake/Scope/index.html" title="Scope"><code class="language-ruby">module Bake::Scope</code></a> instances which define <a href="Bake/Recipe/index.html" title="Recipe"><code class="language-ruby">class Bake::Recipe</code></a> instances.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Command/index.html"><code class="language-ruby">module Command</code></a>
+						
+						
+						
+							<p>The command line interface.</p>
+
+					
+					<ul class="index"><li>
+						<a href="Bake/Command/Call/index.html"><code class="language-ruby">class Call</code></a>
+						
+						
+						
+							<p>Execute one or more commands.</p>
+
+					
+					<ul class="index"><li>
+						<a href="Bake/Command/Call/options/index.html"><code class="language-ruby">options</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li></ul>				</li><li>
+						<a href="Bake/Command/List/index.html"><code class="language-ruby">class List</code></a>
+						
+						
+						
+							<p>List all available commands.</p>
+
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Command/Top/index.html"><code class="language-ruby">class Top</code></a>
+						
+						
+						
+							<p>The top level command line application.</p>
+
+					
+					<ul class="index"><li>
+						<a href="Bake/Command/Top/options/index.html"><code class="language-ruby">options</code></a>
+						
+						
+						
+					
+					<ul class="index"><li>
+						<a href="Bake/Command/Top/options/option/index.html"><code class="language-ruby">option</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li></ul>				</li></ul>				</li></ul>				</li><li>
+					
+									</li><li>
+						<a href="Bake/Context/index.html"><code class="language-ruby">class Context</code></a>
+						
+						
+						
+							<p>Represents a context of task execution, containing all relevant state.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Documentation/index.html"><code class="language-ruby">class Documentation</code></a>
+						
+						
+						
+							<p>Structured access to a set of comment lines.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Loader/index.html"><code class="language-ruby">class Loader</code></a>
+						
+						
+						
+							<p>Represents a directory which contains bakefiles.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Loaders/index.html"><code class="language-ruby">class Loaders</code></a>
+						
+						
+						
+							<p>Structured access to the working directory and loaded gems for loading bakefiles.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Recipe/index.html"><code class="language-ruby">class Recipe</code></a>
+						
+						
+						
+							<p>Structured access to an instance method in a bakefile.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Scope/index.html"><code class="language-ruby">module Scope</code></a>
+						
+						
+						
+							<p>Used for containing all methods defined in a bakefile.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Types/index.html"><code class="language-ruby">module Types</code></a>
+						
+						
+						
+					
+					<ul class="index"><li>
+						<a href="Bake/Types/Any/index.html"><code class="language-ruby">class Any</code></a>
+						
+						
+						
+							<p>An ordered list of types. The first type to match the input is used.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Types/Type/index.html"><code class="language-ruby">module Type</code></a>
+						
+						
+						
+							<p>An extension module which allows constructing <code>Any</code> types using the <code>|</code> operator.</p>
+
+					
+					<ul class="index"><li>
+					
+									</li></ul>				</li><li>
+						<a href="Bake/Types/Array/index.html"><code class="language-ruby">class Array</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Boolean/index.html"><code class="language-ruby">module Boolean</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Decimal/index.html"><code class="language-ruby">module Decimal</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Float/index.html"><code class="language-ruby">module Float</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Hash/index.html"><code class="language-ruby">class Hash</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Input/index.html"><code class="language-ruby">module Input</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Integer/index.html"><code class="language-ruby">module Integer</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Nil/index.html"><code class="language-ruby">module Nil</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Output/index.html"><code class="language-ruby">module Output</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/String/index.html"><code class="language-ruby">module String</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Symbol/index.html"><code class="language-ruby">module Symbol</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li><li>
+						<a href="Bake/Types/Tuple/index.html"><code class="language-ruby">class Tuple</code></a>
+						
+						
+						
+					
+					<ul class="index"></ul>				</li></ul>				</li></ul>				</li></ul>
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>

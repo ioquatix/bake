@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Bake
+</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="_static/icon.png"/>
+		<link rel="stylesheet" href="_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="_components/jquery/jquery.min.js"></script>
+		<script src="_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="index.html">Project</a></header>
+		
+		<main>
+			
+	<h1 style="text-align: center"><object type="image/svg+xml" data="logo.svg"></object></h1><p>Bake is a task execution tool, inspired by Rake, but codifying many of the use cases which are typically implemented in an ad-hoc manner.</p>
+<p><a href="https://github.com/ioquatix/bake/actions?workflow=Development"><img src="https://github.com/ioquatix/bake/workflows/Development/badge.svg" alt="Development Status"/></a></p>
+<section id="features"><h2>Features</h2>
+<p>Rake is an awesome tool and loved by the community. So, why reinvent it? Bake provides the following features that Rake does not:</p>
+<ul>
+<li>On demand loading of files following a standard convention. This avoid loading all your rake tasks just to execute a single command.</li>
+<li>Better argument handling including support for positional and optional arguments.</li>
+<li>Focused on task execution not dependency resolution. Implementation is simpler and a bit more predictable.</li>
+<li>Canonical structure for integration with gems.</li>
+</ul>
+<p>That being said, Rake and Bake can exist side by side in the same project.</p>
+</section><section id="usage"><h2>Usage</h2>
+<p>Please browse the <a href="source/index.html">source code index</a> or refer to the guides below.</p>
+
+	<section>
+		<h3><a href="guides/getting-started/index.html">Getting Started</a></h3>
+		
+			<p>This guide gives a general overview of <code>bake</code> and how to use it.</p>
+
+	</section>
+	<section>
+		<h3><a href="guides/command-line-interface/index.html">Command Line Interface</a></h3>
+		
+			<p>The <code>bake</code> command is broken up into two main functions: <code>list</code> and <code>call</code>.</p>
+
+	</section>
+	<section>
+		<h3><a href="guides/project-integration/index.html">Project Integration</a></h3>
+		
+			<p>This guide explains how to add <code>bake</code> to a Ruby project.</p>
+
+	</section>
+	<section>
+		<h3><a href="guides/gem-integration/index.html">Gem Integration</a></h3>
+		
+			<p>This guide explains how to add <code>bake</code> to a Ruby gem and export standardised tasks for use by other gems and projects.</p>
+
+	</section>
+
+</section><section id="contributing"><h2>Contributing</h2>
+<p>We welcome contributions to this project.</p>
+<ol>
+<li>Fork it.</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>).</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>).</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>).</li>
+<li>Create new Pull Request.</li>
+</ol>
+</section><section id="see-also"><h2>See Also</h2>
+<ul>
+<li><a href="https://github.com/ioquatix/bake-gem">Bake::Gem</a> — Release and install gems using <code>bake</code>.</li>
+<li><a href="https://github.com/ioquatix/bake-modernize">Bake::Modernize</a> — Modernize gems consistently using <code>bake</code>.</li>
+<li><a href="https://github.com/socketry/console">Console</a> — A logging framework which integrates with <code>bake</code>.</li>
+<li><a href="https://github.com/socketry/variant">Variant</a> — A framework for selecting different environments, including <code>bake</code> tasks.</li>
+<li><a href="https://github.com/socketry/utopia">Utopia</a> — A website framework which uses <code>bake</code> for maintenance tasks.</li>
+</ul>
+</section><section id="license"><h2>License</h2>
+<p>Released under the MIT license.</p>
+<p>Copyright, 2020, by <a href="http://www.codeotaku.com">Samuel G. D. Williams</a>.</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+</section>
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>

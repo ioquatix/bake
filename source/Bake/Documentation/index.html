@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Bake::Documentation</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="../../../_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="../../../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></header>
+		
+		<main>
+			
+	<h1>Bake::Documentation</h1>
+	
+	<p>
+		<code class="language-ruby">class Bake::Documentation</code>
+	</p>
+	
+	<p>Structured access to a set of comment lines.</p>
+	
+	
+	
+	
+	<section>
+	<h2>Definitions</h2>
+	
+	<section id="Bake::Documentation#initialize"><h3><code class="language-ruby">def initialize(comments)</code></h3><p>Initialize the documentation with an array of comments.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">comments</code>　<code class="language-ruby">Array(String)</code></dt><dd><p>An array of comment lines.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def initialize(comments)
+	@comments = comments
+end</code></pre>
+					</details></section><section id="Bake::Documentation#description"><h3><code class="language-ruby">def description</code></h3><p>The text-only lines of the comment block.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>yields</strong>　<code class="syntax language-ruby">{|match| ...}</code></dt><dd><dl>
+<dt>
+					<strong>parameter</strong>　<code class="syntax">match</code>　<code class="language-ruby">MatchData</code></dt><dd><p>The regular expression match for each line of documentation.</p>
+</dd>					</dl></dd><dt>
+					<strong>returns</strong>　<code class="language-ruby">Enumerable</code></dt><dd><p>If no block given.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def description
+	return to_enum(:description) unless block_given?
+	
+	# We track empty lines and only yield a single empty line when there is another line of text:
+	gap = false
+	
+	@comments.each do |comment|
+		if match = comment.match(DESCRIPTION)
+			if match[1]
+				if gap
+					yield &quot;&quot;
+					gap = false
+				end
+				
+				yield match[1]
+			else
+				gap = true
+			end
+		else
+			break
+		end
+	end
+end</code></pre>
+					</details></section><section id="Bake::Documentation#attributes"><h3><code class="language-ruby">def attributes</code></h3><p>The attribute lines of the comment block.
+e.g. <code>@returns [String]</code>.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>yields</strong>　<code class="syntax language-ruby">{|match| ...}</code></dt><dd><dl>
+<dt>
+					<strong>parameter</strong>　<code class="syntax">match</code>　<code class="language-ruby">MatchData</code></dt><dd><p>The regular expression match with <code>name</code> and <code>value</code> keys.</p>
+</dd>					</dl></dd><dt>
+					<strong>returns</strong>　<code class="language-ruby">Enumerable</code></dt><dd><p>If no block given.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def attributes
+	return to_enum(:attributes) unless block_given?
+	
+	@comments.each do |comment|
+		if match = comment.match(ATTRIBUTE)
+			yield match
+		end
+	end
+end</code></pre>
+					</details></section><section id="Bake::Documentation#parameters"><h3><code class="language-ruby">def parameters</code></h3><p>The parameter lines of the comment block.
+e.g. <code>@parameter value [String] The value.</code></p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>yields</strong>　<code class="syntax language-ruby">{|match| ...}</code></dt><dd><dl>
+<dt>
+					<strong>parameter</strong>　<code class="syntax">match</code>　<code class="language-ruby">MatchData</code></dt><dd><p>The regular expression match with <code>name</code>, <code>type</code> and <code>details</code> keys.</p>
+</dd>					</dl></dd><dt>
+					<strong>returns</strong>　<code class="language-ruby">Enumerable</code></dt><dd><p>If no block given.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def parameters
+	return to_enum(:parameters) unless block_given?
+	
+	@comments.each do |comment|
+		if match = comment.match(PARAMETER)
+			yield match
+		end
+	end
+end</code></pre>
+					</details></section>	</section>
+	
+	
+
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
+

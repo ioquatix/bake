@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Bake::Recipe</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="../../../_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="../../../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></header>
+		
+		<main>
+			
+	<h1>Bake::Recipe</h1>
+	
+	<p>
+		<code class="language-ruby">class Bake::Recipe</code>
+	</p>
+	
+	<p>Structured access to an instance method in a bakefile.</p>
+	
+	
+	
+	
+	<section>
+	<h2>Definitions</h2>
+	
+	<section id="Bake::Recipe#initialize"><h3><code class="language-ruby">def initialize(instance, name, method = nil)</code></h3><p>Initialize the recipe.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">instance</code>　<code class="language-ruby"><a href="../Base/index.html" title="Bake::Base">Base</a></code></dt><dd><p>The instance this recipe is attached to.</p>
+</dd><dt>
+					<strong>parameter</strong>　<code class="syntax">name</code>　<code class="language-ruby">String</code></dt><dd><p>The method name.</p>
+</dd><dt>
+					<strong>parameter</strong>　<code class="syntax">method</code>　<code class="language-ruby">Method | Nil</code></dt><dd><p>The method if already known.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def initialize(instance, name, method = nil)
+	@instance = instance
+	@name = name
+	@command = nil
+	@comments = nil
+	@types = nil
+	@documentation = nil
+	
+	@method = method
+	@arity = nil
+end</code></pre>
+					</details></section><section id="Bake::Recipe#instance"><h3><code class="language-ruby">attr :instance</code></h3><p>The <a href="../Base/index.html" title="Base"><code class="language-ruby">class Bake::Base</code></a> instance that this recipe is attached to.</p>
+</section><section id="Bake::Recipe#name"><h3><code class="language-ruby">attr :name</code></h3><p>The name of this recipe.</p>
+</section><section id="Bake::Recipe#&lt;=&gt;"><h3><code class="language-ruby">def &lt;=&gt; other</code></h3><p>Sort by location in source file.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def &lt;=&gt; other
+	self.source_location &lt;=&gt; other.source_location
+end</code></pre>
+					</details></section><section id="Bake::Recipe#method"><h3><code class="language-ruby">def method</code></h3><p>The method implementation.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def method
+	@method ||= @instance.method(@name)
+end</code></pre>
+					</details></section><section id="Bake::Recipe#source_location"><h3><code class="language-ruby">def source_location</code></h3><p>The source location of this recipe.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def source_location
+	self.method.source_location
+end</code></pre>
+					</details></section><section id="Bake::Recipe#parameters"><h3><code class="language-ruby">def parameters</code></h3><p>The recipe's formal parameters, if any.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Array | Nil</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def parameters
+	parameters = method.parameters
+	
+	unless parameters.empty?
+		return parameters
+	end
+end</code></pre>
+					</details></section><section id="Bake::Recipe#options?"><h3><code class="language-ruby">def options?</code></h3><p>Whether this recipe has optional arguments.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Boolean</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def options?
+	if parameters = self.parameters
+		type, name = parameters.last
+		
+		return type == :keyrest || type == :keyreq || type == :key
+	end
+end</code></pre>
+					</details></section><section id="Bake::Recipe#command"><h3><code class="language-ruby">def command</code></h3><p>The command name for this recipe.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def command
+	@command ||= compute_command
+end</code></pre>
+					</details></section><section id="Bake::Recipe#arity"><h3><code class="language-ruby">def arity</code></h3><p>The method's arity, the required number of positional arguments.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def arity
+	if @arity.nil?
+		@arity = method.parameters.count{|type, name| type == :req}
+	end
+	
+	return @arity
+end</code></pre>
+					</details></section><section id="Bake::Recipe#prepare"><h3><code class="language-ruby">def prepare(arguments)</code></h3><p>Process command line arguments into the ordered and optional arguments.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">arguments</code>　<code class="language-ruby">Array(String)</code></dt><dd><p>The command line arguments</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def prepare(arguments)
+	Arguments.extract(self, arguments)
+end</code></pre>
+					</details></section><section id="Bake::Recipe#call"><h3><code class="language-ruby">def call(*arguments, **options)</code></h3><p>Call the recipe with the specified arguments and options.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def call(*arguments, **options)
+	if options?
+		@instance.send(@name, *arguments, **options)
+	else
+		# Ignore options...
+		@instance.send(@name, *arguments)
+	end
+end</code></pre>
+					</details></section><section id="Bake::Recipe#comments"><h3><code class="language-ruby">def comments</code></h3><p>Any comments associated with the source code which defined the method.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Array(String)</code></dt><dd><p>The comment lines.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def comments
+	@comments ||= read_comments
+end</code></pre>
+					</details></section><section id="Bake::Recipe#documentation"><h3><code class="language-ruby">def documentation</code></h3><p>The documentation object which provides structured access to the <a href="index.html#Bake%3A%3ARecipe%23comments" title="comments"><code class="language-ruby">Bake::Recipe#comments</code></a>.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby"><a href="../Documentation/index.html" title="Bake::Documentation">Documentation</a></code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def documentation
+	@documentation ||= Documentation.new(self.comments)
+end</code></pre>
+					</details></section><section id="Bake::Recipe#types"><h3><code class="language-ruby">def types</code></h3><p>The documented type signature of the recipe.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Array</code></dt><dd><p>An array of <a href="../Types/index.html" title="Types"><code class="language-ruby">module Bake::Types</code></a> instances.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def types
+	@types ||= read_types
+end</code></pre>
+					</details></section>	</section>
+	
+	
+
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
+

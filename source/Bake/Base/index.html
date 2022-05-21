@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Bake::Base</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		<script src="../../../_components/mermaid/mermaid.min.js"></script>
+		
+		<script src="../../../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+			
+			let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+			let config = {theme: 'light'};
+			if (isDarkMode) config.theme = 'dark';
+			else config.theme = 'forest';
+			mermaid.initialize(config);
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></header>
+		
+		<main>
+			
+	<h1>Bake::Base</h1>
+	
+	<p>
+		<code class="language-ruby">class Bake::Base &lt; Struct.new(:context)</code>
+	</p>
+	
+	<p>The base class for including <a href="../Scope/index.html" title="Scope"><code class="language-ruby">module Bake::Scope</code></a> instances which define <a href="../Recipe/index.html" title="Recipe"><code class="language-ruby">class Bake::Recipe</code></a> instances.</p>
+	
+	
+	
+	
+	<section>
+	<h2>Definitions</h2>
+	
+	<section id="Bake::Base.derive"><h3><code class="language-ruby">def self.derive(path = [])</code></h3><p>Generate a base class for the specified path.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">path</code>　<code class="language-ruby">Array(String)</code></dt><dd><p>The command path.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def self.derive(path = [])
+	klass = Class.new(self)
+	
+	klass.const_set(:PATH, path)
+	
+	return klass
+end</code></pre>
+					</details></section><section id="Bake::Base.to_s"><h3><code class="language-ruby">def self.to_s</code></h3><p>Format the class as a command.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">String</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def self.to_s
+	if path = self.path
+		path.join(':')
+	else
+		super
+	end
+end</code></pre>
+					</details></section><section id="Bake::Base.path"><h3><code class="language-ruby">def self.path</code></h3><p>The path of this derived base class.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Array(String)</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def self.path
+	self.const_get(:PATH)
+rescue
+	nil
+end</code></pre>
+					</details></section><section id="Bake::Base#path"><h3><code class="language-ruby">def path</code></h3><p>The path for this derived base class.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Array(String)</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def path
+	self.class.path
+end</code></pre>
+					</details></section><section id="Bake::Base#call"><h3><code class="language-ruby">def call(*arguments)</code></h3><p>Proxy a method call using command line arguments through to the <a href="../Context/index.html" title="Context"><code class="language-ruby">class Bake::Context</code></a> instance.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">arguments</code>　<code class="language-ruby">Array(String)</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def call(*arguments)
+	self.context.call(*arguments)
+end</code></pre>
+					</details></section><section id="Bake::Base#recipes"><h3><code class="language-ruby">def recipes</code></h3><p>Recipes defined in this scope.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>yields</strong>　<code class="syntax language-ruby">{|recipe| ...}</code></dt><dd><dl>
+<dt>
+					<strong>parameter</strong>　<code class="syntax">recipe</code>　<code class="language-ruby"><a href="../Recipe/index.html" title="Bake::Recipe">Recipe</a></code></dt>					</dl></dd><dt>
+					<strong>returns</strong>　<code class="language-ruby">Enumerable</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def recipes
+	return to_enum(:recipes) unless block_given?
+	
+	names = self.public_methods - Base.public_instance_methods
+	
+	names.each do |name|
+		yield recipe_for(name)
+	end
+end</code></pre>
+					</details></section><section id="Bake::Base#recipe_for"><h3><code class="language-ruby">def recipe_for(name)</code></h3><p>Look up a recipe with a specific name.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">name</code>　<code class="language-ruby">String</code></dt><dd><p>The instance method to look up.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def recipe_for(name)
+	Recipe.new(self, name)
+end</code></pre>
+					</details></section>	</section>
+	
+	
+
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
+
