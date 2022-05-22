@@ -6,3 +6,5 @@ project-integration:
   order: 3
 gem-integration:
   order: 4
+input-and-output:
+  order: 5

@@ -37,6 +37,24 @@ You can execute this task from the command line:
 30
 ```
 
+### Executing Multiple Tasks
+
+The `bake` executable can execute multiple tasks in one invocation and even pass the output of one task into a subsequent task.
+
+``` ruby
+# bake.rb
+
+attr_accessor :value
+```
+
+You can set and print the value:
+
+``` shell
+% bake value= 10 value output
+```
+
+This is essentially broken down into three operations: `value = 10`, `value` & `output`. The `value` method returns the current value and the `output` task prints the result of the previous task.
+
 ## Optional Arguments
 
 You can provide optional arguments:
