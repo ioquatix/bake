@@ -140,7 +140,7 @@ end</code></pre>
 	
 	return @arity
 end</code></pre>
-					</details></section><section id="Bake::Recipe#prepare"><h3><code class="language-ruby">def prepare(arguments)</code></h3><p>Process command line arguments into the ordered and optional arguments.</p>
+					</details></section><section id="Bake::Recipe#prepare"><h3><code class="language-ruby">def prepare(arguments, last_result = nil)</code></h3><p>Process command line arguments into the ordered and optional arguments.</p>
 <details open>
 	<summary><h4>Signature</h4></summary>
 	<dl><dt>
@@ -149,8 +149,8 @@ end</code></pre>
 </details>
 <details>
 						<summary><h4>Implementation</h4></summary>
-						<pre><code class="language-ruby">def prepare(arguments)
-	Arguments.extract(self, arguments)
+						<pre><code class="language-ruby">def prepare(arguments, last_result = nil)
+	Arguments.extract(self, arguments, input: last_result)
 end</code></pre>
 					</details></section><section id="Bake::Recipe#call"><h3><code class="language-ruby">def call(*arguments, **options)</code></h3><p>Call the recipe with the specified arguments and options.</p>
 <details>

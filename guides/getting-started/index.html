@@ -62,6 +62,16 @@ end
 <pre><code class="language-shell">% bake add 10 20
 30
 </code></pre>
+</section><section id="executing-multiple-tasks"><h3>Executing Multiple Tasks</h3>
+<p>The <code>bake</code> executable can execute multiple tasks in one invocation and even pass the output of one task into a subsequent task.</p>
+<pre><code class="language-ruby"># bake.rb
+
+attr_accessor :value
+</code></pre>
+<p>You can set and print the value:</p>
+<pre><code class="language-shell">% bake value= 10 value output
+</code></pre>
+<p>This is essentially broken down into three operations: <code>value = 10</code>, <code>value</code> &amp; <code>output</code>. The <code>value</code> method returns the current value and the <code>output</code> task prints the result of the previous task.</p>
 </section><section id="optional-arguments"><h2>Optional Arguments</h2>
 <p>You can provide optional arguments:</p>
 <pre><code class="language-ruby"># bake.rb

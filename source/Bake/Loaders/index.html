@@ -149,6 +149,8 @@ end</code></pre>
 <details>
 						<summary><h4>Implementation</h4></summary>
 						<pre><code class="language-ruby">def append_from_gems
+	Console.logger.debug(self) {::Gem.loaded_specs.keys.grep(/bake/)}
+	
 	::Gem.loaded_specs.each do |name, spec|
 		Console.logger.debug(self) {&quot;Checking gem #{name}: #{spec.full_gem_path}...&quot;}
 		
