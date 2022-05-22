@@ -28,6 +28,12 @@ def test_options(x:, y:)
 	puts x+y
 end
 
+# @parameter x [String] The x value.
+# @parameter y [String] The y value.
+def test_mixed(x, y: "Y")
+	puts x+y
+end
+
 def test_argument_normalized(foo_bar:)
 	puts foo_bar
 end

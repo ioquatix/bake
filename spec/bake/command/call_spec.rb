@@ -39,6 +39,14 @@ RSpec.describe Bake::Command::Call do
 		end
 	end
 	
+	context 'with mixed arguments' do
+		subject {described_class["test_mixed", "A", "--y", "B", parent: parent]}
+		
+		it "can invoke task" do
+			expect{subject.call}.to output(/AB/).to_stdout
+		end
+	end
+	
 	context 'with = options' do
 		subject {described_class["test_options", "x=A", "y=B", parent: parent]}
 		
