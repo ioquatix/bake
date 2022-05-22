@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
 		"funding_uri" => "https://github.com/sponsors/ioquatix/",
 	}
 	
-	spec.files = Dir.glob('{bin,lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	spec.files = Dir.glob('{bake,bin,lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
 	
 	spec.executables = ["bake"]
 	
