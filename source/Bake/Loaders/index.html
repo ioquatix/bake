@@ -134,6 +134,8 @@ end</code></pre>
 						<summary><h4>Implementation</h4></summary>
 						<pre><code class="language-ruby">def append_from_root(current = Dir.pwd, **options)
 	while current
+		Console.logger.debug(self) {&quot;Checking current #{current}...&quot;}
+		
 		append_path(current, **options)
 		
 		parent = File.dirname(current)
@@ -149,8 +151,6 @@ end</code></pre>
 <details>
 						<summary><h4>Implementation</h4></summary>
 						<pre><code class="language-ruby">def append_from_gems
-	Console.logger.debug(self) {::Gem.loaded_specs.keys.grep(/bake/)}
-	
 	::Gem.loaded_specs.each do |name, spec|
 		Console.logger.debug(self) {&quot;Checking gem #{name}: #{spec.full_gem_path}...&quot;}
 		
