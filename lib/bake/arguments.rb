@@ -28,7 +28,7 @@ module Bake
 	class Arguments
 		def self.extract(recipe, arguments, **defaults)
 			# Only supply defaults that match the recipe option names:
-			defaults = defaults.slice(*recipe.option_names)
+			defaults = defaults.slice(*recipe.required_options)
 			
 			self.new(recipe, defaults).extract(arguments)
 		end

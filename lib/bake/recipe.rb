@@ -85,10 +85,10 @@ module Bake
 			end
 		end
 		
-		def option_names
+		def required_options
 			if parameters = self.parameters
 				parameters.map do |(type, name)|
-					if type == :key || type == :keyreq
+					if type == :keyreq
 						name
 					end
 				end.compact
