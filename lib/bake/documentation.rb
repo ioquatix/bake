@@ -81,7 +81,7 @@ module Bake
 			end
 		end
 		
-		PARAMETER = /\A\s*@param(eter)?\s+(?<name>.*?)\s+\[(?<type>.*?)\](\s+(?<details>.*?))?\z/
+		PARAMETER = /\A@param(eter)?\s+(?<name>.*?)\s+\[(?<type>.*?)\](\s+(?<details>.*?))?\z/
 		
 		# The parameter lines of the comment block.
 		# e.g. `@parameter value [String] The value.`
