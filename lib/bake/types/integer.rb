@@ -31,8 +31,8 @@ module Bake
 				false
 			end
 			
-			def self.parse(value)
-				Integer(value)
+			def self.parse(input)
+				Integer(input)
 			end
 		end
 	end

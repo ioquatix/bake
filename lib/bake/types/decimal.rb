@@ -33,8 +33,8 @@ module Bake
 				false
 			end
 			
-			def self.parse(value)
-				BigDecimal(value)
+			def self.parse(input)
+				BigDecimal(input)
 			end
 		end
 	end
