@@ -83,6 +83,8 @@ module Bake
 		# @parameter current [String] The path to start searching from.
 		def append_from_root(current = Dir.pwd, **options)
 			while current
+				Console.logger.debug(self) {"Checking current #{current}..."}
+				
 				append_path(current, **options)
 				
 				parent = File.dirname(current)
@@ -97,8 +99,6 @@ module Bake
 		
 		# Enumerate all loaded gems and add them.
 		def append_from_gems
-			Console.logger.debug(self) {::Gem.loaded_specs.keys.grep(/bake/)}
-			
 			::Gem.loaded_specs.each do |name, spec|
 				Console.logger.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
 				
