@@ -75,46 +75,42 @@ RSpec.describe Bake::Command::Call do
 		end
 	end
 	
-	context 'with json output format' do
-		subject {described_class['--output', 'json', parent: parent]}
+	context 'with value generating task' do
+		subject {described_class[parent: parent]}
 		
-		it "can print the value" do
-			expect{subject["value"].call}.to output(<<~JSON).to_stdout
-			[
-			  1,
-			  2,
-			  3
-			]
-			JSON
+		context 'with json output format' do
+			it "can print the value" do
+				expect{subject['value', 'output', '--format', 'json'].call}.to output(<<~JSON).to_stdout
+				[
+				  1,
+				  2,
+				  3
+				]
+				JSON
+			end
 		end
-	end
-	
-	context 'with raw output format' do
-		subject {described_class['--output', 'raw', parent: parent]}
 		
-		it "can print the value" do
-			expect{subject["value"].call}.to output("1\n2\n3\n").to_stdout
+		context 'with raw output format' do
+			it "can print the value" do
+				expect{subject['value', 'output', '--format', 'raw'].call}.to output("1\n2\n3\n").to_stdout
+			end
 		end
-	end
-	
-	context 'with pp output format' do
-		subject {described_class['--output', 'pp', parent: parent]}
 		
-		it "can print the value" do
-			expect{subject["value"].call}.to output("[1, 2, 3]\n").to_stdout
+		context 'with pp output format' do
+			it "can print the value" do
+				expect{subject['value', 'output', '--format', 'pp'].call}.to output("[1, 2, 3]\n").to_stdout
+			end
 		end
-	end
-	
-	context 'with yaml output format' do
-		subject {described_class['--output', 'yaml', parent: parent]}
 		
-		it "can print the value" do
-			expect{subject["value"].call}.to output(<<~YAML).to_stdout
-			---
-			- 1
-			- 2
-			- 3
-			YAML
+		context 'with yaml output format' do
+			it "can print the value" do
+				expect{subject['value', 'output', '--format', 'yaml'].call}.to output(<<~YAML).to_stdout
+				---
+				- 1
+				- 2
+				- 3
+				YAML
+			end
 		end
 	end
 end

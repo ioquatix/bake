@@ -118,7 +118,7 @@ module Bake
 			
 			while command = commands.shift
 				if recipe = @recipes[command]
-					arguments, options = recipe.prepare(commands)
+					arguments, options = recipe.prepare(commands, last_result)
 					last_result = recipe.call(*arguments, **options)
 				else
 					raise ArgumentError, "Could not find recipe for #{command}!"

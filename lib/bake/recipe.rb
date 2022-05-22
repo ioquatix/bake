@@ -85,6 +85,16 @@ module Bake
 			end
 		end
 		
+		def option_names
+			if parameters = self.parameters
+				parameters.map do |(type, name)|
+					if type == :key || type == :keyreq
+						name
+					end
+				end.compact
+			end
+		end
+		
 		# The command name for this recipe.
 		def command
 			@command ||= compute_command
@@ -107,8 +117,8 @@ module Bake
 		# @parameter arguments [Array(String)] The command line arguments
 		# @returns ordered [Array]
 		# @returns options [Hash]
-		def prepare(arguments)
-			Arguments.extract(self, arguments)
+		def prepare(arguments, last_result = nil)
+			Arguments.extract(self, arguments, input: last_result)
 		end
 		
 		# Call the recipe with the specified arguments and options.

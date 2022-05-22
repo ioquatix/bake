@@ -26,6 +26,9 @@ RSpec.shared_context 'docstring as description' do
 	let(:description) {self.class.metadata.fetch(:description_args).first}
 end
 
+require 'bundler'
+Bundler.setup
+
 RSpec.configure do |config|
 	# Enable flags like --only-failures and --next-failure
 	config.example_status_persistence_file_path = ".rspec_status"

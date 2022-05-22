@@ -26,11 +26,14 @@ require_relative 'documentation'
 module Bake
 	# Structured access to arguments.
 	class Arguments
-		def self.extract(recipe, arguments)
-			self.new(recipe).extract(arguments)
+		def self.extract(recipe, arguments, **defaults)
+			# Only supply defaults that match the recipe option names:
+			defaults = defaults.slice(*recipe.option_names)
+			
+			self.new(recipe, defaults).extract(arguments)
 		end
 		
-		def initialize(recipe)
+		def initialize(recipe, defaults)
 			@recipe = recipe
 			
 			@types = recipe.types
@@ -38,7 +41,7 @@ module Bake
 			@arity = recipe.arity
 			
 			@ordered = []
-			@options = {}
+			@options = defaults
 		end
 		
 		attr :ordered
