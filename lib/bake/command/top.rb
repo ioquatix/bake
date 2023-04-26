@@ -39,6 +39,8 @@ module Bake
 				option '-g/--gem <name>', 'Load the specified gem, e.g. "bake ~> 1.0".' do |value|
 					gem(*value.split(/\s+/))
 				end
+				
+				option '--root <path>', 'Specify the context root working directory.'
 			end
 			
 			nested :command, {
@@ -64,7 +66,7 @@ module Bake
 			end
 			
 			def bakefile_path
-				@options[:bakefile] || Dir.pwd
+				@options[:bakefile] || @options[:root] || Dir.pwd
 			end
 			
 			def context
