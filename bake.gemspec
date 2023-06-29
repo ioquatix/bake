@@ -19,15 +19,15 @@ Gem::Specification.new do |spec|
 		"funding_uri" => "https://github.com/sponsors/ioquatix/",
 	}
 	
-	spec.files = Dir.glob('{bake,bin,lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	spec.files = Dir.glob(['{bake,bin,lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
 	
 	spec.executables = ["bake"]
 	
-	spec.required_ruby_version = ">= 2.5.0"
+	spec.required_ruby_version = ">= 2.7.6b"
 	
 	spec.add_dependency "samovar", "~> 2.1"
 	
 	spec.add_development_dependency "bundler"
 	spec.add_development_dependency "covered"
-	spec.add_development_dependency "rspec"
+	spec.add_development_dependency "sus"
 end

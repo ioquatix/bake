@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Released under the MIT License.
+# Copyright, 2022, by Samuel Williams.
 
 FORMATS = {
 	json: ->(file){require 'json'; JSON.parse(file.read)},
