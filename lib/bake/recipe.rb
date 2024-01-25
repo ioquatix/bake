@@ -35,7 +35,7 @@ module Bake
 		
 		# Sort by location in source file.
 		def <=> other
-			self.source_location <=> other.source_location
+			(self.source_location || []) <=> (other.source_location || [])
 		end
 		
 		# The method implementation.
@@ -162,7 +162,12 @@ module Bake
 		COMMENT = /\A\s*\#\s?(.*?)\Z/
 		
 		def read_comments
-			file, line_number = self.method.source_location
+			unless source_location = self.method&.source_location
+				# Bail early if we don't have a source location (there are some inconsequential cases on JRuby):
+				return []
+			end
+			
+			file, line_number = source_location
 			
 			lines = File.readlines(file)
 			line_index = line_number - 1
