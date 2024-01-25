@@ -23,12 +23,8 @@ Gem::Specification.new do |spec|
 	
 	spec.executables = ["bake"]
 	
-	spec.required_ruby_version = ">= 2.7.6b"
+	spec.required_ruby_version = ">= 3.0"
 	
-	spec.add_dependency "samovar", "~> 2.1"
 	spec.add_dependency "bigdecimal"
-	
-	spec.add_development_dependency "bundler"
-	spec.add_development_dependency "covered"
-	spec.add_development_dependency "sus"
+	spec.add_dependency "samovar", "~> 2.1"
 end
