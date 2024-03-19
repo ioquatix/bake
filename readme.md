@@ -17,7 +17,17 @@ That being said, Rake and Bake can exist side by side in the same project.
 
 ## Usage
 
-Please see the [project documentation](https://ioquatix.github.io/bake/).
+Please see the [project documentation](https://ioquatix.github.io/bake/) for more details.
+
+  - [Getting Started](https://ioquatix.github.io/bake/guides/getting-started/index) - This guide gives a general overview of `bake` and how to use it.
+
+  - [Command Line Interface](https://ioquatix.github.io/bake/guides/command-line-interface/index) - The `bake` command is broken up into two main functions: `list` and `call`.
+
+  - [Project Integration](https://ioquatix.github.io/bake/guides/project-integration/index) - This guide explains how to add `bake` to a Ruby project.
+
+  - [Gem Integration](https://ioquatix.github.io/bake/guides/gem-integration/index) - This guide explains how to add `bake` to a Ruby gem and export standardised tasks for use by other gems and projects.
+
+  - [Input and Output](https://ioquatix.github.io/bake/guides/input-and-output/index) - `bake` has built in tasks for reading input and writing output in different formats. While this can be useful for general processing, there are some limitations, notably that rich object representations like `json` and `yaml` often don't support stream processing.
 
 ## Contributing
 

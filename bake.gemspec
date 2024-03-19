@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
 	
 	spec.metadata = {
 		"funding_uri" => "https://github.com/sponsors/ioquatix/",
+		"documentation_uri" => "https://ioquatix.github.io/bake/",
 	}
 	
 	spec.files = Dir.glob(['{bake,bin,lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
