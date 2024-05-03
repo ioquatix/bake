@@ -1,0 +1,3 @@
+bake-gem:
+  url: https://github.com/ioquatix/bake-gem
+  command: bundle exec bake test

@@ -16,15 +16,16 @@ Gem::Specification.new do |spec|
 	spec.homepage = "https://github.com/ioquatix/bake"
 	
 	spec.metadata = {
-		"funding_uri" => "https://github.com/sponsors/ioquatix/",
 		"documentation_uri" => "https://ioquatix.github.io/bake/",
+		"funding_uri" => "https://github.com/sponsors/ioquatix/",
+		"source_code_uri" => "https://github.com/ioquatix/bake.git",
 	}
 	
 	spec.files = Dir.glob(['{bake,bin,lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
 	
 	spec.executables = ["bake"]
 	
-	spec.required_ruby_version = ">= 3.0"
+	spec.required_ruby_version = ">= 3.1"
 	
 	spec.add_dependency "bigdecimal"
 	spec.add_dependency "samovar", "~> 2.1"
