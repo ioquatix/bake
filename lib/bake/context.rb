@@ -64,7 +64,9 @@ module Bake
 		def initialize(loaders, scope = nil, root = nil)
 			@loaders = loaders
 			
-			@stack = []
+			@wrappers = Hash.new do |hash, key|
+				hash[key] = []
+			end
 			
 			@instances = Hash.new do |hash, key|
 				hash[key] = instance_for(key)
@@ -96,6 +98,9 @@ module Bake
 		attr :root
 		
 		# Invoke recipes on the context using command line arguments.
+		#
+		# e.g. `context.call("gem:release:version:increment", "0,0,1")`
+		#
 		# @parameter commands [Array(String)]
 		def call(*commands)
 			last_result = nil
@@ -118,6 +123,37 @@ module Bake
 			@recipes[command]
 		end
 		
+		class Wrapper
+			def initialize(wrappers, path)
+				@wrappers = wrappers
+				@path = path
+			end
+			
+			def before(name = @path.last, &block)
+				wrapper = Module.new
+				wrapper.define_method(name) do |*arguments, **options|
+					instance_exec(&block)
+					super(*arguments, **options)
+				end
+				
+				@wrappers[@path] << wrapper
+			end
+			
+			def after(name = @path.last, &block)
+				wrapper = Module.new
+				wrapper.define_method(name) do |*arguments, **options|
+					super(*arguments, **options)
+					instance_exec(&block)
+				end
+				
+				@wrappers[@path] << wrapper
+			end
+		end
+		
+		def wrap(*path, &block)
+			Wrapper.new(@wrappers, path).instance_exec(&block)
+		end
+		
 		def to_s
 			if @root
 				"#{self.class} #{File.basename(@root)}"
@@ -135,9 +171,13 @@ module Bake
 		def recipe_for(command)
 			path = command.split(":")
 			
+			# If the command is in the form `foo:bar`, we check two cases:
+			#
+			# (1) We check for an instance at path `foo:bar` and if it responds to `bar`.
 			if instance = @instances[path] and instance.respond_to?(path.last)
 				return instance.recipe_for(path.last)
 			else
+				# (2) We check for an instance at path `foo` and if it responds to `bar`.
 				*path, name = *path
 				
 				if instance = @instances[path] and instance.respond_to?(name)
@@ -158,12 +198,18 @@ module Bake
 		def base_for(path)
 			base = nil
 			
+			# For each loader, we check if it has a scope for the given path. If it does, we prepend it to the base:
 			@loaders.each do |loader|
 				if scope = loader.scope_for(path)
 					base ||= Base.derive(path)
 					
 					base.prepend(scope)
 				end
+			end
+			
+			# If we have any wrappers for the given path, we also prepend them to the base:
+			@wrappers[path].each do |wrapper|
+				base.prepend(wrapper)
 			end
 			
 			return base
