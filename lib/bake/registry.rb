@@ -7,33 +7,43 @@ require 'console'
 
 require_relative 'loader/directory_loader'
 require_relative 'loader/file_loader'
+require_relative 'loader/inline_loader'
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.
-	class Loaders
+	class Registry
 		include Enumerable
 		
 		# Create a loader using the specified working directory.
 		# @parameter working_directory [String]
 		def self.default(working_directory, bakefile_path = nil)
-			loaders = self.new
+			registry = self.new
 			
 			if bakefile_path
-				loaders.append_bakefile(bakefile_path)
+				registry.append_bakefile(bakefile_path)
 			end
 			
-			loaders.append_defaults(working_directory)
+			registry.append_defaults(working_directory)
 			
-			return loaders
+			return registry
 		end
 		
-		# Initialize an empty array of loaders.
+		# Initialize an empty array of registry.
 		def initialize
+			# Used to de-duplicated directories:
 			@roots = {}
+			
+			# The ordered list of loaders:
 			@ordered = Array.new
+			
+			@wrappers = Loader::InlineLoader.new
 		end
 		
-		# Whether any loaders are defined.
+		def wrap(...)
+			@wrappers.wrap(...)
+		end
+		
+		# Whether any registry are defined.
 		# @returns [Boolean]
 		def empty?
 			@ordered.empty?
@@ -45,7 +55,7 @@ module Bake
 			})
 		end
 		
-		# Add loaders according to the current working directory and loaded gems.
+		# Add registry according to the current working directory and loaded gems.
 		# @parameter working_directory [String]
 		def append_defaults(working_directory)
 			# Load recipes from working directory:
@@ -55,9 +65,22 @@ module Bake
 			self.append_from_gems
 		end
 		
-		# Enumerate the loaders in order.
+		# Enumerate the registry in order.
 		def each(&block)
 			@ordered.each(&block)
+			yield @wrappers
+		end
+		
+		def scopes_for(path)
+			@ordered.each do |loader|
+				if scope = loader.scope_for(path)
+					yield scope
+				end
+			end
+			
+			@wrappers.scopes_for(path) do |scope|
+				yield scope
+			end
 		end
 		
 		# Append a specific project path to the search path for recipes.

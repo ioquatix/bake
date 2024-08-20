@@ -80,7 +80,7 @@ module Bake
 				terminal = @parent.terminal
 				context = @parent.context
 				
-				context.loaders.each do |loader|
+				context.registry.each do |loader|
 					printed = false
 					
 					loader.each do |path|

@@ -4,7 +4,6 @@
 # Copyright, 2020-2024, by Samuel Williams.
 
 require 'bake/context'
-require 'bake/loaders'
 
 describe Bake::Context do
 	let(:bakefile) {File.expand_path(".test-project/bake.rb", __dir__)}
