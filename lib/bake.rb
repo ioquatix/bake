@@ -5,5 +5,4 @@
 
 require_relative 'bake/version'
 require_relative 'bake/loaders'
-require_relative 'bake/loader'
 require_relative 'bake/context'

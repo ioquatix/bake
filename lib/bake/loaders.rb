@@ -5,7 +5,8 @@
 
 require 'console'
 
-require_relative 'loader'
+require_relative 'loader/directory_loader'
+require_relative 'loader/file_loader'
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.
@@ -14,8 +15,12 @@ module Bake
 		
 		# Create a loader using the specified working directory.
 		# @parameter working_directory [String]
-		def self.default(working_directory)
+		def self.default(working_directory, bakefile_path = nil)
 			loaders = self.new
+			
+			if bakefile_path
+				loaders.append_bakefile(bakefile_path)
+			end
 			
 			loaders.append_defaults(working_directory)
 			
@@ -32,6 +37,12 @@ module Bake
 		# @returns [Boolean]
 		def empty?
 			@ordered.empty?
+		end
+		
+		def append_bakefile(path)
+			@ordered << Loader::FileLoader.new({
+				[] => path
+			})
 		end
 		
 		# Add loaders according to the current working directory and loaded gems.
@@ -66,7 +77,7 @@ module Bake
 		# @parameter current [String] The path to start searching from.
 		def append_from_root(current = Dir.pwd, **options)
 			while current
-				Console.logger.debug(self) {"Checking current #{current}..."}
+				Console.debug(self) {"Checking current #{current}..."}
 				
 				append_path(current, **options)
 				
@@ -83,7 +94,7 @@ module Bake
 		# Enumerate all loaded gems and add them.
 		def append_from_gems
 			::Gem.loaded_specs.each do |name, spec|
-				Console.logger.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
+				Console.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
 				
 				if path = spec.full_gem_path and File.directory?(path)
 					append_path(path, name: spec.full_name)
@@ -95,9 +106,9 @@ module Bake
 		
 		def insert(directory, **options)
 			unless @roots.key?(directory)
-				Console.logger.debug(self) {"Adding #{directory.inspect}"}
+				Console.debug(self) {"Adding #{directory.inspect}"}
 				
-				loader = Loader.new(directory, **options)
+				loader = Loader::DirectoryLoader.new(directory, **options)
 				@roots[directory] = loader
 				@ordered << loader
 				

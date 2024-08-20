@@ -41,6 +41,11 @@ module Bake
 		end
 		
 		# The path of the file that was used to {load} this scope.
+		def file_path
+			self.const_get(:FILE_PATH)
+		end
+		
+		# The path of the scope, relative to the root of the context.
 		def path
 			self.const_get(:PATH)
 		end

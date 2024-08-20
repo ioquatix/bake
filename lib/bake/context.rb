@@ -45,24 +45,22 @@ module Bake
 		# @path [String] A file-system path.
 		def self.load(path = Dir.pwd)
 			if bakefile_path = self.bakefile_path(path)
-				scope = Scope.load(bakefile_path)
-				
 				working_directory = File.dirname(bakefile_path)
-				loaders = Loaders.default(working_directory)
 			else
-				scope = nil
-				
 				working_directory = path
-				loaders = Loaders.default(working_directory)
 			end
 			
-			return self.new(loaders, scope, working_directory)
+			loaders = Loaders.default(working_directory, bakefile_path)
+			instance = self.new(loaders, working_directory)
+			
+			return instance
 		end
 		
 		# Initialize the context with the specified loaders.
 		# @parameter loaders [Loaders]
-		def initialize(loaders, scope = nil, root = nil)
+		def initialize(loaders, root = nil)
 			@loaders = loaders
+			@root = root
 			
 			@wrappers = Hash.new do |hash, key|
 				hash[key] = []
@@ -72,16 +70,6 @@ module Bake
 				hash[key] = instance_for(key)
 			end
 			
-			@scope = scope
-			@root = root
-			
-			if @scope
-				base = Base.derive
-				base.prepend(@scope)
-				
-				@instances[[]] = base.new(self)
-			end
-			
 			@recipes = Hash.new do |hash, key|
 				hash[key] = recipe_for(key)
 			end
@@ -89,9 +77,6 @@ module Bake
 		
 		# The loaders which will be used to resolve recipes in this context.
 		attr :loaders
-		
-		# The scope for the root {BAKEFILE}.
-		attr :scope
 		
 		# The root path of this context.
 		# @returns [String | Nil]

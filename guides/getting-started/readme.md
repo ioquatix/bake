@@ -16,7 +16,7 @@ $ bundle add bake
 
 - A `bake` executable used for invoking one or more tasks.
 - A {ruby Bake::Context} instance which is bound to a project or gem and exposes a hierarchy of runnable tasks.
-- A {ruby Bake::Loaders} instance which is used for on-demand loading of bake files from the current project and all available gems.
+- A {ruby Bake::Loader::Aggregate} instance which is used for on-demand loading of bake files from the current project and all available gems.
 
 ## Executing Tasks
 
