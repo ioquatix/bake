@@ -22,10 +22,10 @@ module Bake
 				@paths.each_key(&block)
 			end
 			
-			def scope_for(path)
+			def scopes_for(path)
 				if file_path = @paths[path]
 					if File.exist?(file_path)
-						return Scope.load(file_path, path)
+						yield Scope.load(file_path, path)
 					end
 				end
 			end

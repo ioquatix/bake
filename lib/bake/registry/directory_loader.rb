@@ -39,13 +39,13 @@ module Bake
 			
 			# Load the {Scope} for the specified relative path within this loader, if it exists.
 			# @parameter path [Array(String)] A relative path.
-			def scope_for(path)
+			def scopes_for(path)
 				*directory, file = *path
 				
 				file_path = File.join(@root, directory, "#{file}.rb")
 				
 				if File.exist?(file_path)
-					return Scope.load(file_path, path)
+					yield Scope.load(file_path, path)
 				end
 			end
 		end

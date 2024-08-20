@@ -84,7 +84,7 @@ module Bake
 					printed = false
 					
 					loader.each do |path|
-						if scope = loader.scope_for(path)
+						loader.scopes_for(path) do |scope|
 							print_scope(terminal, scope, printed: printed) do
 								terminal.print_line(:loader, loader)
 								printed = true

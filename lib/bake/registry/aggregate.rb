@@ -56,16 +56,12 @@ module Bake
 				yield @wrappers
 			end
 			
-			def scopes_for(path)
-				@ordered.each do |loader|
-					if scope = loader.scope_for(path)
-						yield scope
-					end
+			def scopes_for(path, &block)
+				@ordered.each do |registry|
+					registry.scopes_for(path, &block)
 				end
 				
-				@wrappers.scopes_for(path) do |scope|
-					yield scope
-				end
+				@wrappers.scopes_for(path, &block)
 			end
 			
 			def append_bakefile(path)
