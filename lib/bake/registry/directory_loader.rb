@@ -6,7 +6,7 @@
 require_relative '../scope'
 
 module Bake
-	module Loader
+	module Registry
 		# Represents a directory which contains bakefiles.
 		class DirectoryLoader
 			# Initialize the loader with the specified root path.

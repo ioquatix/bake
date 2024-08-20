@@ -1,5 +1,5 @@
 module Bake
-	module Loader
+	module Registry
 		class InlineLoader
 			def initialize
 				@wrappers = Hash.new do |hash, key|

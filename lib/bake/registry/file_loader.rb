@@ -6,7 +6,7 @@
 require_relative '../scope'
 
 module Bake
-	module Loader
+	module Registry
 		class FileLoader
 			def initialize(paths)
 				@paths = paths
