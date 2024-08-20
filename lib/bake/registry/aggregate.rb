@@ -7,7 +7,7 @@ require 'console'
 
 require_relative 'directory_loader'
 require_relative 'file_loader'
-require_relative 'inline_loader'
+require_relative 'wrappers'
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.
@@ -37,7 +37,7 @@ module Bake
 				# The ordered list of loaders:
 				@ordered = Array.new
 				
-				@wrappers = InlineLoader.new
+				@wrappers = Wrappers.new
 			end
 			
 			def wrap(...)
