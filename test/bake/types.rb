@@ -5,7 +5,6 @@
 
 require 'bake/types'
 require 'bake/context'
-require 'bake/loaders'
 
 describe Bake::Types do
 	it "can use | operator" do

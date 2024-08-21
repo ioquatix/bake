@@ -5,8 +5,7 @@
 
 require 'samovar'
 
-require_relative '../loaders'
-require_relative '../loader'
+require_relative '../registry'
 require_relative '../context'
 
 module Bake

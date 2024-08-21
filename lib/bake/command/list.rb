@@ -80,21 +80,11 @@ module Bake
 				terminal = @parent.terminal
 				context = @parent.context
 				
-				if scope = context.scope
-					printed = print_scope(terminal, context.scope) do
-						terminal.print_line(:context, context)
-					end
-					
-					if printed
-						terminal.print_line
-					end
-				end
-				
-				context.loaders.each do |loader|
+				context.registry.each do |loader|
 					printed = false
 					
 					loader.each do |path|
-						if scope = loader.scope_for(path)
+						loader.scopes_for(path) do |scope|
 							print_scope(terminal, scope, printed: printed) do
 								terminal.print_line(:loader, loader)
 								printed = true

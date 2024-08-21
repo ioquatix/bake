@@ -4,7 +4,6 @@
 # Copyright, 2020-2024, by Samuel Williams.
 
 require 'bake/context'
-require 'bake/loaders'
 
 describe Bake::Context do
 	let(:bakefile) {File.expand_path(".test-project/bake.rb", __dir__)}
@@ -64,6 +63,24 @@ describe Bake::Context do
 				end
 				
 				after('invoked') do
+					events << :after
+				end
+			end
+			
+			context.call('wrap')
+			
+			expect(events).to be == [:before, :after]
+		end
+		
+		it "can wrap unspecified methods" do
+			events = []
+			
+			context.wrap('wrap') do
+				before do
+					events << :before
+				end
+				
+				after do
 					events << :after
 				end
 			end

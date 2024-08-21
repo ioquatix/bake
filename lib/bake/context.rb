@@ -45,41 +45,25 @@ module Bake
 		# @path [String] A file-system path.
 		def self.load(path = Dir.pwd)
 			if bakefile_path = self.bakefile_path(path)
-				scope = Scope.load(bakefile_path)
-				
 				working_directory = File.dirname(bakefile_path)
-				loaders = Loaders.default(working_directory)
 			else
-				scope = nil
-				
 				working_directory = path
-				loaders = Loaders.default(working_directory)
 			end
 			
-			return self.new(loaders, scope, working_directory)
+			registry = Registry.default(working_directory, bakefile_path)
+			instance = self.new(registry, working_directory)
+			
+			return instance
 		end
 		
-		# Initialize the context with the specified loaders.
-		# @parameter loaders [Loaders]
-		def initialize(loaders, scope = nil, root = nil)
-			@loaders = loaders
-			
-			@wrappers = Hash.new do |hash, key|
-				hash[key] = []
-			end
+		# Initialize the context with the specified registry.
+		# @parameter registry [Registry]
+		def initialize(registry, root = nil)
+			@registry = registry
+			@root = root
 			
 			@instances = Hash.new do |hash, key|
 				hash[key] = instance_for(key)
-			end
-			
-			@scope = scope
-			@root = root
-			
-			if @scope
-				base = Base.derive
-				base.prepend(@scope)
-				
-				@instances[[]] = base.new(self)
 			end
 			
 			@recipes = Hash.new do |hash, key|
@@ -87,11 +71,8 @@ module Bake
 			end
 		end
 		
-		# The loaders which will be used to resolve recipes in this context.
-		attr :loaders
-		
-		# The scope for the root {BAKEFILE}.
-		attr :scope
+		# The registry which will be used to resolve recipes in this context.
+		attr :registry
 		
 		# The root path of this context.
 		# @returns [String | Nil]
@@ -123,35 +104,8 @@ module Bake
 			@recipes[command]
 		end
 		
-		class Wrapper
-			def initialize(wrappers, path)
-				@wrappers = wrappers
-				@path = path
-			end
-			
-			def before(name = @path.last, &block)
-				wrapper = Module.new
-				wrapper.define_method(name) do |*arguments, **options|
-					instance_exec(&block)
-					super(*arguments, **options)
-				end
-				
-				@wrappers[@path] << wrapper
-			end
-			
-			def after(name = @path.last, &block)
-				wrapper = Module.new
-				wrapper.define_method(name) do |*arguments, **options|
-					super(*arguments, **options)
-					instance_exec(&block)
-				end
-				
-				@wrappers[@path] << wrapper
-			end
-		end
-		
-		def wrap(*path, &block)
-			Wrapper.new(@wrappers, path).instance_exec(&block)
+		def wrap(...)
+			@registry.wrap(...)
 		end
 		
 		def to_s
@@ -199,17 +153,9 @@ module Bake
 			base = nil
 			
 			# For each loader, we check if it has a scope for the given path. If it does, we prepend it to the base:
-			@loaders.each do |loader|
-				if scope = loader.scope_for(path)
-					base ||= Base.derive(path)
-					
-					base.prepend(scope)
-				end
-			end
-			
-			# If we have any wrappers for the given path, we also prepend them to the base:
-			@wrappers[path].each do |wrapper|
-				base.prepend(wrapper)
+			@registry.scopes_for(path) do |scope|
+				base ||= Base.derive(path)
+				base.prepend(scope)
 			end
 			
 			return base
