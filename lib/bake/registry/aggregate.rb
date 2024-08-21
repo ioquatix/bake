@@ -7,7 +7,6 @@ require 'console'
 
 require_relative 'directory_loader'
 require_relative 'bakefile_loader'
-require_relative 'wrappers'
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.
@@ -36,12 +35,6 @@ module Bake
 				
 				# The ordered list of loaders:
 				@ordered = Array.new
-				
-				@wrappers = Wrappers.new
-			end
-			
-			def wrap(...)
-				@wrappers.wrap(...)
 			end
 			
 			# Whether any registry are defined.
@@ -53,19 +46,16 @@ module Bake
 			# Enumerate the registry in order.
 			def each(&block)
 				@ordered.each(&block)
-				yield @wrappers
 			end
 			
 			def scopes_for(path, &block)
 				@ordered.each do |registry|
 					registry.scopes_for(path, &block)
 				end
-				
-				@wrappers.scopes_for(path, &block)
 			end
 			
 			def append_bakefile(path)
-				@ordered << BakefileLoader.new(path, @wrappers)
+				@ordered << BakefileLoader.new(path)
 			end
 			
 			# Append a specific project path to the search path for recipes.

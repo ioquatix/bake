@@ -110,10 +110,6 @@ module Bake
 			@recipes[command]
 		end
 		
-		def wrap(...)
-			@registry.wrap(...)
-		end
-		
 		def to_s
 			if @root
 				"#{self.class} #{File.basename(@root)}"

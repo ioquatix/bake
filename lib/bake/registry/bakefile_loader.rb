@@ -4,14 +4,12 @@
 # Copyright, 2020-2024, by Samuel Williams.
 
 require_relative '../scope'
-require_relative '../bakefile_scope'
 
 module Bake
 	module Registry
 		class BakefileLoader
-			def initialize(path, wrappers)
+			def initialize(path)
 				@path = path
-				@wrappers = wrappers
 			end
 			
 			def to_s
@@ -26,12 +24,7 @@ module Bake
 			
 			def scopes_for(path)
 				if path == []
-					scope = Scope.load(@path, []) do |scope|
-						scope.extend(BakefileScope)
-						scope.wrappers = @wrappers
-					end
-					
-					yield scope
+					yield Scope.load(@path, [])
 				end
 			end
 		end

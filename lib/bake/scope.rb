@@ -21,7 +21,7 @@ module Bake
 			scope.const_set(:FILE_PATH, file_path)
 			scope.const_set(:PATH, path)
 			
-			yield scope if block_given?
+			# yield scope if block_given?
 			
 			scope.module_eval(File.read(file_path), file_path)
 			

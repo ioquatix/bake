@@ -52,42 +52,4 @@ describe Bake::Context do
 			expect(parent.instance).to be(:respond_to?, :parent)
 		end
 	end
-	
-	with '#wrap' do
-		it "can wrap specific methods" do
-			events = []
-			
-			context.wrap('wrap') do
-				before('invoked') do
-					events << :before
-				end
-				
-				after('invoked') do
-					events << :after
-				end
-			end
-			
-			context.call('wrap')
-			
-			expect(events).to be == [:before, :after]
-		end
-		
-		it "can wrap unspecified methods" do
-			events = []
-			
-			context.wrap('wrap') do
-				before do
-					events << :before
-				end
-				
-				after do
-					events << :after
-				end
-			end
-			
-			context.call('wrap')
-			
-			expect(events).to be == [:before, :after]
-		end
-	end
 end
