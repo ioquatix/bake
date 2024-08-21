@@ -6,7 +6,7 @@
 require 'console'
 
 require_relative 'directory_loader'
-require_relative 'file_loader'
+require_relative 'bakefile_loader'
 require_relative 'wrappers'
 
 module Bake
@@ -65,9 +65,7 @@ module Bake
 			end
 			
 			def append_bakefile(path)
-				@ordered << FileLoader.new({
-					[] => path
-				})
+				@ordered << BakefileLoader.new(path, @wrappers)
 			end
 			
 			# Append a specific project path to the search path for recipes.

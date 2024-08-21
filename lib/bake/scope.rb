@@ -11,18 +11,21 @@ module Bake
 		# Load the specified file into a unique scope module, which can then be included into a {Base} instance.
 		def self.load(file_path, path = [])
 			scope = Module.new
+			
+			if scope.respond_to?(:set_temporary_name)
+				scope.set_temporary_name("#{self.name}[#{file_path}]")
+			end
+			
 			scope.extend(self)
 			
 			scope.const_set(:FILE_PATH, file_path)
 			scope.const_set(:PATH, path)
 			
+			yield scope if block_given?
+			
 			scope.module_eval(File.read(file_path), file_path)
 			
 			return scope
-		end
-		
-		def self.inspect
-			"Bake::Scope<#{self.const_get(:FILE_PATH)}>"
 		end
 		
 		# Recipes defined in this scope.
@@ -42,6 +45,7 @@ module Bake
 		
 		# The path of the file that was used to {load} this scope.
 		def file_path
+			pp file_path_self: self
 			self.const_get(:FILE_PATH)
 		end
 		

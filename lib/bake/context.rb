@@ -51,9 +51,11 @@ module Bake
 			end
 			
 			registry = Registry.default(working_directory, bakefile_path)
-			instance = self.new(registry, working_directory)
+			context = self.new(registry, working_directory)
 			
-			return instance
+			context.bakefile
+			
+			return context
 		end
 		
 		# Initialize the context with the specified registry.
@@ -69,6 +71,10 @@ module Bake
 			@recipes = Hash.new do |hash, key|
 				hash[key] = recipe_for(key)
 			end
+		end
+		
+		def bakefile
+			@instances[[]]
 		end
 		
 		# The registry which will be used to resolve recipes in this context.
