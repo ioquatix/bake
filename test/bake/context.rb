@@ -71,5 +71,23 @@ describe Bake::Context do
 			
 			expect(events).to be == [:before, :after]
 		end
+		
+		it "can wrap unspecified methods" do
+			events = []
+			
+			context.wrap('wrap') do
+				before do
+					events << :before
+				end
+				
+				after do
+					events << :after
+				end
+			end
+			
+			context.call('wrap')
+			
+			expect(events).to be == [:before, :after]
+		end
 	end
 end
