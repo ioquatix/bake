@@ -5,6 +5,7 @@
 # Copyright, 2020, by Olle Jonsson.
 
 require_relative 'base'
+require_relative 'registry'
 
 module Bake
 	# The default file name for the top level bakefile.
@@ -109,6 +110,8 @@ module Bake
 		def lookup(command)
 			@recipes[command]
 		end
+		
+		alias [] lookup
 		
 		def to_s
 			if @root

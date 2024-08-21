@@ -10,7 +10,10 @@ describe Bake::Context do
 	let(:context) {subject.load(bakefile)}
 	
 	it 'can invoke root task' do
-		expect(context.lookup('doot')).to receive(:call)
+		recipe = context.lookup('doot')
+		
+		expect(recipe).to receive(:call)
+		expect(recipe.instance).to receive(:doot)
 		
 		context.call('doot')
 	end
