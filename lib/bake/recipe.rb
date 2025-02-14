@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative "types"
+require_relative "type"
 require_relative "arguments"
 require_relative "documentation"
 
@@ -194,7 +194,7 @@ module Bake
 			types = {}
 			
 			self.documentation.parameters do |parameter|
-				types[parameter[:name].to_sym] = Types.parse(parameter[:type])
+				types[parameter[:name].to_sym] = Type.parse(parameter[:type])
 			end
 			
 			return types

@@ -6,8 +6,8 @@
 require_relative "any"
 
 module Bake
-	module Types
-		module Boolean
+	module Type
+		module Input
 			extend Type
 			
 			def self.composite?
@@ -15,12 +15,13 @@ module Bake
 			end
 			
 			def self.parse(input)
-				if input =~ /t(rue)?|y(es)?/i
-					return true
-				elsif input =~ /f(alse)?|n(o)?/i
-					return false
+				case input
+				when "-"
+					return $stdin
+				when IO, StringIO
+					return input
 				else
-					raise ArgumentError, "Cannot coerce #{input.inspect} into boolean!"
+					File.open(input)
 				end
 			end
 		end

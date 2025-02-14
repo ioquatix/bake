@@ -4,11 +4,11 @@
 # Copyright, 2020-2024, by Samuel Williams.
 
 module Bake
-	module Types
+	module Type
 		# An ordered list of types. The first type to match the input is used.
 		#
 		#	```ruby
-		#	type = Bake::Types::Any(Bake::Types::String, Bake::Types::Integer)
+		#	type = Bake::Type::Any(Bake::Type::String, Bake::Type::Integer)
 		#	```
 		#
 		class Any
@@ -66,7 +66,7 @@ module Bake
 		#	Any(Integer, String)
 		#	```
 		#
-		# See [Any.initialize](#Bake::Types::Any::initialize).
+		# See [Any.initialize](#Bake::Type::Any::initialize).
 		#
 		def self.Any(*types)
 			Any.new(types)

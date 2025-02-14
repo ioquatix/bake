@@ -6,8 +6,8 @@
 require_relative "any"
 
 module Bake
-	module Types
-		module Output
+	module Type
+		module Integer
 			extend Type
 			
 			def self.composite?
@@ -15,14 +15,7 @@ module Bake
 			end
 			
 			def self.parse(input)
-				case input
-				when "-"
-					return $stdout
-				when IO, StringIO
-					return input
-				else
-					File.open(input, "w")
-				end
+				Integer(input)
 			end
 		end
 	end

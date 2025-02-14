@@ -3,12 +3,12 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require "bake/types"
+require "bake/type"
 require "bake/context"
 
-describe Bake::Types do
+describe Bake::Type do
 	it "can use | operator" do
-		type = Bake::Types::Array(Bake::Types::Integer) | Bake::Types::String
+		type = Bake::Type::Array(Bake::Type::Integer) | Bake::Type::String
 	end
 	
 	with "test project" do

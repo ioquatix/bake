@@ -6,8 +6,8 @@
 require_relative "any"
 
 module Bake
-	module Types
-		module Float
+	module Type
+		module Symbol
 			extend Type
 			
 			def self.composite?
@@ -15,7 +15,7 @@ module Bake
 			end
 			
 			def self.parse(input)
-				input.to_f
+				input.to_sym
 			end
 		end
 	end

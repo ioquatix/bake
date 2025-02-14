@@ -6,16 +6,20 @@
 require_relative "any"
 
 module Bake
-	module Types
-		class Tuple
+	module Type
+		class Array
 			include Type
 			
-			def initialize(item_types)
-				@item_types = item_types
+			def initialize(item_type)
+				@item_type = item_type
 			end
 			
 			def composite?
 				true
+			end
+			
+			def map(values)
+				values.map{|value| @item_type.parse(value)}
 			end
 			
 			def parse(input)
@@ -25,17 +29,17 @@ module Bake
 				when ::Array
 					return input.map{|value| @item_type.parse(value)}
 				else
-					raise ArgumentError, "Cannot coerce #{input.inspect} into tuple!"
+					raise ArgumentError, "Cannot coerce #{input.inspect} into array!"
 				end
 			end
 			
 			def to_s
-				"a Tuple of (#{@item_types.join(', ')})"
+				"an Array of #{@item_type}"
 			end
 		end
 		
-		def self.Tuple(*item_types)
-			Tuple.new(item_types)
+		def self.Array(item_type = Any)
+			Array.new(item_type)
 		end
 	end
 end

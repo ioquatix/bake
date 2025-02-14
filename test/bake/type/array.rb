@@ -3,11 +3,11 @@
 # Released under the MIT License.
 # Copyright, 2023, by Samuel Williams.
 
-require "bake/types/array"
-require "bake/types"
+require "bake/type/array"
+require "bake/type"
 
-describe Bake::Types::Array do
-	let(:type) {Bake::Types.parse(typename)}
+describe Bake::Type::Array do
+	let(:type) {Bake::Type.parse(typename)}
 	
 	with typename: "Array(Integer)" do
 		it "can parse an array of integers" do

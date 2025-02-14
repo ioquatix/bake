@@ -6,8 +6,8 @@
 require_relative "any"
 
 module Bake
-	module Types
-		module Nil
+	module Type
+		module Float
 			extend Type
 			
 			def self.composite?
@@ -15,11 +15,7 @@ module Bake
 			end
 			
 			def self.parse(input)
-				if input =~ /nil|null/i
-					return nil
-				else
-					raise ArgumentError, "Cannot coerce #{input.inspect} into nil!"
-				end
+				input.to_f
 			end
 		end
 	end

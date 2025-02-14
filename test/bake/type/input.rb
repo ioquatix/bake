@@ -3,9 +3,9 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require "bake/types/input"
+require "bake/type/input"
 
-describe Bake::Types::Input do
+describe Bake::Type::Input do
 	let(:value) {subject.parse(text)}
 	
 	with text: "-" do

@@ -3,9 +3,9 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require "bake/types/nil"
+require "bake/type/nil"
 
-describe Bake::Types::Nil do
+describe Bake::Type::Nil do
 	let(:value) {subject.parse(text)}
 	
 	with text: "nil" do

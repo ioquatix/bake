@@ -6,7 +6,7 @@
 require_relative "any"
 
 module Bake
-	module Types
+	module Type
 		module String
 			extend Type
 			

@@ -5,9 +5,11 @@
 
 require_relative "any"
 
+require "bigdecimal"
+
 module Bake
-	module Types
-		module Integer
+	module Type
+		module Decimal
 			extend Type
 			
 			def self.composite?
@@ -15,7 +17,7 @@ module Bake
 			end
 			
 			def self.parse(input)
-				Integer(input)
+				BigDecimal(input)
 			end
 		end
 	end
