@@ -3,8 +3,28 @@
 # Released under the MIT License.
 # Copyright, 2022-2024, by Samuel Williams.
 
+class NDJSON
+	def self.parse(file)
+		new(file)
+	end
+	
+	def initialize(file)
+		@file = file
+	end
+	
+	def each
+		return to_enum unless block_given?
+		
+		@file.each_line do |line|
+			yield JSON.parse(line)
+		end
+	end
+end
+
+# Parse input files in various formats.
 FORMATS = {
 	json: ->(file){require 'json'; JSON.parse(file.read)},
+	ndjson: ->(file){require 'json'; NDJSON.parse(file)},
 	yaml: ->(file){require 'yaml'; YAML.load(file.read)},
 }
 
