@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'recipe'
-require_relative 'scope'
+require_relative "recipe"
+require_relative "scope"
 
 module Bake
 	# The base class for including {Scope} instances which define {Recipe} instances.
@@ -23,7 +23,7 @@ module Bake
 		# @returns [String]
 		def self.to_s
 			if path = self.path
-				path.join(':')
+				path.join(":")
 			else
 				super
 			end

@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'scope'
+require_relative "scope"
 
 module Bake
 	# Structured access to a set of comment lines.

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
+# Copyright, 2024, by Samuel Williams.
 
-require_relative '../scope'
+require_relative "../scope"
 
 module Bake
 	module Registry

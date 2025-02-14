@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'bake/command/top'
-require 'bake/command/list'
+require "bake/command/top"
+require "bake/command/list"
 
 describe Bake::Command::List do
 	let(:root) {File.expand_path(".test-project", __dir__)}
@@ -17,7 +17,7 @@ describe Bake::Command::List do
 		expect(buffer.string).to be =~ /A test method./
 	end
 	
-	with 'pattern' do
+	with "pattern" do
 		let(:command) {subject["a_very_unique_method", parent: parent]}
 		
 		it "lists only matching tasks" do

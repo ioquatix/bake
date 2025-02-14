@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'samovar'
+require "samovar"
 
-require_relative '../registry'
-require_relative '../context'
+require_relative "../registry"
+require_relative "../context"
 
 module Bake
 	module Command

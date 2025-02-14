@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'types'
-require_relative 'documentation'
+require_relative "types"
+require_relative "documentation"
 
 module Bake
 	# Structured access to arguments.
@@ -69,7 +69,7 @@ module Bake
 		private
 		
 		def normalize(name)
-			name.tr('-', '_').to_sym
+			name.tr("-", "_").to_sym
 		end
 		
 		def delimiter_index(arguments)
@@ -84,7 +84,7 @@ module Bake
 			if type&.composite?
 				if count = delimiter_index(arguments)
 					value = arguments.shift(count)
-					arguments.shift if arguments.first == ';'
+					arguments.shift if arguments.first == ";"
 				else
 					value = arguments.dup
 					arguments.clear

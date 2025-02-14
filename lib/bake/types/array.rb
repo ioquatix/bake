@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'any'
+require_relative "any"
 
 module Bake
 	module Types
@@ -25,7 +25,7 @@ module Bake
 			def parse(input)
 				case input
 				when ::String
-					return input.split(',').map{|value| @item_type.parse(value)}
+					return input.split(",").map{|value| @item_type.parse(value)}
 				when ::Array
 					return input.map{|value| @item_type.parse(value)}
 				else

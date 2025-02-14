@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
+# Copyright, 2024, by Samuel Williams.
 
-require_relative 'registry/aggregate'
+require_relative "registry/aggregate"
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.

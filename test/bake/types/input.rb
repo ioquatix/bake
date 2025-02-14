@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require 'bake/types/input'
+require "bake/types/input"
 
 describe Bake::Types::Input do
 	let(:value) {subject.parse(text)}

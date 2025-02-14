@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'bake/base'
+require "bake/base"
 
 describe Bake::Base do
 	let(:path) {["foo", "bar"]}

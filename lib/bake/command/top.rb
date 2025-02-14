@@ -3,11 +3,11 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'samovar'
-require 'console/terminal'
+require "samovar"
+require "console/terminal"
 
-require_relative 'call'
-require_relative 'list'
+require_relative "call"
+require_relative "list"
 
 module Bake
 	module Command
@@ -16,18 +16,18 @@ module Bake
 			self.description = "Execute tasks using Ruby."
 			
 			options do
-				option '-h/--help', 'Show help.'
-				option '-b/--bakefile <path>', 'Override the path to the bakefile to use.'
+				option "-h/--help", "Show help."
+				option "-b/--bakefile <path>", "Override the path to the bakefile to use."
 				
-				option '-g/--gem <name>', 'Load the specified gem, e.g. "bake ~> 1.0".' do |value|
+				option "-g/--gem <name>", 'Load the specified gem, e.g. "bake ~> 1.0".' do |value|
 					gem(*value.split(/\s+/))
 				end
 			end
 			
 			nested :command, {
-				'call' => Call,
-				'list' => List,
-			}, default: 'call'
+				"call" => Call,
+				"list" => List,
+			}, default: "call"
 			
 			def terminal(output = self.output)
 				terminal = Console::Terminal.for(output)

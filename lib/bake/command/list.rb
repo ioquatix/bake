@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'samovar'
-require 'set'
+require "samovar"
+require "set"
 
 module Bake
 	module Command

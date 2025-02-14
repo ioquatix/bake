@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2022-2024, by Samuel Williams.
+# Copyright, 2022-2025, by Samuel Williams.
 
 # Dump the last result to the specified file (defaulting to stdout) in the specified format (defaulting to Ruby's pretty print).
 # @parameter file [Output] The input file.
@@ -32,7 +32,7 @@ end
 
 def file_type(path)
 	if extension = File.extname(path)
-		extension.sub!(/\A\./, '')
+		extension.sub!(/\A\./, "")
 		return if extension.empty?
 		return extension.to_sym
 	end

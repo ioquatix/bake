@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'any'
+require_relative "any"
 
 module Bake
 	module Types
@@ -22,8 +22,8 @@ module Bake
 			def parse(input)
 				hash = {}
 				
-				input.split(',').each do |pair|
-					key, value = pair.split(':', 2)
+				input.split(",").each do |pair|
+					key, value = pair.split(":", 2)
 					
 					key = @key_type.parse(key)
 					value = @value_type.parse(value)

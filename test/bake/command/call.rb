@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
+# Copyright, 2020-2025, by Samuel Williams.
 
-require 'bake/command/top'
-require 'bake/command/call'
+require "bake/command/top"
+require "bake/command/call"
 
 describe Bake::Command::Call do
 	let(:root) {File.expand_path(".test-project", __dir__)}
@@ -15,7 +15,7 @@ describe Bake::Command::Call do
 		expect(command.call).to be == true
 	end
 	
-	with 'arguments' do
+	with "arguments" do
 		let(:command) {subject["test_arguments", "A", "B", parent: parent]}
 		
 		it "can invoke task" do
@@ -23,7 +23,7 @@ describe Bake::Command::Call do
 		end
 	end
 	
-	with 'mixed arguments' do
+	with "mixed arguments" do
 		let(:command) {subject["test_mixed", "A", "--y", "B", parent: parent]}
 		
 		it "can invoke task" do
@@ -31,7 +31,7 @@ describe Bake::Command::Call do
 		end
 	end
 	
-	with '= options' do
+	with "= options" do
 		let(:command) {subject["test_options", "x=A", "y=B", parent: parent]}
 		
 		it "can invoke task" do
@@ -39,7 +39,7 @@ describe Bake::Command::Call do
 		end
 	end
 	
-	with '-- options' do
+	with "-- options" do
 		let(:command) {subject["test_options", "--x", "A", "--y", "B", parent: parent]}
 		
 		it "can invoke task" do
@@ -47,7 +47,7 @@ describe Bake::Command::Call do
 		end
 	end
 	
-	with 'test_argument_normalized' do
+	with "test_argument_normalized" do
 		let(:command) {subject[parent: parent]}
 		
 		it "can accept --foo_bar" do
@@ -59,13 +59,13 @@ describe Bake::Command::Call do
 		end
 	end
 	
-	with 'value generating task' do
+	with "value generating task" do
 		let(:command) {subject[parent: parent]}
 		let(:buffer) {StringIO.new}
 		
-		with 'json output format' do
+		with "json output format" do
 			it "can print the value" do
-				command['value', 'output', '--format', 'json', '--file', buffer].call
+				command["value", "output", "--format", "json", "--file", buffer].call
 				expect(buffer.string).to be == <<~JSON
 				[
 				  1,
@@ -76,16 +76,16 @@ describe Bake::Command::Call do
 			end
 		end
 		
-		with 'raw output format' do
+		with "raw output format" do
 			it "can print the value" do
-				command['value', 'output', '--format', 'raw', '--file', buffer].call
+				command["value", "output", "--format", "raw", "--file", buffer].call
 				expect(buffer.string).to be == "[1, 2, 3]\n"
 			end
 		end
 		
-		with 'yaml output format' do
+		with "yaml output format" do
 			it "can print the value" do
-				command['value', 'output', '--format', 'yaml', '--file', buffer].call
+				command["value", "output", "--format", "yaml", "--file", buffer].call
 				expect(buffer.string).to be == <<~YAML
 				---
 				- 1

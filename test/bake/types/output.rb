@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require 'bake/types/output'
+require "bake/types/output"
 
 describe Bake::Types::Output do
 	let(:value) {subject.parse(text)}

@@ -3,9 +3,9 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'types'
-require_relative 'arguments'
-require_relative 'documentation'
+require_relative "types"
+require_relative "arguments"
+require_relative "documentation"
 
 module Bake
 	# Structured access to an instance method in a bakefile.
@@ -135,7 +135,7 @@ module Bake
 		private
 		
 		def parse(name, value, arguments, types)
-			if count = arguments.index(';')
+			if count = arguments.index(";")
 				value = arguments.shift(count)
 				arguments.shift
 			end
@@ -153,9 +153,9 @@ module Bake
 			if path.empty?
 				@name.to_s
 			elsif path.last.to_sym == @name
-				path.join(':')
+				path.join(":")
 			else
-				(path + [@name]).join(':')
+				(path + [@name]).join(":")
 			end
 		end
 		

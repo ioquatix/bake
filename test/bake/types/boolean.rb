@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require 'bake/types/boolean'
+require "bake/types/boolean"
 
 describe Bake::Types::Boolean do
 	let(:value) {subject.parse(text)}

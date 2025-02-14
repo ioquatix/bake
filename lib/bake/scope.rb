@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'recipe'
+require_relative "recipe"
 
 module Bake
 	# Used for containing all methods defined in a bakefile.

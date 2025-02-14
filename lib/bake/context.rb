@@ -4,8 +4,8 @@
 # Copyright, 2020-2024, by Samuel Williams.
 # Copyright, 2020, by Olle Jonsson.
 
-require_relative 'base'
-require_relative 'registry'
+require_relative "base"
+require_relative "registry"
 
 module Bake
 	# The default file name for the top level bakefile.

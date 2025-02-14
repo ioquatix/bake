@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require 'console'
+require "console"
 
-require_relative 'directory_loader'
-require_relative 'bakefile_loader'
+require_relative "directory_loader"
+require_relative "bakefile_loader"
 
 module Bake
 	# Structured access to the working directory and loaded gems for loading bakefiles.

@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright, 2020-2024, by Samuel Williams.  
+Copyright, 2020-2025, by Samuel Williams.  
 Copyright, 2020-2023, by Olle Jonsson.  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

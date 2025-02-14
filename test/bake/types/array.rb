@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2023, by Samuel Williams.
 
-require 'bake/types/array'
-require 'bake/types'
+require "bake/types/array"
+require "bake/types"
 
 describe Bake::Types::Array do
 	let(:type) {Bake::Types.parse(typename)}

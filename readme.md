@@ -29,6 +29,8 @@ Please see the [project documentation](https://ioquatix.github.io/bake/) for mor
 
   - [Input and Output](https://ioquatix.github.io/bake/guides/input-and-output/index) - `bake` has built in tasks for reading input and writing output in different formats. While this can be useful for general processing, there are some limitations, notably that rich object representations like `json` and `yaml` often don't support stream processing.
 
+## Releases
+
 ## Contributing
 
 We welcome contributions to this project.
@@ -41,11 +43,11 @@ We welcome contributions to this project.
 
 ### Developer Certificate of Origin
 
-This project uses the [Developer Certificate of Origin](https://developercertificate.org/). All contributors to this project must agree to this document to have their contributions accepted.
+In order to protect users of this project, we require all contributors to comply with the [Developer Certificate of Origin](https://developercertificate.org/). This ensures that all contributions are properly licensed and attributed.
 
-### Contributor Covenant
+### Community Guidelines
 
-This project is governed by the [Contributor Covenant](https://www.contributor-covenant.org/). All contributors and participants agree to abide by its terms.
+This project is best served by a collaborative and respectful environment. Treat each other professionally, respect differing viewpoints, and engage constructively. Harassment, discrimination, or harmful behavior is not tolerated. Communicate clearly, listen actively, and support one another. If any issues arise, please inform the project maintainers.
 
 ## See Also
 

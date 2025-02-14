@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'command/top'
+require_relative "command/top"
 
 module Bake
 	# The command line interface.

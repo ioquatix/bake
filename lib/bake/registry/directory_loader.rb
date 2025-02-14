@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative '../scope'
+require_relative "../scope"
 
 module Bake
 	module Registry
@@ -33,7 +33,7 @@ module Bake
 				return to_enum unless block_given?
 				
 				Dir.glob("**/*.rb", base: @root) do |file_path|
-					yield file_path.sub(/\.rb$/, '').split(File::SEPARATOR)
+					yield file_path.sub(/\.rb$/, "").split(File::SEPARATOR)
 				end
 			end
 			

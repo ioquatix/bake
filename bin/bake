@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
@@ -21,9 +22,9 @@
 # THE SOFTWARE.
 
 # This avoids the need to use `bundle exec bake`:
-require 'bundler/setup'
+require "bundler/setup"
 
-require_relative '../lib/bake/command'
+require_relative "../lib/bake/command"
 
 begin
 	Bake::Command.call
