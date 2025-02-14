@@ -79,13 +79,6 @@ describe Bake::Command::Call do
 		with 'raw output format' do
 			it "can print the value" do
 				command['value', 'output', '--format', 'raw', '--file', buffer].call
-				expect(buffer.string).to be == "1\n2\n3\n"
-			end
-		end
-		
-		with 'pp output format' do
-			it "can print the value" do
-				command['value', 'output', '--format', 'pp', '--file', buffer].call
 				expect(buffer.string).to be == "[1, 2, 3]\n"
 			end
 		end

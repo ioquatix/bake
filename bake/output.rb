@@ -3,19 +3,12 @@
 # Released under the MIT License.
 # Copyright, 2022-2024, by Samuel Williams.
 
-FORMATS = {
-	json: ->(file, value){require 'json'; file.puts(JSON.pretty_generate(value))},
-	pp: ->(file, value){require 'pp'; PP.pp(value, file)},
-	raw: ->(file, value){file.puts(value)},
-	yaml: ->(file, value){require 'yaml'; file.puts(YAML.dump(value))},
-}
-
 # Dump the last result to the specified file (defaulting to stdout) in the specified format (defaulting to Ruby's pretty print).
 # @parameter file [Output] The input file.
 # @parameter format [Symbol] The output format.
 def output(input:, file: $stdout, format: nil)
 	if format = format_for(file, format)
-		format.call(file, input)
+		format.output(file, input)
 	else
 		raise "Unable to determine output format!"
 	end
@@ -34,7 +27,7 @@ def format_for(file, name)
 	# Default to pretty print:
 	name ||= :pp
 	
-	FORMATS[name]
+	Bake::Format[name]
 end
 
 def file_type(path)
