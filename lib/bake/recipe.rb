@@ -20,7 +20,7 @@ module Bake
 			@name = name
 			@command = nil
 			@comments = nil
-			@types = nil
+			@signature = nil
 			@documentation = nil
 			
 			@method = method
@@ -127,10 +127,13 @@ module Bake
 		end
 		
 		# The documented type signature of the recipe.
-		# @returns [Array] An array of {Types} instances.
-		def types
-			@types ||= read_types
+		# @returns [Array] An array of {Type} instances.
+		def signature
+			@signature ||= read_signature
 		end
+		
+		# @deprecated Use {signature} instead.
+		alias types signature
 		
 		private
 		
@@ -190,7 +193,7 @@ module Bake
 			return description
 		end
 		
-		def read_types
+		def read_signature
 			types = {}
 			
 			self.documentation.parameters do |parameter|
