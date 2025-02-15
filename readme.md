@@ -31,6 +31,14 @@ Please see the [project documentation](https://ioquatix.github.io/bake/) for mor
 
 ## Releases
 
+Please see the [project releases](https://ioquatix.github.io/bake/releases/index) for all releases.
+
+### v0.23.0
+
+  - Add support for `ndjson`.
+  - General improvements to input and output handling.
+  - Removed support for `pp` output - use `raw` if required.
+
 ## Contributing
 
 We welcome contributions to this project.
