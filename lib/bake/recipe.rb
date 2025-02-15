@@ -62,9 +62,9 @@ module Bake
 		# @returns [Boolean]
 		def options?
 			if parameters = self.parameters
-				type, name = parameters.last
-				
-				return type == :keyrest || type == :keyreq || type == :key
+				parameters.any? do |type, name|
+					type == :keyrest || type == :keyreq || type == :key
+				end
 			end
 		end
 		
@@ -105,12 +105,13 @@ module Bake
 		end
 		
 		# Call the recipe with the specified arguments and options.
-		def call(*arguments, **options)
-			if options?
-				@instance.send(@name, *arguments, **options)
+		# If the recipe does not accept options, they will be ignored.
+		def call(*arguments, **options, &block)
+			if options.any? and self.options?
+				@instance.send(@name, *arguments, **options, &block)
 			else
 				# Ignore options...
-				@instance.send(@name, *arguments)
+				@instance.send(@name, *arguments, &block)
 			end
 		end
 		
