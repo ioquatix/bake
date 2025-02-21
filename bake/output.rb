@@ -3,6 +3,12 @@
 # Released under the MIT License.
 # Copyright, 2022-2025, by Samuel Williams.
 
+def initialize(...)
+	super
+	
+	require_relative "../lib/bake/format"
+end
+
 # Dump the last result to the specified file (defaulting to stdout) in the specified format (defaulting to Ruby's pretty print).
 # @parameter file [Output] The input file.
 # @parameter format [Symbol] The output format.
@@ -25,7 +31,7 @@ def format_for(file, name)
 	end
 	
 	# Default to pretty print:
-	name ||= :pp
+	name ||= :raw
 	
 	Bake::Format[name]
 end
