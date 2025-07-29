@@ -14,6 +14,6 @@ describe Bake::Base do
 	end
 	
 	it "formats nicely" do
-		expect(base.inspect).to be == "Bake::Base<foo:bar>"
+		expect(base.inspect).to be == "Bake::Base[foo:bar]"
 	end
 end

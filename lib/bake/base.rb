@@ -31,7 +31,7 @@ module Bake
 		
 		def self.inspect
 			if path = self.path
-				"Bake::Base<#{path.join(':')}>"
+				"Bake::Base[#{path.join(':')}]"
 			else
 				super
 			end
