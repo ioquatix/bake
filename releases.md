@@ -1,5 +1,9 @@
 # Releases
 
+## Unreleased
+
+  - If the final result of a recipe is not an `output?`, it will now be passed to the default output recipe.
+
 ## v0.23.0
 
   - Add support for `ndjson`.

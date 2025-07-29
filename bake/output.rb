@@ -23,6 +23,17 @@ def output(input:, file: $stdout, format: nil)
 	return input
 end
 
+# Do not produce any output.
+def null(input:)
+	# This is a no-op, used to indicate that no output should be produced.
+	return input
+end
+
+# This command produces output, and therefore doesn't need default output handling.
+def output?(recipe)
+	true
+end
+
 private
 
 def format_for(file, name)

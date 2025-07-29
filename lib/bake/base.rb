@@ -45,6 +45,13 @@ module Bake
 			nil
 		end
 		
+		# If an instance generates output, it should override this method to return `true`, otherwise default output handling will be used (essentially the return value of the last recipe).
+		#
+		# @returns [Boolean] Whether this instance handles its own output.
+		def output?(recipe)
+			false
+		end
+		
 		# The path for this derived base class.
 		# @returns [Array(String)]
 		def path

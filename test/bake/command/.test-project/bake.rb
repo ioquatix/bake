@@ -42,3 +42,7 @@ end
 def value
 	[1, 2, 3]
 end
+
+def output?(recipe)
+	true
+end

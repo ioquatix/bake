@@ -5,7 +5,7 @@
 
 require "bake/recipe"
 
-class TestObject
+class TestObject < Bake::Base
 	def test(*arguments, **options, &block)
 		[arguments, options, block]
 	end
@@ -41,6 +41,18 @@ describe Bake::Recipe do
 			result = recipe.call(&block)
 			
 			expect(result).to be == [[], {}, block]
+		end
+	end
+	
+	with "#output?" do
+		it "returns false by default" do
+			expect(recipe.output?).to be == false
+		end
+		
+		it "returns true if instance has output?" do
+			expect(instance).to receive(:output?).and_return(true)
+			
+			expect(recipe.output?).to be == true
 		end
 	end
 end

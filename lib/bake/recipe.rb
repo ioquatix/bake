@@ -68,6 +68,12 @@ module Bake
 			end
 		end
 		
+		# If a recipe produces output, we do not need to invoke the default output command.
+		# @returns [Boolean] Whether this recipe produces output.
+		def output?
+			@instance.output?(self)
+		end
+		
 		def required_options
 			if parameters = self.parameters
 				parameters.map do |(type, name)|

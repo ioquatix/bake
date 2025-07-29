@@ -29,7 +29,11 @@ module Bake
 			def call
 				context = @parent.context
 				
-				context.call(*@commands)
+				context.call(*@commands) do |recipe, last_result|
+					if last_result and !recipe.output?
+						context.lookup("output").call(input: last_result)
+					end
+				end
 			end
 		end
 	end

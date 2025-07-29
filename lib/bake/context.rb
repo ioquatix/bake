@@ -90,9 +90,15 @@ module Bake
 		# e.g. `context.call("gem:release:version:increment", "0,0,1")`
 		#
 		# @parameter commands [Array(String)]
-		def call(*commands)
+		# @yield {|recipe, result| If a block is given, it will be called with the last recipe and its result.
+		# 	@parameter recipe [Recipe] The last recipe that was called.
+		# 	@parameter result [Object | Nil] The result of the last recipe.
+		# @returns [Object] The result of the last recipe.
+		def call(*commands, &block)
+			recipe = nil
 			last_result = nil
 			
+			# Invoke the recipes in the order they were specified:
 			while command = commands.shift
 				if recipe = @recipes[command]
 					arguments, options = recipe.prepare(commands, last_result)
@@ -100,6 +106,11 @@ module Bake
 				else
 					raise ArgumentError, "Could not find recipe for #{command}!"
 				end
+			end
+			
+			# If a block is given, we yield the last recipe and its result:
+			if block_given?
+				yield recipe, last_result
 			end
 			
 			return last_result
