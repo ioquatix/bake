@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
+# Copyright, 2020-2025, by Samuel Williams.
 
 require "console"
 
@@ -97,11 +97,11 @@ module Bake
 			def insert(directory, **options)
 				unless @roots.key?(directory)
 					Console.debug(self) {"Adding #{directory.inspect}"}
-					
+				
 					loader = DirectoryLoader.new(directory, **options)
 					@roots[directory] = loader
 					@ordered << loader
-					
+				
 					return true
 				end
 				

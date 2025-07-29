@@ -6,7 +6,6 @@ permissions:
   contents: read
 
 env:
-  CONSOLE_OUTPUT: XTerm
   COVERAGE: PartialSummary
 
 jobs:
