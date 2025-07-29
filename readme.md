@@ -33,6 +33,10 @@ Please see the [project documentation](https://ioquatix.github.io/bake/) for mor
 
 Please see the [project releases](https://ioquatix.github.io/bake/releases/index) for all releases.
 
+### v0.24.0
+
+  - If the final result of a recipe is not an `output?`, it will now be passed to the default output recipe.
+
 ### v0.23.0
 
   - Add support for `ndjson`.

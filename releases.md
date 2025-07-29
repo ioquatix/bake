@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.24.0
 
   - If the final result of a recipe is not an `output?`, it will now be passed to the default output recipe.
 
