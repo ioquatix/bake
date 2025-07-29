@@ -13,6 +13,9 @@ module Bake
 			end
 			
 			def self.output(file, value)
+				value.each do |item|
+					file.puts(JSON.generate(item))
+				end
 			end
 			
 			def initialize(file)
