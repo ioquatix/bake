@@ -1,4 +1,5 @@
 plugins:
+  - rubocop-md
   - rubocop-socketry
 
 AllCops:
