@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.24.1
 
   - Add agent context.
 

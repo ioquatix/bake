@@ -1,0 +1,29 @@
+# Automatically generated context index for Utopia::Project guides.
+# Do not edit then files in this directory directly, instead edit the guides and then run `bake utopia:project:agent:context:update`.
+---
+description: A replacement for rake with a simpler syntax.
+metadata:
+  documentation_uri: https://ioquatix.github.io/bake/
+  funding_uri: https://github.com/sponsors/ioquatix/
+  source_code_uri: https://github.com/ioquatix/bake.git
+files:
+- path: getting-started.md
+  title: Getting Started
+  description: This guide gives a general overview of `bake` and how to use it.
+- path: command-line-interface.md
+  title: Command Line Interface
+  description: 'The `bake` command is broken up into two main functions: `list` and
+    `call`.'
+- path: project-integration.md
+  title: Project Integration
+  description: This guide explains how to add `bake` to a Ruby project.
+- path: gem-integration.md
+  title: Gem Integration
+  description: This guide explains how to add `bake` to a Ruby gem and export standardised
+    tasks for use by other gems and projects.
+- path: input-and-output.md
+  title: Input and Output
+  description: "`bake` has built in tasks for reading input and writing output in
+    different formats. While this can be useful for general processing, there are
+    some limitations, notably that rich object representations like `json` and `yaml`
+    often don't support stream processing."
