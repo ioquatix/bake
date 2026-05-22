@@ -84,7 +84,7 @@ module Bake
 			# Enumerate all loaded gems and add them.
 			def append_from_gems
 				::Gem.loaded_specs.each do |name, spec|
-					Console.debug(self) {"Checking gem #{name}: #{spec.full_gem_path}..."}
+					Console.debug(self){"Checking gem #{name}: #{spec.full_gem_path}..."}
 					
 					if path = spec.full_gem_path and File.directory?(path)
 						append_path(path, name: spec.full_name)
@@ -96,12 +96,12 @@ module Bake
 			
 			def insert(directory, **options)
 				unless @roots.key?(directory)
-					Console.debug(self) {"Adding #{directory.inspect}"}
-				
+					Console.debug(self){"Adding #{directory.inspect}"}
+					
 					loader = DirectoryLoader.new(directory, **options)
 					@roots[directory] = loader
 					@ordered << loader
-				
+					
 					return true
 				end
 				

@@ -50,7 +50,7 @@ module Bake
 					
 					unless printed
 						yield
-					
+						
 						printed = true
 					end
 					
