@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.25.0
 
   - Prefer positional arguments before interpreting `name=value` optional arguments.
 

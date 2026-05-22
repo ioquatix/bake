@@ -33,6 +33,10 @@ Please see the [project documentation](https://ioquatix.github.io/bake/) for mor
 
 Please see the [project releases](https://ioquatix.github.io/bake/releases/index) for all releases.
 
+### v0.25.0
+
+  - Prefer positional arguments before interpreting `name=value` optional arguments.
+
 ### v0.24.1
 
   - Add agent context.
