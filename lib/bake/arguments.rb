@@ -44,6 +44,12 @@ module Bake
 					
 					# Extract the trailing arguments:
 					@options[name] = extract_arguments(name, arguments)
+				elsif @ordered.size < @arity
+					_, name = @parameters.shift
+					value = arguments.shift
+
+					# Consume it:
+					@ordered << extract_argument(name, value)
 				elsif /^(?<name>.*?)=(?<value>.*)$/ =~ argument
 					# Consume the argument:
 					arguments.shift
@@ -52,12 +58,6 @@ module Bake
 					
 					# Extract the single argument:
 					@options[name] = extract_argument(name, value)
-				elsif @ordered.size < @arity
-					_, name = @parameters.shift
-					value = arguments.shift
-					
-					# Consume it:
-					@ordered << extract_argument(name, value)
 				else
 					break
 				end
