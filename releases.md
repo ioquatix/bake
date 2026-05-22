@@ -1,5 +1,9 @@
 # Releases
 
+## Unreleased
+
+  - Prefer positional arguments before interpreting `name=value` optional arguments.
+
 ## v0.24.1
 
   - Add agent context.
