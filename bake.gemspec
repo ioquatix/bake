@@ -28,5 +28,6 @@ Gem::Specification.new do |spec|
 	spec.required_ruby_version = ">= 3.3"
 	
 	spec.add_dependency "bigdecimal"
+  spec.add_dependency "console"
 	spec.add_dependency "samovar", "~> 2.1"
 end
